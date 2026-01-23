@@ -1,0 +1,27 @@
+All Characters Animation Frames
+Dudebro Manstrong Frames 
+Walk 0-42
+Run 43-86
+Idle 87-142
+Item 143-188
+Attack 189-230
+Block 231-265
+
+Security Guard Bob Frames
+Talking Animation 0-40
+
+Vendors Frames
+Talking 0-40
+
+Furling Frames
+walk 0-34
+Attack 49-74
+Block 75-100
+
+Fur King Frames
+Attack 0-40
+Block 41-70
+Fur King Intro Animation 71-115
+
+Practice Dummy Frames
+0-20
