@@ -978,7 +978,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5681645494010021572, guid: 5947cbb4df38701449bb2329d3c57b3b, type: 3}
       propertyPath: ally.currDamage
-      value: 25
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5681645494010021572, guid: 5947cbb4df38701449bb2329d3c57b3b, type: 3}
       propertyPath: ally.baseDefense
@@ -2231,6 +2231,8 @@ MonoBehaviour:
   UI_Handler: {fileID: 1559665049}
   battleList: []
   currentUnit: {fileID: 0}
+  deathSceneName: DeathScene
+  victorySceneName: Scene 1
 --- !u!4 &1989930907
 Transform:
   m_ObjectHideFlags: 0

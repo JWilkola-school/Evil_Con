@@ -92,8 +92,8 @@ public class AllyStateMachine : GenBattleObjects
     public override void TakeAction()
     {
         if (globalBattleHandler == null || ally == null) return;
-
-        Debug.Log("Ally TakeAction() called. Waiting for input (1=Attack, 2=Block, 3=Item, 4=Run)...");
+        // Clogs the logs
+        //Debug.Log("Ally TakeAction() called. Waiting for input (1=Attack, 2=Block, 3=Item, 4=Run)...");
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {

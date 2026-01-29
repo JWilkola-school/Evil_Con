@@ -38,7 +38,7 @@ public class BasicPlayerController : MonoBehaviour
 
         Vector3 inputDir = new Vector3(horizontal, 0f, vertical);
         float inputMagnitude = inputDir.magnitude;
-
+        /**/
         float currentSpeed = 0f; // Speed to be passed to the animator
 
         // If small/no input, do nothing movement-wise but still update animator.
