@@ -12,7 +12,10 @@ public class PauseMenu : MonoBehaviour
             if (isPaused)
                 ResumeGame();
             else
+            {
                 PauseGame();
+                Resources.UnloadUnusedAssets();
+            }
         }
     }
 
