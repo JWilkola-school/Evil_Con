@@ -388,7 +388,10 @@ public class GlobalBattleHandler : MonoBehaviour
 
             // Load Victory Scene (Scene 1)
             Debug.Log($"Loading Victory Scene: {victorySceneName}");
-            SceneManager.LoadScene(victorySceneName);
+            // Old code to return to overworld
+            //SceneManager.LoadScene(victorySceneName);
+            // New code to return to overworld
+            SceneTransitioner.Instance.StartTransition(victorySceneName);
         }
     }
 
