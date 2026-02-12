@@ -6,15 +6,21 @@ public struct Dialogue
     [SerializeField] private Sprite characterOneImage;
     [SerializeField] private Sprite characterTwoImage;
     [SerializeField] private int[] dialogueOwners;
+    // Colors in Hex, textbox transitions represented by color
+    [SerializeField] private int characterOneDialogueColor;
+    [SerializeField] private int characterTwoDialogueColor;
     [SerializeField] private string[] dialogueText;
-
+    
     public Dialogue(Sprite backgroundImage, Sprite characterOneImage, Sprite characterTwoImage,
-        int[] dialogueOwners, string[] dialogueText)
+        int[] dialogueOwners, int characterOneDialogueColor, int characterTwoDialogueColor,
+        string[] dialogueText)
     {
         this.backgroundImage = backgroundImage;
         this.characterOneImage = characterOneImage;
         this.characterTwoImage = characterTwoImage;
         this.dialogueOwners = dialogueOwners;
+        this.characterOneDialogueColor = characterOneDialogueColor;
+        this.characterTwoDialogueColor = characterTwoDialogueColor;
         this.dialogueText = dialogueText;
     }
 
@@ -31,6 +37,26 @@ public struct Dialogue
     public Sprite getCharacterTwoImage()
     {
         return characterTwoImage;
+    }
+
+    public int[] getDialogueOwners()
+    {
+        return dialogueOwners;
+    }
+
+    public string[] getDialogueTexts()
+    {
+        return dialogueText;
+    }
+
+    public int getDialogueColorOne()
+    {
+        return characterOneDialogueColor;
+    }
+
+    public int getDialogueColorTwo()
+    {
+        return characterTwoDialogueColor;
     }
 }
 /*
