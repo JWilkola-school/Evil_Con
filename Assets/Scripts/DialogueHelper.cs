@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-    private bool tutorialRan = false;
+    private static bool tutorialRan = false;
     // Has the dialogue started?
     private bool isRunning = false;
     
