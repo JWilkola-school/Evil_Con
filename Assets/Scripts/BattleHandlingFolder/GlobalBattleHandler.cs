@@ -31,6 +31,10 @@ public class GlobalBattleHandler : MonoBehaviour
     public string deathSceneName = "DeathScene";
     public string victorySceneName = "Scene 1"; // Return to overworld on victory
 
+    // NEW: Menu References
+    public GameObject startMenu;
+    public GameObject attackMenu;
+
     void Awake()
     {
         // SINGLETON PATTERN: Prevent duplicates
@@ -180,6 +184,7 @@ public class GlobalBattleHandler : MonoBehaviour
             enemyHandler.enemy.isBlocking = false; // Block consumed
         }
 
+        /* Math handling*/
         enemyHandler.enemy.currHP -= damage;
         enemyHandler.enemy.currHP = Mathf.Max(0, enemyHandler.enemy.currHP);
 
@@ -191,6 +196,8 @@ public class GlobalBattleHandler : MonoBehaviour
         UI_Handler.updateHealthEnemy(enemyHandler.enemy.currHP);
 
         Debug.Log("Enemy took " + damage + " damage. HP: " + enemyHandler.enemy.currHP);
+
+        /* Death Checking*/
 
         // Check for death IMMEDIATELY after damage
         if (enemyHandler.enemy.currHP <= 0)
@@ -398,6 +405,19 @@ public class GlobalBattleHandler : MonoBehaviour
         if (instance == this)
         {
             instance = null;
+        }
+    }
+    public void toggleMenus()
+    {
+        if (allyHandler.attackMenu)
+        {
+            attackMenu.SetActive(true);
+            startMenu.SetActive(false);
+        }
+        else
+        {
+            attackMenu.SetActive(false);
+            startMenu.SetActive(true);
         }
     }
 
