@@ -34,11 +34,16 @@ public static class BattleTransitioner
 
         Debug.Log($"Combat initiated by {EncounteredEnemyName} at position {EnemyPosition}. ID: {EnemySceneID}");
 
-        // 3. Disable the enemy in Scene 1 (so it doesn't trigger again)
-        enemyGameObject.SetActive(false);
+        // 3. Disable the enemy in Scene 1 (so it doesn't trigger again) Note: May or may not be needed. Commented out for now.
+        //enemyGameObject.SetActive(false);
 
         // 4. Load the Battle Scene
-        SceneManager.LoadScene(BATTLE_SCENE_NAME);
+
+        // Original Scene Transition
+        //SceneManager.LoadScene(BATTLE_SCENE_NAME);
+
+        // New SceneTransitioner Method
+        SceneTransitioner.Instance.StartTransition(BATTLE_SCENE_NAME);
     }
 
     // NEW: Clear data after battle
