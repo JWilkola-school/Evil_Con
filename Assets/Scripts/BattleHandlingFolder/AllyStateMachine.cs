@@ -10,6 +10,11 @@ public class AllyStateMachine : GenBattleObjects
 
     public State currentState;
     public GlobalBattleHandler globalBattleHandler;
+
+    // TEMP: Add HeroUI Canvas as objects to hide
+    public GameObject actionButtons;
+    public GameObject itemMenuPanel;
+
     private bool printOnce = true;
     private float actionTimeout = 10f; // Time to wait for player input
     private float currentTimeout;
@@ -146,7 +151,18 @@ public class AllyStateMachine : GenBattleObjects
     public void allyItem()
     {
         Debug.Log(unitName + ": Using item!");
-        // Add item logic here
+        // Hide the main actions
+        if (actionButtons != null) actionButtons.SetActive(false);
+        // Show item list menu
+        if (itemMenuPanel != null)
+        {
+            itemMenuPanel.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                itemMenuPanel.SetActive(false);
+                actionButtons.SetActive(true);
+            }
+        }
     }
 
     public override void Die()
