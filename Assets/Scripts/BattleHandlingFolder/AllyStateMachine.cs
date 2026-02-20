@@ -100,6 +100,17 @@ public class AllyStateMachine : GenBattleObjects
         // Clogs the logs
         //Debug.Log("Ally TakeAction() called. Waiting for input (1=Attack, 2=Block, 3=Item, 4=Run)...");
 
+        // If item menu is open and L is pressed, Close item menu and open up main actions menu.
+        if (itemMenuPanel != null && itemMenuPanel.activeSelf)
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                itemMenuPanel.SetActive(false);
+                actionButtons.SetActive(true);
+            }
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Debug.Log("Ally chose to ATTACK!");
@@ -153,16 +164,7 @@ public class AllyStateMachine : GenBattleObjects
         Debug.Log(unitName + ": Using item!");
         // Hide the main actions
         if (actionButtons != null) actionButtons.SetActive(false);
-        // Show item list menu
-        if (itemMenuPanel != null)
-        {
-            itemMenuPanel.SetActive(true);
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                itemMenuPanel.SetActive(false);
-                actionButtons.SetActive(true);
-            }
-        }
+        if (itemMenuPanel != null) itemMenuPanel.SetActive(true);
     }
 
     public override void Die()
