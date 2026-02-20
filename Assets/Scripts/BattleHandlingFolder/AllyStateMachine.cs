@@ -25,7 +25,7 @@ public class AllyStateMachine : GenBattleObjects
         }
     }
 
-    public override void localInit(GlobalBattleHandler instance)
+    public override void localInit(GlobalBattleHandler instance) // BaseAllySetup allyType
     {
         globalBattleHandler = instance;
         // FIXED: Don't add here - GlobalBattleHandler does it
