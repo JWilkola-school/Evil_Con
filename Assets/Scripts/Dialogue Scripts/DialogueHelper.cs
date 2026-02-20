@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-    private bool tutorialRan = false;
+    private static bool tutorialRan = false;
     // Has the dialogue started?
     private bool isRunning = false;
     
@@ -102,7 +102,12 @@ public class DialogueManager : MonoBehaviour
 
         characterTwoImageRef.sprite = charTwoSprite;
         characterTwoImageRef.rectTransform.sizeDelta = new Vector2(charTwoWidth * newMultiplier, charTwoHeight * newMultiplier);
-
+        // All art is facing to the right; character twos must face left
+        characterTwoImageRef.rectTransform.localScale = new Vector3(
+            characterTwoImageRef.rectTransform.localScale.x * -1,
+            characterTwoImageRef.rectTransform.localScale.y,
+            characterTwoImageRef.rectTransform.localScale.z
+            );
         /* */
         index = 0;
         dialogueProgress();
@@ -129,21 +134,31 @@ public class DialogueManager : MonoBehaviour
             };
             */
             
-            var testBG = Resources.Load<Sprite>("Fur-Kingdom-Map");
-            var testChar1 = Resources.Load<Sprite>("Crowd");
-            var testChar2 = Resources.Load<Sprite>("Tree");
-            int[] dialogueOwners = { 1, 1, 1, 1, 1 };
-            int characterOneDialogueColor = 0xFF9650;
-            int characterTwoDialogueColor = 0;
+            var testBG = Resources.Load<Sprite>("testbg");
+            //var testChar1 = Resources.Load<Sprite>("Dudebro ManStrong No background");
+            //var testChar2 = Resources.Load<Sprite>("Security Guard No background");
+            int[] dialogueOwners = { 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 2 };
+            //int characterOneDialogueColor = 0xFF9650;
+            //int characterTwoDialogueColor = 0xA5A5A5;
             string[] dialogueText = {
                 "Welcome to the Evil-Con! Press \'e\' to continue.",
-                "You can move around with the \'WASD\' keys.",
-                "To look around, use your mouse.",
-                "Hold shift to sprint",
-                "Be on the lookout for enemies! Getting too close might trigger a battle..."
+                "Wh-where am I?",
+                "You're finally awake!",
+                "Awake?",
+                "Dudebro Manstrong! We need your help to free the convention from the clutches of evil!",
+                "Evil? How can I be sure you're not the evil one?",
+                "If I were evil, you'd be dead by now.",
+                "Fair point",
+                "To get around this Evil-Con, you move around with the 'WASD' keys.",
+                "To look around, you use your mouse.",
+                "To sprint, hold shift.",
+                "Is that all?",
+                "Oh, I almost forgot!",
+                "Be on the lookout for enemies! Getting too close might trigger a battle!"
             };
-            currDialogue = new Dialogue(testBG, testChar1, testChar2, dialogueOwners, characterOneDialogueColor,
-                characterTwoDialogueColor, dialogueText);
+            currDialogue = new Dialogue(testBG, new DudebroDialogue(), new SecurityDialogue(), dialogueOwners, dialogueText);
+            //currDialogue = new Dialogue(testBG, testChar1, testChar2, dialogueOwners, characterOneDialogueColor,
+            //    characterTwoDialogueColor, dialogueText);
             run();
             tutorialRan = true;
         }

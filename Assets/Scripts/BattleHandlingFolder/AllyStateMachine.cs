@@ -18,6 +18,7 @@ public class AllyStateMachine : GenBattleObjects
     private bool printOnce = true;
     private float actionTimeout = 10f; // Time to wait for player input
     private float currentTimeout;
+    public bool attackMenu = false;
 
     // FIXED: Added missing reference check
     void Start()
@@ -29,7 +30,7 @@ public class AllyStateMachine : GenBattleObjects
         }
     }
 
-    public override void localInit(GlobalBattleHandler instance)
+    public override void localInit(GlobalBattleHandler instance) // BaseAllySetup allyType
     {
         globalBattleHandler = instance;
         // FIXED: Don't add here - GlobalBattleHandler does it
@@ -70,7 +71,14 @@ public class AllyStateMachine : GenBattleObjects
                 }
                 else
                 {
-                    TakeAction();
+                    if (!attackMenu)
+                    {
+                        TakeAction();
+                    }
+                    else
+                    {
+                        TakeAction2();
+                    }
                 }
                 break;
 
@@ -114,8 +122,21 @@ public class AllyStateMachine : GenBattleObjects
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Debug.Log("Ally chose to ATTACK!");
-            allyAttack();
-            currentState = State.ADDTOLIST;
+            if (!ally.allyName.Equals("DudeBro ManStrong"))
+            {
+                // Still do the base attack for an ally
+                allyAttack();
+                currentState = State.ADDTOLIST;
+            }
+            else
+            {
+                attackMenu = true;
+                if (globalBattleHandler != null)
+                {
+                    globalBattleHandler.toggleMenus();
+                }
+            }
+                
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -143,6 +164,63 @@ public class AllyStateMachine : GenBattleObjects
         }
     }
 
+    public void TakeAction2()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("Ally chose to ATTACK 1!");
+            allyAttack();
+            currentState = State.ADDTOLIST;
+            attackMenu = false;
+            if (globalBattleHandler != null)
+            {
+                globalBattleHandler.toggleMenus();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Debug.Log("Ally chose to ATTACK 2!");
+            allyAttack();
+            currentState = State.ADDTOLIST;
+            attackMenu = false;
+            if (globalBattleHandler != null)
+            {
+                globalBattleHandler.toggleMenus();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Debug.Log("Ally chose to ATTACK 3!");
+            allyAttack();
+            currentState = State.ADDTOLIST;
+            attackMenu = false;
+            if (globalBattleHandler != null)
+            {
+                globalBattleHandler.toggleMenus();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            Debug.Log("Ally chose to ATTACK 4!");
+            allyAttack();
+            currentState = State.ADDTOLIST;
+            attackMenu = false;
+            if (globalBattleHandler != null)
+            {
+                globalBattleHandler.toggleMenus();
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            Debug.Log("Ally chose to return to the start menu!");
+            attackMenu = false;
+            if (globalBattleHandler != null)
+            {
+                globalBattleHandler.toggleMenus();
+            }
+        }
+    }
+
     public void allyAttack()
     {
         Debug.Log("Ally attacking enemy!");
@@ -152,6 +230,8 @@ public class AllyStateMachine : GenBattleObjects
             globalBattleHandler.damageEnemy(0, ally.currDamage);
         }
     }
+
+
 
     public void allyBlock()
     {
