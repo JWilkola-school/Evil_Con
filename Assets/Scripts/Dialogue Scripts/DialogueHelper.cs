@@ -134,7 +134,7 @@ public class DialogueManager : MonoBehaviour
             };
             */
             
-            var testBG = Resources.Load<Sprite>("Fur-Kingdom-Map");
+            var testBG = Resources.Load<Sprite>("testbg");
             //var testChar1 = Resources.Load<Sprite>("Dudebro ManStrong No background");
             //var testChar2 = Resources.Load<Sprite>("Security Guard No background");
             int[] dialogueOwners = { 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 2 };
