@@ -17430,6 +17430,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c862b8e995a7f844b81a98b0604a57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitioner
+--- !u!114 &1080864470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1080864464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ab12c0e779c81645b394378e5ccb299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldBattleHandler
+  allies: []
+  enemies: []
 --- !u!1001 &1081466606
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21216,6 +21230,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1581972161}
+    - target: {fileID: 5652326793280778611, guid: fe0adc68245685540b81a432f8ce48e0, type: 3}
+      propertyPath: overworldBattleHandler
+      value: 
+      objectReference: {fileID: 1080864470}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -21840,6 +21858,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1581972161}
+    - target: {fileID: 5652326793280778611, guid: fe0adc68245685540b81a432f8ce48e0, type: 3}
+      propertyPath: overworldBattleHandler
+      value: 
+      objectReference: {fileID: 1080864470}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33571,13 +33593,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5562754416490862928, guid: 2ce156af14634f243b1b1e7f7d977970, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1579201276024624873, guid: 2ce156af14634f243b1b1e7f7d977970, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1080864469}
+    - targetCorrespondingSourceObject: {fileID: 1579201276024624873, guid: 2ce156af14634f243b1b1e7f7d977970, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1080864470}
   m_SourcePrefab: {fileID: 100100000, guid: 2ce156af14634f243b1b1e7f7d977970, type: 3}
 --- !u!1001 &2709305354643767403
 PrefabInstance:
@@ -33631,7 +33657,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: DudeBro ManStrong Animated All Anims
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5481752774809453965, guid: 57ce7708356b29b4eaeadf5e2b3047ef, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -33873,6 +33900,10 @@ PrefabInstance:
       propertyPath: characterTwoImageRef
       value: 
       objectReference: {fileID: 933015362}
+    - target: {fileID: 321479852690479930, guid: af082c80e59678d4f931397b8209dc7d, type: 3}
+      propertyPath: overworldBattleHandler
+      value: 
+      objectReference: {fileID: 1080864470}
     - target: {fileID: 575578010980870496, guid: af082c80e59678d4f931397b8209dc7d, type: 3}
       propertyPath: m_Name
       value: PauseDialogue Manager

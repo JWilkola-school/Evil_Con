@@ -12,7 +12,7 @@ public class EnemyStateMachine : GenBattleObjects
     public State currentState;
     public GlobalBattleHandler globalBattleHandler;
     public bool printOnce = true;
-
+    /*
     void Start()
     {
         if (enemy == null)
@@ -20,6 +20,13 @@ public class EnemyStateMachine : GenBattleObjects
             Debug.LogError("EnemyStateMachine: No enemy setup assigned!");
             enabled = false;
         }
+    }*/
+
+    public EnemyStateMachine(GlobalBattleHandler instance, BaseEnemySetup enemy)
+    {
+        globalBattleHandler = instance;
+        this.enemy = enemy;
+        currentState = State.ADDTOLIST; // Start by adding to list
     }
 
     public override void localInit(GlobalBattleHandler instance)
@@ -128,8 +135,8 @@ public class EnemyStateMachine : GenBattleObjects
             // Important: Set state to DEAD so Update knows
             currentState = State.DEAD;
 
-            // Deactivate the GameObject
-            gameObject.SetActive(false);
+            // Just remove the enemy; no reason to do this anymore...
+            // gameObject.SetActive(false);
         }
         else
         {

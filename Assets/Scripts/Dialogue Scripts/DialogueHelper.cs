@@ -22,6 +22,7 @@ public class DialogueManager : MonoBehaviour
     // Disable player input while dialogue occurs
     [SerializeField] private BasicPlayerController playerCont;
     [SerializeField] private ThirdPersonCamera cam;
+    [SerializeField] private OverworldBattleHandler overworldBattleHandler;
 
     // Set to public if testing
     private Dialogue currDialogue;
@@ -176,6 +177,7 @@ public class DialogueManager : MonoBehaviour
                     dialogueCanvas.SetActive(false);
                     playerCont.enabled = true;
                     cam.enabled = true;
+                    overworldBattleHandler.addAlly(new SecurityGuardSetup());
                 }
             }
         }

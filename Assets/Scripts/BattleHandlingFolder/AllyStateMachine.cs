@@ -21,6 +21,7 @@ public class AllyStateMachine : GenBattleObjects
     public bool attackMenu = false;
 
     // FIXED: Added missing reference check
+    /*
     void Start()
     {
         if (ally == null)
@@ -28,6 +29,15 @@ public class AllyStateMachine : GenBattleObjects
             Debug.LogError("AllyStateMachine: No ally setup assigned!");
             enabled = false;
         }
+    }*/
+
+    public AllyStateMachine(GlobalBattleHandler instance, BaseAllySetup ally)
+    {
+        globalBattleHandler = instance;
+        this.ally = ally;
+        // FIXED: Don't add here - GlobalBattleHandler does it
+        currentState = State.ADDTOLIST; // Start by adding to list
+        currentTimeout = actionTimeout;
     }
 
     public override void localInit(GlobalBattleHandler instance) // BaseAllySetup allyType
@@ -251,8 +261,8 @@ public class AllyStateMachine : GenBattleObjects
     {
         Debug.Log("Ally has died.");
 
-        // Just deactivate the ally
-        gameObject.SetActive(false);
+        // Just remove the ally; no reason to do this anymore...
+        //gameObject.SetActive(false);
 
         // Let GlobalBattleHandler handle scene transition
         if (globalBattleHandler != null)

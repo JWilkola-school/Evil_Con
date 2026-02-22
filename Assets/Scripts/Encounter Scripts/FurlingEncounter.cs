@@ -16,6 +16,7 @@ public class FurlingEncounter : MonoBehaviour
     public Transform player;
     public Animator childAnimator;
     private BasicPlayerController playerController;
+    [SerializeField] private static OverworldBattleHandler overworldBattleHandler;
 
     // --- Animator Hash ---
     private readonly int isChasingHash = Animator.StringToHash("IsChasing");
@@ -43,6 +44,12 @@ public class FurlingEncounter : MonoBehaviour
                 Debug.LogError("Player GameObject not found! Tag the player as 'Player'.");
             }
         }
+        if (overworldBattleHandler == null)
+        {
+            Debug.Log("Finding Battle Handler...");
+            overworldBattleHandler = FindFirstObjectByType<OverworldBattleHandler>();
+        }
+
     }
 
     void Update()
@@ -120,7 +127,7 @@ public class FurlingEncounter : MonoBehaviour
         {
             playerController.enabled = false;
         }
-
+        overworldBattleHandler.addEnemy(new FurlingSetup());
         BattleTransitioner.InitiateForcedCombat(this.gameObject);
     }
 }

@@ -3,19 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GlobalBattleHandler : MonoBehaviour
 {
     public static GlobalBattleHandler instance;
 
-    public AllyStateMachine allyHandler;
-    public EnemyStateMachine enemyHandler;
     public UIHandler UI_Handler;
 
     public List<GenBattleObjects> battleList = new List<GenBattleObjects>();
     public Queue<GenBattleObjects> battleQueue = new Queue<GenBattleObjects>();
 
     public GenBattleObjects currentUnit = null;
+    public AllyStateMachine currAlly = null;
+    public EnemyStateMachine currEnemy = null;
 
     // Track battle state to prevent multiple updates
     private bool isBattleActive = true;
@@ -35,6 +36,8 @@ public class GlobalBattleHandler : MonoBehaviour
     public GameObject startMenu;
     public GameObject attackMenu;
 
+    [SerializeField] private OverworldBattleHandler overworldBattleHandler;
+
     void Awake()
     {
         // SINGLETON PATTERN: Prevent duplicates
@@ -49,28 +52,29 @@ public class GlobalBattleHandler : MonoBehaviour
     void Start()
     {
         Debug.Log("=== BATTLE STARTING ===");
-        Debug.Log($"Ally HP: {allyHandler?.ally?.currHP}");
-        Debug.Log($"Enemy HP: {enemyHandler?.enemy?.currHP}");
-        Debug.Log($"Enemy Name: {enemyHandler?.enemy?.enemyName}");
-
+        ///Debug.Log($"Ally HP: {allyHandler?.ally?.currHP}");
+        //Debug.Log($"Enemy HP: {enemyHandler?.enemy?.currHP}");
+        //Debug.Log($"Enemy Name: {enemyHandler?.enemy?.enemyName}");
+        overworldBattleHandler = FindFirstObjectByType<OverworldBattleHandler>();
         InitializeBattle();
     }
 
     void InitializeBattle()
     {
-        if (allyHandler == null || enemyHandler == null || UI_Handler == null)
+        //if (allyHandler == null || enemyHandler == null || UI_Handler == null)
+        if (UI_Handler == null)
         {
             Debug.LogError("GlobalBattleHandler: Missing required references!");
             enabled = false;
             return;
         }
 
+        // New: Poor programming practice to assume these have been initialized.
         // Initialize handlers
-        allyHandler.localInit(this);
-        enemyHandler.localInit(this);
+        //allyHandler.localInit(this);
+        //enemyHandler.localInit(this);
 
-        // Initialize UI with current HP values
-        UI_Handler.uiInit(allyHandler.ally.currHP, enemyHandler.enemy.currHP);
+
 
         // Clear lists before populating
         battleList.Clear();
@@ -81,17 +85,49 @@ public class GlobalBattleHandler : MonoBehaviour
         enemyDefeated = false;
         playerDefeated = false;
 
+        float alliesHP = 0.0f;
+        float enemiesHP = 0.0f;
+
         // Only add active units
-        if (allyHandler != null && allyHandler.gameObject.activeInHierarchy)
+        //if (allyHandler != null && allyHandler.gameObject.activeInHierarchy)
         {
-            battleList.Add(allyHandler);
-            activeUnits.Add(allyHandler);
+            // overworldBattleHandler.getAllies
+            BaseAllySetup[] alliesArray = overworldBattleHandler.getAllies();
+            foreach (BaseAllySetup ally in alliesArray)
+            {
+                AllyStateMachine curr = new AllyStateMachine(this, ally);
+                battleList.Add(curr);
+                activeUnits.Add(curr);
+                alliesHP += ally.currHP;
+                if (currAlly == null)
+                {
+                    currAlly = curr;
+                }
+
+            }
+
+
+            //battleList.Add(allyHandler);
+            //activeUnits.Add(allyHandler);
         }
 
-        if (enemyHandler != null && enemyHandler.gameObject.activeInHierarchy)
+        //if (enemyHandler != null && enemyHandler.gameObject.activeInHierarchy)
         {
-            battleList.Add(enemyHandler);
-            activeUnits.Add(enemyHandler);
+            BaseEnemySetup[] enemiesArray = overworldBattleHandler.getEnemies();
+            foreach(BaseEnemySetup enemy in  enemiesArray)
+            {
+                EnemyStateMachine curr = new EnemyStateMachine(this, enemy);
+                battleList.Add(curr);
+                activeUnits.Add(curr);
+                enemiesHP += enemy.currHP;
+                if (currEnemy == null)
+                {
+                    currEnemy = curr;
+                }
+
+            }
+            //battleList.Add(enemyHandler);
+            //activeUnits.Add(enemyHandler);
         }
 
         // Validate list before sorting
@@ -110,6 +146,9 @@ public class GlobalBattleHandler : MonoBehaviour
             }
         }
 
+        // Initialize UI with current HP values (just the sum of all)
+        UI_Handler.uiInit(alliesHP, enemiesHP);
+
         Debug.Log("Battle initialized with " + battleQueue.Count + " units");
     }
 
@@ -127,9 +166,12 @@ public class GlobalBattleHandler : MonoBehaviour
         if (currentUnit == null && battleQueue.Count > 0)
         {
             currentUnit = battleQueue.Dequeue();
+            
+
 
             // Safety check
-            if (currentUnit == null || !currentUnit.gameObject.activeInHierarchy)
+            //if (currentUnit == null || !currentUnit.gameObject.activeInHierarchy)
+            if (currentUnit == null)
             {
                 currentUnit = null;
                 return;
@@ -149,15 +191,20 @@ public class GlobalBattleHandler : MonoBehaviour
         }
 
         // Update current unit
-        if (currentUnit != null && currentUnit.gameObject.activeInHierarchy)
-        {
+        // Redundant check
+        //if (currentUnit != null && currentUnit.gameObject.activeInHierarchy)
+        
+        //{
             currentUnit.localUpdate();
-        }
+        //}
     }
 
     // Check for immediate battle end
+
     void CheckBattleEndImmediate()
     {
+        // This method is redundant because a check is done when someone dies.
+        /*
         bool allyAlive = allyHandler != null && allyHandler.ally.currHP > 0;
         bool enemyAlive = enemyHandler != null && enemyHandler.enemy.currHP > 0;
 
@@ -165,55 +212,55 @@ public class GlobalBattleHandler : MonoBehaviour
         {
             Debug.Log($"Battle should end! Ally alive: {allyAlive}, Enemy alive: {enemyAlive}");
             StartCoroutine(EndBattleCoroutine(!allyAlive));
-        }
+        }*/
     }
 
     public void damageEnemy(float weaponDamage, float allyDamage)
     {
-        if (!isBattleActive || enemyHandler == null || enemyHandler.enemy == null)
+        if (!isBattleActive || currEnemy == null || currEnemy.enemy == null)
             return;
 
         Debug.Log($"damageEnemy called with weaponDamage: {weaponDamage}, allyDamage: {allyDamage}");
 
         float damage = Mathf.Max(0, ((1.2f * weaponDamage) + (1.5f * allyDamage)) * 5f);
-        damage -= Mathf.Max(0, (1.5f * enemyHandler.enemy.currDefense) * 0.3f);
+        damage -= Mathf.Max(0, (1.5f * currEnemy.enemy.currDefense) * 0.3f);
 
-        if (enemyHandler.enemy.isBlocking)
+        if (currEnemy.enemy.isBlocking)
         {
             damage *= 0.5f;
-            enemyHandler.enemy.isBlocking = false; // Block consumed
+            currEnemy.enemy.isBlocking = false; // Block consumed
         }
 
         /* Math handling*/
-        enemyHandler.enemy.currHP -= damage;
-        enemyHandler.enemy.currHP = Mathf.Max(0, enemyHandler.enemy.currHP);
+        currEnemy.enemy.currHP -= damage;
+        currEnemy.enemy.currHP = Mathf.Max(0, currEnemy.enemy.currHP);
 
         Debug.Log($"Damage calculation: Base={(1.2f * weaponDamage + 1.5f * allyDamage) * 5f}, " +
-                  $"Defense={(1.5f * enemyHandler.enemy.currDefense) * 0.3f}, " +
-                  $"Final={damage}, Enemy HP now={enemyHandler.enemy.currHP}");
+                  $"Defense={(1.5f * currEnemy.enemy.currDefense) * 0.3f}, " +
+                  $"Final={damage}, Enemy HP now={currEnemy.enemy.currHP}");
 
         // Update UI immediately
-        UI_Handler.updateHealthEnemy(enemyHandler.enemy.currHP);
+        UI_Handler.updateHealthEnemy(currEnemy.enemy.currHP);
 
-        Debug.Log("Enemy took " + damage + " damage. HP: " + enemyHandler.enemy.currHP);
+        Debug.Log("Enemy took " + damage + " damage. HP: " + currEnemy.enemy.currHP);
 
         /* Death Checking*/
 
         // Check for death IMMEDIATELY after damage
-        if (enemyHandler.enemy.currHP <= 0)
+        if (currEnemy.enemy.currHP <= 0)
         {
             Debug.Log("ENEMY HEALTH REACHED 0! Triggering death...");
-            enemyHandler.currentState = State.DEAD;
+            currEnemy.currentState = State.DEAD;
             enemyDefeated = true; // Track enemy defeat
 
             // Immediately trigger Die() method
-            if (enemyHandler != null)
+            if (currEnemy != null)
             {
-                enemyHandler.Die();
+                currEnemy.Die();
             }
 
             // Also remove from system
-            RemoveDeadUnit(enemyHandler);
+            RemoveDeadUnit(currEnemy);
 
             // Check if battle should end NOW
             CheckBattleEndImmediate();
@@ -222,45 +269,46 @@ public class GlobalBattleHandler : MonoBehaviour
 
     public void damageAlly(float enemyDamage)
     {
-        if (!isBattleActive || allyHandler == null || allyHandler.ally == null)
+        if (!isBattleActive || currAlly == null || currAlly.ally == null)
+        if (!isBattleActive)
             return;
 
         Debug.Log($"damageAlly called with enemyDamage: {enemyDamage}");
 
         float damage = Mathf.Max(0, (1.5f * enemyDamage) * 5f);
-        damage -= Mathf.Max(0, (1.5f * allyHandler.ally.currDefense) * 0.3f);
+        damage -= Mathf.Max(0, (1.5f * currAlly.ally.currDefense) * 0.3f);
 
-        if (allyHandler.ally.isBlocking)
+        if (currAlly.ally.isBlocking)
         {
             damage *= 0.5f;
-            allyHandler.ally.isBlocking = false; // Block consumed
+            currAlly.ally.isBlocking = false; // Block consumed
         }
 
-        allyHandler.ally.currHP -= damage;
-        allyHandler.ally.currHP = Mathf.Max(0, allyHandler.ally.currHP);
+        currAlly.ally.currHP -= damage;
+        currAlly.ally.currHP = Mathf.Max(0, currAlly.ally.currHP);
 
         Debug.Log($"Ally damage: Base={(1.5f * enemyDamage) * 5f}, " +
-                  $"Defense={(1.5f * allyHandler.ally.currDefense) * 0.3f}, " +
-                  $"Final={damage}, Ally HP now={allyHandler.ally.currHP}");
+                  $"Defense={(1.5f * currAlly.ally.currDefense) * 0.3f}, " +
+                  $"Final={damage}, Ally HP now={currAlly.ally.currHP}");
 
         // Update UI immediately
-        UI_Handler.updateHealthAlly(allyHandler.ally.currHP);
+        UI_Handler.updateHealthAlly(currAlly.ally.currHP);
 
-        Debug.Log("Ally took " + damage + " damage. HP: " + allyHandler.ally.currHP);
+        Debug.Log("Ally took " + damage + " damage. HP: " + currAlly.ally.currHP);
 
-        if (allyHandler.ally.currHP <= 0)
+        if (currAlly.ally.currHP <= 0)
         {
             Debug.Log("ALLY HEALTH REACHED 0! Triggering death...");
-            allyHandler.currentState = State.DEAD;
+            currAlly.currentState = State.DEAD;
             playerDefeated = true; // Track player defeat
 
             // Immediately trigger Die() method
-            if (allyHandler != null)
+            if (currAlly != null)
             {
-                allyHandler.Die();
+                currAlly.Die();
             }
 
-            RemoveDeadUnit(allyHandler);
+            //RemoveDeadUnit(allyHandler);
 
             // Check if battle should end NOW
             CheckBattleEndImmediate();
@@ -304,6 +352,10 @@ public class GlobalBattleHandler : MonoBehaviour
             currentUnit = null;
         }
 
+        int state = -1;
+        if (deadUnit is AllyStateMachine) state = 0;
+        if (deadUnit is EnemyStateMachine) state = 2;
+
         // Check if any unit is still alive
         bool anyAllyAlive = false;
         bool anyEnemyAlive = false;
@@ -311,9 +363,22 @@ public class GlobalBattleHandler : MonoBehaviour
         foreach (var unit in activeUnits)
         {
             if (unit is AllyStateMachine)
+            {
                 anyAllyAlive = true;
+                if (state == 0) {
+                    currAlly = (AllyStateMachine)unit;
+                    state = 1;
+                }
+            }
             else if (unit is EnemyStateMachine)
+            {
                 anyEnemyAlive = true;
+                if (state == 2)
+                {
+                    currEnemy = (EnemyStateMachine)unit;
+                    state = 3;
+                }
+            }
         }
 
         Debug.Log($"After removal - Ally alive: {anyAllyAlive}, Enemy alive: {anyEnemyAlive}");
@@ -337,6 +402,7 @@ public class GlobalBattleHandler : MonoBehaviour
 
         Debug.Log("Starting EndBattleCoroutine...");
         isBattleActive = false;
+        overworldBattleHandler.clear();
 
         string result = playerLost ? "DEFEAT" : "VICTORY";
         Debug.Log("Battle Over: " + result);
@@ -412,7 +478,7 @@ public class GlobalBattleHandler : MonoBehaviour
     }
     public void toggleMenus()
     {
-        if (allyHandler.attackMenu)
+        if (currAlly.attackMenu)
         {
             attackMenu.SetActive(true);
             startMenu.SetActive(false);
@@ -431,24 +497,24 @@ public class GlobalBattleHandler : MonoBehaviour
 
         if (GUILayout.Button("TEST: Deal 999 Damage to Enemy", GUILayout.Height(30)))
         {
-            if (enemyHandler != null && enemyHandler.enemy != null)
+            if (currEnemy != null && currEnemy.enemy != null)
             {
                 Debug.Log("TEST: Forcing enemy death (VICTORY)");
-                enemyHandler.enemy.currHP = 0;
-                enemyHandler.currentState = State.DEAD;
-                enemyHandler.Die();
+                currEnemy.enemy.currHP = 0;
+                currEnemy.currentState = State.DEAD;
+                currEnemy.Die();
                 CheckBattleEndImmediate();
             }
         }
 
         if (GUILayout.Button("TEST: Deal 999 Damage to Ally", GUILayout.Height(30)))
         {
-            if (allyHandler != null && allyHandler.ally != null)
+            if (currAlly != null && currAlly.ally != null)
             {
                 Debug.Log("TEST: Forcing ally death (DEFEAT -> Death Scene)");
-                allyHandler.ally.currHP = 0;
-                allyHandler.currentState = State.DEAD;
-                allyHandler.Die();
+                currAlly.ally.currHP = 0;
+                currAlly.currentState = State.DEAD;
+                currAlly.Die();
                 CheckBattleEndImmediate();
             }
         }
@@ -460,8 +526,8 @@ public class GlobalBattleHandler : MonoBehaviour
             Debug.Log($"Current Unit: {(currentUnit != null ? currentUnit.unitName : "None")}");
             Debug.Log($"Queue Count: {battleQueue.Count}");
             Debug.Log($"Active Units: {activeUnits.Count}");
-            Debug.Log($"Ally HP: {allyHandler?.ally?.currHP}");
-            Debug.Log($"Enemy HP: {enemyHandler?.enemy?.currHP}");
+            Debug.Log($"Ally HP: {currAlly?.ally?.currHP}");
+            Debug.Log($"Enemy HP: {currEnemy?.enemy?.currHP}");
             Debug.Log($"Death Scene: {deathSceneName}");
             Debug.Log($"Victory Scene: {victorySceneName}");
         }
