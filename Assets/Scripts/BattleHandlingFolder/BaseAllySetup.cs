@@ -24,4 +24,7 @@ public class BaseAllySetup
 
     public bool canSpecial;
     public bool isBlocking;
+
+    // For charge attacks
+    protected int chargeTimeLeft;
 }
