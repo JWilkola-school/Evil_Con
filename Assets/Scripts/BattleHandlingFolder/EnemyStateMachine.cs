@@ -87,7 +87,7 @@ public class EnemyStateMachine : GenBattleObjects
 
         if (choice <= 6) // 60% chance to attack
         {
-            enemyAttack();
+            basicAttack();
         }
         else // 40% chance to block
         {
@@ -98,12 +98,24 @@ public class EnemyStateMachine : GenBattleObjects
             else
             {
                 // If already blocking, attack instead
-                enemyAttack();
+                basicAttack();
             }
         }
     }
 
-    public void enemyAttack()
+   /* public void enemyAttack()
+    {
+        Debug.Log(unitName + ": Attacking ally!");
+
+        if (globalBattleHandler != null)
+        {
+            globalBattleHandler.damageAlly(enemy.currDamage);
+        }
+
+        currentState = State.ADDTOLIST; // Return to queue after action
+    } */
+
+    public override void basicAttack()
     {
         Debug.Log(unitName + ": Attacking ally!");
 

@@ -9,5 +9,7 @@ public abstract class GenBattleObjects //: MonoBehaviour
     public abstract void TakeAction();
     public abstract void addToList();
     public abstract void Die();
+
+    public abstract void basicAttack();
 }
 

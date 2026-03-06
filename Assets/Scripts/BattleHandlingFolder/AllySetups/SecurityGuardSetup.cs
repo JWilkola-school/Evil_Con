@@ -16,5 +16,10 @@ public class SecurityGuardSetup : BaseAllySetup
         this.chargeTimeLeft = -1;
         this.canSpecial = false;
     }
+
+    public void doubleSpeed()
+    {
+        this.currSpeed = this.currSpeed * 2;
+    }
 }
 
