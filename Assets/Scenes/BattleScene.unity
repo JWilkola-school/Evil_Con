@@ -1567,6 +1567,7 @@ MonoBehaviour:
   victorySceneName: Scene 1
   startMenu: {fileID: 247023633}
   attackMenu: {fileID: 580745257}
+  itemMenuPanel: {fileID: 1911808449}
   overworldBattleHandler: {fileID: 0}
 --- !u!4 &1989930907
 Transform:

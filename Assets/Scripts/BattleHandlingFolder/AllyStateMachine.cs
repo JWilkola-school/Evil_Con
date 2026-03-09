@@ -11,10 +11,6 @@ public class AllyStateMachine : GenBattleObjects
     public State currentState;
     public GlobalBattleHandler globalBattleHandler;
 
-    // TEMP: Add HeroUI Canvas as objects to hide
-    public GameObject actionButtons;
-    public GameObject itemMenuPanel;
-
     private bool printOnce = true;
     private float actionTimeout = 10f; // Time to wait for player input
     private float currentTimeout;
@@ -102,14 +98,17 @@ public class AllyStateMachine : GenBattleObjects
     {
         if (globalBattleHandler == null || ally == null) return;
 
-        // FIXED: Only add if not already in queue
+        globalBattleHandler.RequeueAndSort(this);
+
+        currentState = State.WAITING;
+        /*// FIXED: Only add if not already in queue
         if (!globalBattleHandler.battleQueue.Contains(this))
         {
             globalBattleHandler.battleQueue.Enqueue(this);
         }
 
         currentState = State.WAITING; // Wait for turn
-        globalBattleHandler.currentUnit = null;
+        globalBattleHandler.currentUnit = null;*/
     }
 
     public override void TakeAction()
@@ -118,13 +117,12 @@ public class AllyStateMachine : GenBattleObjects
         // Clogs the logs
         //Debug.Log("Ally TakeAction() called. Waiting for input (1=Attack, 2=Block, 3=Item, 4=Run)...");
 
-        // If item menu is open and L is pressed, Close item menu and open up main actions menu.
-        if (itemMenuPanel != null && itemMenuPanel.activeSelf)
+        // If item menu is open and 5 is pressed, Close item menu and open up main actions menu.
+        if (globalBattleHandler.itemMenuPanel != null && globalBattleHandler.itemMenuPanel.activeSelf)
         {
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.Alpha5))
             {
-                itemMenuPanel.SetActive(false);
-                actionButtons.SetActive(true);
+                globalBattleHandler.toggleMenus(false, false);
             }
             return;
         }
@@ -136,25 +134,8 @@ public class AllyStateMachine : GenBattleObjects
             attackMenu = true;
             if (globalBattleHandler != null)
             {
-                globalBattleHandler.toggleMenus();
+                globalBattleHandler.toggleMenus(true, false);
             }
-
-            currentState = State.ADDTOLIST;
-            /* if (!ally.allyName.Equals("DudeBro ManStrong"))
-            {
-                // Still do the base attack for an ally
-                basicAttack();
-                currentState = State.ADDTOLIST;
-            }
-            else
-            {
-                attackMenu = true;
-                if (globalBattleHandler != null)
-                {
-                    globalBattleHandler.toggleMenus();
-                }
-            } */
-
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -173,7 +154,6 @@ public class AllyStateMachine : GenBattleObjects
         {
             Debug.Log("Ally chose to use ITEM!");
             allyItem();
-            currentState = State.ADDTOLIST;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
@@ -192,18 +172,26 @@ public class AllyStateMachine : GenBattleObjects
             attackMenu = false;
             if (globalBattleHandler != null)
             {
-                globalBattleHandler.toggleMenus();
+                globalBattleHandler.toggleMenus(false, false);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             Debug.Log("Ally chose to ATTACK 2!");
-            basicAttack();
+            if (ally is SecurityGuardSetup securityGuard)
+            {
+                Debug.Log($"{unitName} used Double Speed!");
+                securityGuard.doubleSpeed();
+            }
+            else 
+            {
+                basicAttack();
+            }
             currentState = State.ADDTOLIST;
             attackMenu = false;
             if (globalBattleHandler != null)
             {
-                globalBattleHandler.toggleMenus();
+                globalBattleHandler.toggleMenus(false, false);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
@@ -214,7 +202,7 @@ public class AllyStateMachine : GenBattleObjects
             attackMenu = false;
             if (globalBattleHandler != null)
             {
-                globalBattleHandler.toggleMenus();
+                globalBattleHandler.toggleMenus(false, false);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -225,7 +213,7 @@ public class AllyStateMachine : GenBattleObjects
             attackMenu = false;
             if (globalBattleHandler != null)
             {
-                globalBattleHandler.toggleMenus();
+                globalBattleHandler.toggleMenus(false, false);
             }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5))
@@ -234,20 +222,10 @@ public class AllyStateMachine : GenBattleObjects
             attackMenu = false;
             if (globalBattleHandler != null)
             {
-                globalBattleHandler.toggleMenus();
+                globalBattleHandler.toggleMenus(false, false);
             }
         }
     }
-
-    /* public void allyAttack()
-    {
-        Debug.Log("Ally attacking enemy!");
-
-        if (globalBattleHandler != null)
-        {
-            globalBattleHandler.damageEnemy(0, ally.currDamage);
-        }
-    } */
 
     public override void basicAttack()
     {
@@ -268,9 +246,7 @@ public class AllyStateMachine : GenBattleObjects
     public void allyItem()
     {
         Debug.Log(unitName + ": Using item!");
-        // Hide the main actions
-        if (actionButtons != null) actionButtons.SetActive(false);
-        if (itemMenuPanel != null) itemMenuPanel.SetActive(true);
+        globalBattleHandler.toggleMenus(false, true);
     }
 
     public override void Die()

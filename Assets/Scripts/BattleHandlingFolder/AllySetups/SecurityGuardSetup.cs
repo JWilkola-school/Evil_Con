@@ -9,8 +9,8 @@ public class SecurityGuardSetup : BaseAllySetup
         this.currHP = 150f;
         this.baseDefense = 10f;
         this.currDefense = 10f;
-        this.baseSpeed = 2f;
-        this.currSpeed = 2f;
+        this.baseSpeed = 4f;
+        this.currSpeed = 4f;
         this.baseDamage = 3f;
         this.currDamage = 3f;
         this.chargeTimeLeft = -1;

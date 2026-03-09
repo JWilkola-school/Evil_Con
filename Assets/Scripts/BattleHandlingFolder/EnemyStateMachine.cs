@@ -69,14 +69,18 @@ public class EnemyStateMachine : GenBattleObjects
     {
         if (globalBattleHandler == null || enemy == null) return;
 
-        // Only add if not already in queue
+        globalBattleHandler.RequeueAndSort(this);
+
+        currentState = State.WAITING;
+
+        /*// Only add if not already in queue
         if (!globalBattleHandler.battleQueue.Contains(this))
         {
             globalBattleHandler.battleQueue.Enqueue(this);
         }
 
         currentState = State.WAITING; // Wait for turn
-        globalBattleHandler.currentUnit = null;
+        globalBattleHandler.currentUnit = null;*/
     }
 
     public override void TakeAction()
@@ -102,18 +106,6 @@ public class EnemyStateMachine : GenBattleObjects
             }
         }
     }
-
-   /* public void enemyAttack()
-    {
-        Debug.Log(unitName + ": Attacking ally!");
-
-        if (globalBattleHandler != null)
-        {
-            globalBattleHandler.damageAlly(enemy.currDamage);
-        }
-
-        currentState = State.ADDTOLIST; // Return to queue after action
-    } */
 
     public override void basicAttack()
     {
