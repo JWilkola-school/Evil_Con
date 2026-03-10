@@ -40,6 +40,7 @@ public class GlobalBattleHandler : MonoBehaviour
 
     [SerializeField] private OverworldBattleHandler overworldBattleHandler;
     private Transform[] enemyMarkers;
+    private Transform[] allyMarkers;
     private Dictionary<BaseUnitSetup, GameObject> gameObjectRefs;
     void Awake()
     {
@@ -51,6 +52,7 @@ public class GlobalBattleHandler : MonoBehaviour
         }
         instance = this;
         enemyMarkers = new Transform[3];
+        allyMarkers = new Transform[3];
         gameObjectRefs = new Dictionary<BaseUnitSetup, GameObject>();
     }
 
@@ -74,6 +76,16 @@ public class GlobalBattleHandler : MonoBehaviour
         {
             return;
         }
+
+        allyMarkers[0] = GameObject.Find("/AllyMarkers/AllyMarker1").transform;
+        allyMarkers[1] = GameObject.Find("/AllyMarkers/AllyMarker2").transform;
+        allyMarkers[2] = GameObject.Find("/AllyMarkers/AllyMarker3").transform;
+        if (allyMarkers[0] == null)
+        {
+            return;
+        }
+
+
         //if (allyHandler == null || enemyHandler == null || UI_Handler == null)
         if (UI_Handler == null)
         {
@@ -105,6 +117,7 @@ public class GlobalBattleHandler : MonoBehaviour
         // Only add active units
         //if (allyHandler != null && allyHandler.gameObject.activeInHierarchy)
         {
+            int markerIndex = 0;
             BaseAllySetup[] alliesArray = overworldBattleHandler.getAllies();
             foreach (BaseAllySetup ally in alliesArray)
             {
@@ -112,6 +125,12 @@ public class GlobalBattleHandler : MonoBehaviour
                 battleList.Add(curr);
                 activeUnits.Add(curr);
                 alliesHP += ally.currHP;
+                // Instantiate the object in the battle scene and add it to a dictionary
+                // Why? So we can disable the object later when it dies!
+                GameObject currCharacterInstance = Instantiate(ally.characterPrefab, allyMarkers[markerIndex], false);
+                gameObjectRefs.Add(ally, currCharacterInstance);
+                markerIndex++;
+
                 if (currAlly == null)
                 {
                     currAlly = curr;
@@ -330,10 +349,12 @@ public class GlobalBattleHandler : MonoBehaviour
             playerDefeated = true; // Track player defeat
 
             // Immediately trigger Die() method
-            
+
             // Thought: we wouldn't even be able to reach the conditional
             // if currAlly was null since it would cause currAlly.ally.currHP to fail!
-
+            GameObject dyingObject = gameObjectRefs[currAlly.ally];
+            gameObjectRefs.Remove(currAlly.ally);
+            Destroy(dyingObject);
 
 
             //if (currAlly != null)

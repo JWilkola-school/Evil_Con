@@ -15,6 +15,7 @@ public class SecurityGuardSetup : BaseAllySetup
         this.currDamage = 3f;
         this.chargeTimeLeft = -1;
         this.canSpecial = false;
+        this.characterPrefab = Resources.Load<GameObject>("Prefabs/Security Guard (Battle)");
     }
 
     public void doubleSpeed()
