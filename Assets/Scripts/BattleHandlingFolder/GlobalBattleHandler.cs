@@ -13,6 +13,7 @@ public class GlobalBattleHandler : MonoBehaviour
 
     public List<GenBattleObjects> battleList = new List<GenBattleObjects>();
     public Queue<GenBattleObjects> battleQueue = new Queue<GenBattleObjects>();
+    public Dictionary<GenBattleObjects, int> turnCounts = new Dictionary<GenBattleObjects, int>();
 
     public GenBattleObjects currentUnit = null;
     public AllyStateMachine currAlly = null;
@@ -35,6 +36,7 @@ public class GlobalBattleHandler : MonoBehaviour
     // NEW: Menu References
     public GameObject startMenu;
     public GameObject attackMenu;
+    public GameObject itemMenuPanel;
 
     [SerializeField] private OverworldBattleHandler overworldBattleHandler;
 
@@ -80,6 +82,7 @@ public class GlobalBattleHandler : MonoBehaviour
         battleList.Clear();
         battleQueue.Clear();
         activeUnits.Clear();
+        turnCounts.Clear();
 
         // Reset outcome flags
         enemyDefeated = false;
@@ -136,7 +139,7 @@ public class GlobalBattleHandler : MonoBehaviour
             battleList = battleList.OrderByDescending(obj => obj != null ? obj.unitSpeed : 0).ToList();
         }
 
-        // Enqueue all units in speed order
+        // Enqueue all units in speed order at base.
         foreach (GenBattleObjects obj in battleList)
         {
             if (obj != null)
@@ -182,6 +185,10 @@ public class GlobalBattleHandler : MonoBehaviour
             {
                 ally.currentState = State.ACTION;
                 Debug.Log("Ally's turn: " + ally.unitName);
+
+                // ensure internal state and UI resets to start menu
+                ally.attackMenu = false;
+                toggleMenus(false, false);
             }
             else if (currentUnit is EnemyStateMachine enemy)
             {
@@ -476,18 +483,55 @@ public class GlobalBattleHandler : MonoBehaviour
             instance = null;
         }
     }
-    public void toggleMenus()
+    
+    // togglable menus between start, attack, and item menus.
+    public void toggleMenus(bool showAttackMenu, bool showItemMenu) // Now adds Item Menu toggling as well.
     {
-        if (currAlly.attackMenu)
+        // Attack menu matches showAttackMenu bool
+        attackMenu.SetActive(showAttackMenu);
+
+        // Item menu matches showItemMenu bool
+        itemMenuPanel.SetActive(showItemMenu);
+
+        // Start menu only active if both others are turned off
+        startMenu.SetActive(!showAttackMenu && !showItemMenu);
+    }
+
+    // Method that requeues and sorts allies and enemies in the queue dynamically based on speed order.
+    public void RequeueAndSort(GenBattleObjects finishedUnit)
+    {
+        // Add +1 to turn count of current finished unit
+        if (!turnCounts.ContainsKey(finishedUnit))
         {
-            attackMenu.SetActive(true);
-            startMenu.SetActive(false);
+            turnCounts[finishedUnit] = 0;
         }
-        else
+        turnCounts[finishedUnit]++;
+        
+        // temporary list to store all allies and enemies in
+        List<GenBattleObjects> currentLine = battleQueue.ToList();
+
+        // adds unit that just finished turn to the list.
+        if (!currentLine.Contains(finishedUnit))
         {
-            attackMenu.SetActive(false);
-            startMenu.SetActive(true);
+            currentLine.Add(finishedUnit);
         }
+
+        // Re-sort based on these parameters
+        currentLine = currentLine
+            .OrderBy(obj => turnCounts.ContainsKey(obj) ? turnCounts[obj] : 0) // Units with 0 turns go before units with 1 turn
+            .ThenByDescending(obj => obj != null ? obj.unitSpeed : 0) // if both units have 0 turns, fastest goes first
+            .ToList();
+
+        // clear old queue, requeue with new sort order
+        battleQueue.Clear();
+        foreach (GenBattleObjects obj in currentLine)
+        {
+            battleQueue.Enqueue(obj);
+        }
+
+        currentUnit = null;
+
+        Debug.Log($"Queue Sorted! Next up: {battleQueue.Peek().unitName}");
     }
 
     // DEBUG: Add GUI buttons for testing

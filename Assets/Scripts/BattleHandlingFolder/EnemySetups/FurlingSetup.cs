@@ -16,8 +16,8 @@ public class FurlingSetup : BaseEnemySetup
         this.baseDefense = 2f;
         this.currDefense = 2f;
 
-        this.baseSpeed = 3f;
-        this.currSpeed = 3f;
+        this.baseSpeed = 5f;
+        this.currSpeed = 5f;
 
         this.canSpecial = false; 
     }
