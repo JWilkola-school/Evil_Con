@@ -18,4 +18,9 @@ public class BaseUnitSetup
     public bool isBlocking;
 
     public GameObject characterPrefab;
+
+    public float basicAttack()
+    {
+        return currDamage;
+    }
 }
