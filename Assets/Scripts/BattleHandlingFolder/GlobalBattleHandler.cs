@@ -39,7 +39,8 @@ public class GlobalBattleHandler : MonoBehaviour
     public GameObject itemMenuPanel;
 
     [SerializeField] private OverworldBattleHandler overworldBattleHandler;
-
+    private Transform[] enemyMarkers;
+    private Dictionary<BaseUnitSetup, GameObject> gameObjectRefs;
     void Awake()
     {
         // SINGLETON PATTERN: Prevent duplicates
@@ -49,11 +50,14 @@ public class GlobalBattleHandler : MonoBehaviour
             return;
         }
         instance = this;
+        enemyMarkers = new Transform[3];
+        gameObjectRefs = new Dictionary<BaseUnitSetup, GameObject>();
     }
 
     void Start()
     {
         Debug.Log("=== BATTLE STARTING ===");
+        //enemyMarkers[0] = GameObject.Find("EnemyMarkers");//.transform;
         ///Debug.Log($"Ally HP: {allyHandler?.ally?.currHP}");
         //Debug.Log($"Enemy HP: {enemyHandler?.enemy?.currHP}");
         //Debug.Log($"Enemy Name: {enemyHandler?.enemy?.enemyName}");
@@ -63,6 +67,13 @@ public class GlobalBattleHandler : MonoBehaviour
 
     void InitializeBattle()
     {
+        enemyMarkers[0] = GameObject.Find("/EnemyMarkers/EnemyMarker1").transform;
+        enemyMarkers[1] = GameObject.Find("/EnemyMarkers/EnemyMarker2").transform;
+        enemyMarkers[2] = GameObject.Find("/EnemyMarkers/EnemyMarker3").transform;
+        if (enemyMarkers[0] == null)
+        {
+            return;
+        }
         //if (allyHandler == null || enemyHandler == null || UI_Handler == null)
         if (UI_Handler == null)
         {
@@ -94,7 +105,6 @@ public class GlobalBattleHandler : MonoBehaviour
         // Only add active units
         //if (allyHandler != null && allyHandler.gameObject.activeInHierarchy)
         {
-            // overworldBattleHandler.getAllies
             BaseAllySetup[] alliesArray = overworldBattleHandler.getAllies();
             foreach (BaseAllySetup ally in alliesArray)
             {
@@ -116,6 +126,7 @@ public class GlobalBattleHandler : MonoBehaviour
 
         //if (enemyHandler != null && enemyHandler.gameObject.activeInHierarchy)
         {
+            int markerIndex = 0;
             BaseEnemySetup[] enemiesArray = overworldBattleHandler.getEnemies();
             foreach(BaseEnemySetup enemy in  enemiesArray)
             {
@@ -123,6 +134,11 @@ public class GlobalBattleHandler : MonoBehaviour
                 battleList.Add(curr);
                 activeUnits.Add(curr);
                 enemiesHP += enemy.currHP;
+                // Instantiate the object in the battle scene and add it to a dictionary
+                // Why? So we can disable the object later when it dies!
+                GameObject currCharacterInstance = Instantiate(enemy.characterPrefab, enemyMarkers[markerIndex], false);
+                gameObjectRefs.Add(enemy, currCharacterInstance);
+                markerIndex++;
                 if (currEnemy == null)
                 {
                     currEnemy = curr;
@@ -139,6 +155,7 @@ public class GlobalBattleHandler : MonoBehaviour
             battleList = battleList.OrderByDescending(obj => obj != null ? obj.unitSpeed : 0).ToList();
         }
 
+        
         // Enqueue all units in speed order at base.
         foreach (GenBattleObjects obj in battleList)
         {
@@ -261,10 +278,13 @@ public class GlobalBattleHandler : MonoBehaviour
             enemyDefeated = true; // Track enemy defeat
 
             // Immediately trigger Die() method
-            if (currEnemy != null)
-            {
-                currEnemy.Die();
-            }
+            //if (currEnemy != null)
+            //{
+            //    currEnemy.Die();
+            //}
+            GameObject dyingObject = gameObjectRefs[currEnemy.enemy];
+            gameObjectRefs.Remove(currEnemy.enemy);
+            Destroy(dyingObject);
 
             // Also remove from system
             RemoveDeadUnit(currEnemy);
@@ -310,10 +330,16 @@ public class GlobalBattleHandler : MonoBehaviour
             playerDefeated = true; // Track player defeat
 
             // Immediately trigger Die() method
-            if (currAlly != null)
-            {
-                currAlly.Die();
-            }
+            
+            // Thought: we wouldn't even be able to reach the conditional
+            // if currAlly was null since it would cause currAlly.ally.currHP to fail!
+
+
+
+            //if (currAlly != null)
+            //{
+            //    currAlly.Die();
+            //}
 
             //RemoveDeadUnit(allyHandler);
 

@@ -128,6 +128,7 @@ public class FurlingEncounter : MonoBehaviour
             playerController.enabled = false;
         }
         overworldBattleHandler.addEnemy(new FurlingSetup());
+        overworldBattleHandler.addEnemy(new FurlingSetup());
         BattleTransitioner.InitiateForcedCombat(this.gameObject);
     }
 }

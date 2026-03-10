@@ -19,6 +19,7 @@ public class FurlingSetup : BaseEnemySetup
         this.baseSpeed = 5f;
         this.currSpeed = 5f;
 
-        this.canSpecial = false; 
+        this.canSpecial = false;
+        this.characterPrefab = Resources.Load<GameObject>("Prefabs/Furling (Battle)");
     }
 }
