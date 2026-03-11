@@ -17,4 +17,22 @@ public class DudebroSetup : BaseAllySetup
         this.canSpecial = true;
         this.characterPrefab = Resources.Load<GameObject>("Prefabs/DudeBro ManStrong (Battle)");
     }
+
+    public override float attack1()
+    {
+        return basicAttack();
+    }
+    public override float attack2()
+    {
+        return basicAttack();
+    }
+    public override float attack3()
+    {
+        return basicAttack();
+    }
+
+    public override float attack4()
+    {
+        return basicAttack();
+    }
 }

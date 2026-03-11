@@ -582,6 +582,8 @@ public class GlobalBattleHandler : MonoBehaviour
     }
 
     // DEBUG: Add GUI buttons for testing
+    // These don't work? Remove them!
+    /*
     void OnGUI()
     {
         GUILayout.BeginArea(new Rect(10, 10, 300, 250));
@@ -624,5 +626,5 @@ public class GlobalBattleHandler : MonoBehaviour
         }
 
         GUILayout.EndArea();
-    }
+    }*/
 }

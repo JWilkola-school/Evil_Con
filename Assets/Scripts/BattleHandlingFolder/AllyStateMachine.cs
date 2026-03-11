@@ -167,7 +167,11 @@ public class AllyStateMachine : GenBattleObjects
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Debug.Log("Ally chose to ATTACK 1!");
-            basicAttack();
+            float attackVal = ally.attack1();
+            if (attackVal > 0)
+            {
+                globalBattleHandler.damageEnemy(0, attackVal);
+            }
             currentState = State.ADDTOLIST;
             attackMenu = false;
             if (globalBattleHandler != null)
@@ -178,7 +182,12 @@ public class AllyStateMachine : GenBattleObjects
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             Debug.Log("Ally chose to ATTACK 2!");
-            if (ally is SecurityGuardSetup securityGuard)
+            float attackVal = ally.attack2();
+            if (attackVal > 0)
+            {
+                globalBattleHandler.damageEnemy(0, attackVal);
+            }
+            /*if (ally is SecurityGuardSetup securityGuard)
             {
                 Debug.Log($"{unitName} used Double Speed!");
                 securityGuard.doubleSpeed();
@@ -186,7 +195,7 @@ public class AllyStateMachine : GenBattleObjects
             else 
             {
                 basicAttack();
-            }
+            }*/
             currentState = State.ADDTOLIST;
             attackMenu = false;
             if (globalBattleHandler != null)
@@ -197,7 +206,11 @@ public class AllyStateMachine : GenBattleObjects
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             Debug.Log("Ally chose to ATTACK 3!");
-            basicAttack();
+            float attackVal = ally.attack3();
+            if (attackVal > 0)
+            {
+                globalBattleHandler.damageEnemy(0, attackVal);
+            }
             currentState = State.ADDTOLIST;
             attackMenu = false;
             if (globalBattleHandler != null)
@@ -208,7 +221,11 @@ public class AllyStateMachine : GenBattleObjects
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             Debug.Log("Ally chose to ATTACK 4!");
-            basicAttack();
+            float attackVal = ally.attack4();
+            if (attackVal > 0)
+            {
+                globalBattleHandler.damageEnemy(0, attackVal);
+            }
             currentState = State.ADDTOLIST;
             attackMenu = false;
             if (globalBattleHandler != null)

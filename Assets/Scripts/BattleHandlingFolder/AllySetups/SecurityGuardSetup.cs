@@ -22,5 +22,24 @@ public class SecurityGuardSetup : BaseAllySetup
     {
         this.currSpeed = this.currSpeed * 2;
     }
+
+    public override float attack1() {
+        return basicAttack();
+    }
+    public override float attack2()
+    {
+        doubleSpeed();
+        return -1.5f;
+    }
+
+    public override float attack3()
+    {
+        return basicAttack();
+    }
+
+    public override float attack4()
+    {
+        return basicAttack();
+    }
 }
 
