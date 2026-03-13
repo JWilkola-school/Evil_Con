@@ -139,6 +139,82 @@ MonoBehaviour:
   sceneName: Scene 1
   deemphasizedMat: {fileID: 0}
   emphasizedMat: {fileID: 0}
+--- !u!1001 &161421713
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3633935747478429704, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_Name
+      value: Fur King Animated
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 502.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 447.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.71388805
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.00067261484
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.70025945
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0004264696
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -0.089
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 271.104
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0.019
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3633935747478429704, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1209434808}
+  m_SourcePrefab: {fileID: 100100000, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
 --- !u!1001 &304131752
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -225,99 +301,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 81743121}
   m_SourcePrefab: {fileID: 100100000, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
---- !u!1001 &584224408
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3633935747478429704, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_Name
-      value: Fur King Animated
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 502.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 438.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.71192527
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.00067380583
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.70225483
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.0004245853
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -0.089
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 270.784
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 4117844646715718322, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3633935747478429704, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 584224410}
-  m_SourcePrefab: {fileID: 100100000, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
---- !u!1 &584224409 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3633935747478429704, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
-  m_PrefabInstance: {fileID: 584224408}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &584224410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 584224409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56d1466019c582f40b828177b8a87c9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyIdentifier
 --- !u!20 &853282327 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 6076295961347452421, guid: 57ce7708356b29b4eaeadf5e2b3047ef, type: 3}
@@ -598,6 +581,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1209434807 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3633935747478429704, guid: 2e2d7d81789e3154b8d4130169fdbc0e, type: 3}
+  m_PrefabInstance: {fileID: 161421713}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1209434808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209434807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56d1466019c582f40b828177b8a87c9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyIdentifier
 --- !u!1 &1356032561
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,7 +828,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2723121954899975759, guid: 57ce7708356b29b4eaeadf5e2b3047ef, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 502.9
+      value: 501.31415
       objectReference: {fileID: 0}
     - target: {fileID: 2723121954899975759, guid: 57ce7708356b29b4eaeadf5e2b3047ef, type: 3}
       propertyPath: m_LocalPosition.y
@@ -836,7 +836,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2723121954899975759, guid: 57ce7708356b29b4eaeadf5e2b3047ef, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 515.8
+      value: 515.5911
       objectReference: {fileID: 0}
     - target: {fileID: 2723121954899975759, guid: 57ce7708356b29b4eaeadf5e2b3047ef, type: 3}
       propertyPath: m_LocalRotation.w
@@ -886,6 +886,6 @@ SceneRoots:
   - {fileID: 1542841641}
   - {fileID: 304131752}
   - {fileID: 1356032562}
+  - {fileID: 161421713}
   - {fileID: 1662612687}
   - {fileID: 1028202603}
-  - {fileID: 584224408}
