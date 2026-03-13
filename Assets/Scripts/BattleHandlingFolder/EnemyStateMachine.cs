@@ -12,7 +12,7 @@ public class EnemyStateMachine : GenBattleObjects
     public State currentState;
     public GlobalBattleHandler globalBattleHandler;
     public bool printOnce = true;
-
+    /*
     void Start()
     {
         if (enemy == null)
@@ -20,6 +20,13 @@ public class EnemyStateMachine : GenBattleObjects
             Debug.LogError("EnemyStateMachine: No enemy setup assigned!");
             enabled = false;
         }
+    }*/
+
+    public EnemyStateMachine(GlobalBattleHandler instance, BaseEnemySetup enemy)
+    {
+        globalBattleHandler = instance;
+        this.enemy = enemy;
+        currentState = State.ADDTOLIST; // Start by adding to list
     }
 
     public override void localInit(GlobalBattleHandler instance)
@@ -62,14 +69,18 @@ public class EnemyStateMachine : GenBattleObjects
     {
         if (globalBattleHandler == null || enemy == null) return;
 
-        // Only add if not already in queue
+        globalBattleHandler.RequeueAndSort(this);
+
+        currentState = State.WAITING;
+
+        /*// Only add if not already in queue
         if (!globalBattleHandler.battleQueue.Contains(this))
         {
             globalBattleHandler.battleQueue.Enqueue(this);
         }
 
         currentState = State.WAITING; // Wait for turn
-        globalBattleHandler.currentUnit = null;
+        globalBattleHandler.currentUnit = null;*/
     }
 
     public override void TakeAction()
@@ -80,7 +91,7 @@ public class EnemyStateMachine : GenBattleObjects
 
         if (choice <= 6) // 60% chance to attack
         {
-            enemyAttack();
+            basicAttack();
         }
         else // 40% chance to block
         {
@@ -91,12 +102,12 @@ public class EnemyStateMachine : GenBattleObjects
             else
             {
                 // If already blocking, attack instead
-                enemyAttack();
+                basicAttack();
             }
         }
     }
 
-    public void enemyAttack()
+    public override void basicAttack()
     {
         Debug.Log(unitName + ": Attacking ally!");
 
@@ -128,8 +139,8 @@ public class EnemyStateMachine : GenBattleObjects
             // Important: Set state to DEAD so Update knows
             currentState = State.DEAD;
 
-            // Deactivate the GameObject
-            gameObject.SetActive(false);
+            // Just remove the enemy; no reason to do this anymore...
+            // gameObject.SetActive(false);
         }
         else
         {

@@ -290,9 +290,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c6ffacd6afdb54f44988f030e59b9027, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9059465962086977223}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c6ffacd6afdb54f44988f030e59b9027, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5681645494010021572}
   m_SourcePrefab: {fileID: 100100000, guid: c6ffacd6afdb54f44988f030e59b9027, type: 3}
 --- !u!1 &566141576880516249 stripped
 GameObject:
@@ -448,30 +445,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
   interactionDistance: 2
---- !u!114 &5681645494010021572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 566141576880516249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c99f43177650c6a488569d60e2ca080a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AllyStateMachine
-  ally:
-    name: DudeBro Manstrong
-    baseHealth: 150
-    currhealth: 150
-    baseDamage: 34
-    currDamage: 34
-    baseSpeed: 100
-    currSpeed: 100
-    canSpecial: 0
-  currentState: 0
-  globalBattleHandler: {fileID: 0}
-  firstAction: 0
 --- !u!4 &905371337008789027 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c6ffacd6afdb54f44988f030e59b9027, type: 3}

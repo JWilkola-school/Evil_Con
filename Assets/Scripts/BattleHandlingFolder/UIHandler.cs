@@ -3,8 +3,12 @@ using TMPro;
 
 public class UIHandler : MonoBehaviour
 {
-    public TextMeshProUGUI enemyUI;
+    public TextMeshProUGUI[] enemyNames;
+    public TextMeshProUGUI[] enemyHealths;
+    public TextMeshProUGUI[] allyNames;
+    public TextMeshProUGUI[] allyHealths;
 
+    public TextMeshProUGUI enemyUI;
     public TextMeshProUGUI allyUI;
 
     float allyBaseHP;
