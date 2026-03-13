@@ -1,67 +1,56 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(CharacterController))]
 public class CharacterAnimatorController : MonoBehaviour
 {
-    // --- Parameter Hashes ---
     private readonly int speedHash = Animator.StringToHash("Speed");
-    private readonly int attackTriggerHash = Animator.StringToHash("TriggerAttack");
-    private readonly int isBlockingHash = Animator.StringToHash("IsBlocking");
+    private readonly int attackHash = Animator.StringToHash("AttackTrig");
+    private readonly int itemHash = Animator.StringToHash("ItemTrigger");
+    private readonly int blockHash = Animator.StringToHash("BlockTrig");
+    private readonly int deathHash = Animator.StringToHash("DeathTrig");
 
-    [Header("Dampening")]
-    [Tooltip("Time in seconds to smooth the Speed parameter.")]
+    [Header("Blending")]
     public float dampTime = 0.1f;
 
     private Animator animator;
-    // CharacterController reference is no longer needed in this script, but kept for RequireComponent
-    // private CharacterController controller; 
-
-    // Internal state for smooth damping
-    private float currentAnimSpeed = 0f;
-    private float speedSmoothVelocity = 0f; // Velocity reference required by Mathf.SmoothDamp
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        // controller = GetComponent<CharacterController>();
-
-        if (animator == null)
-        {
-            Debug.LogError("Animator component missing from GameObject.");
-            enabled = false;
-        }
     }
 
-    // Update() is now empty since the logic is driven by the controller
-    void Update() { }
-
-    /// <summary>
-    /// PUBLIC METHOD: Receives the target speed from the BasicPlayerController.
-    /// </summary>
-    public void SetMovementSpeed(float targetSpeed)
+    public void SetMovementSpeed(float speed)
     {
-        // 1. Smoothly damp the current speed towards the target speed
-        currentAnimSpeed = Mathf.SmoothDamp(
-            currentAnimSpeed,
-            targetSpeed,
-            ref speedSmoothVelocity,
-            dampTime
-        );
-
-        // 2. Drive the 'Speed' float with the dampened value
-        animator.SetFloat(speedHash, currentAnimSpeed);
+        animator.SetFloat(speedHash, speed, dampTime, Time.deltaTime);
     }
-
-    // --- Public Animation Control Methods ---
 
     public void TriggerAttack()
     {
-        animator.SetTrigger(attackTriggerHash);
+        animator.SetTrigger(attackHash);
+    }
+
+    public void TriggerItem()
+    {
+        animator.SetTrigger(itemHash);
     }
 
     public void SetBlocking(bool isBlocking)
     {
-        animator.SetBool(isBlockingHash, isBlocking);
+        animator.SetBool(blockHash, isBlocking);
+    }
+
+    public void TriggerDeath()
+    {
+        animator.SetTrigger(deathHash);
+
+        if (TryGetComponent<BasicPlayerController>(out var move))
+        {
+            move.enabled = false;
+        }
+
+        if (TryGetComponent<CharacterController>(out var cc))
+        {
+            cc.enabled = false;
+        }
     }
 }
