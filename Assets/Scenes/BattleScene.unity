@@ -1701,6 +1701,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18f8066aa2497904db0a7a956c63173b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIHandler
+  enemyNames: []
+  enemyHealths: []
+  allyNames: []
+  allyHealths: []
   enemyUI: {fileID: 404105038}
   allyUI: {fileID: 167985645}
 --- !u!4 &1559665050
@@ -2386,11 +2390,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4553211815858810373, guid: 3d5ee52d8df889e4eae5295c7e554030, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -279
       objectReference: {fileID: 0}
     - target: {fileID: 4553211815858810373, guid: 3d5ee52d8df889e4eae5295c7e554030, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 149
       objectReference: {fileID: 0}
     - target: {fileID: 4553211815858810373, guid: 3d5ee52d8df889e4eae5295c7e554030, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
