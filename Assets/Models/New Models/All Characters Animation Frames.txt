@@ -1,0 +1,46 @@
+All Characters Animation Frames
+Dudebro Manstrong Frames 
+Walk 0-42
+Run 43-86
+Idle 87-142
+Item 143-188
+Attack 189-260
+Block 266-300
+Death 301-340
+
+Security Guard Frames
+Talking Animation 0-40
+Attack 41-80
+Block 80-110
+Idle 111-150
+Death 151-180
+
+Vendors Frames
+Talking 0-40
+Idle 41-86
+
+Furling Frames
+walk 0-48
+Attack 49-74
+Block 75-100
+Idle 101-135
+Death 137-160
+
+Fur King Frames
+Attack 0-40
+Block 41-70
+Fur King Intro Animation 71-115
+Idle 116-160
+Death 175-200
+
+Gothekins
+Attack 0-40
+Block 41-68
+Idle 69-109
+Death 110-131
+
+Edge Lord
+Attack 0-80
+Block 81-110
+Idle 111-140
+Death 141-180
