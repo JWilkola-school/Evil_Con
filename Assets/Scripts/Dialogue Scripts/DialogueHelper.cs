@@ -22,6 +22,7 @@ public class DialogueManager : MonoBehaviour
     // Disable player input while dialogue occurs
     [SerializeField] private BasicPlayerController playerCont;
     [SerializeField] private ThirdPersonCamera cam;
+    [SerializeField] private OverworldBattleHandler overworldBattleHandler;
 
     // Set to public if testing
     private Dialogue currDialogue;
@@ -31,8 +32,6 @@ public class DialogueManager : MonoBehaviour
     // All Backgrounds to be used by this script should be of the same resolution
     // Place in Resources Folder
     // TODO: Decide on background resolution to properly scale the background!
-
-   
 
     void Start()
     {
@@ -137,7 +136,7 @@ public class DialogueManager : MonoBehaviour
             var testBG = Resources.Load<Sprite>("testbg");
             //var testChar1 = Resources.Load<Sprite>("Dudebro ManStrong No background");
             //var testChar2 = Resources.Load<Sprite>("Security Guard No background");
-            int[] dialogueOwners = { 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 2 };
+            int[] dialogueOwners = { 2, 1, 2, 1, 2, 1, 2, 1, 2, 2, 2, 1, 2, 2, 2};
             //int characterOneDialogueColor = 0xFF9650;
             //int characterTwoDialogueColor = 0xA5A5A5;
             string[] dialogueText = {
@@ -154,7 +153,8 @@ public class DialogueManager : MonoBehaviour
                 "To sprint, hold shift.",
                 "Is that all?",
                 "Oh, I almost forgot!",
-                "Be on the lookout for enemies! Getting too close might trigger a battle!"
+                "Be on the lookout for enemies! Getting too close might trigger a battle!",
+                "Here, I'll join you for your first battle."
             };
             currDialogue = new Dialogue(testBG, new DudebroDialogue(), new SecurityDialogue(), dialogueOwners, dialogueText);
             //currDialogue = new Dialogue(testBG, testChar1, testChar2, dialogueOwners, characterOneDialogueColor,
@@ -176,6 +176,7 @@ public class DialogueManager : MonoBehaviour
                     dialogueCanvas.SetActive(false);
                     playerCont.enabled = true;
                     cam.enabled = true;
+                    overworldBattleHandler.addAlly(new SecurityGuardSetup());
                 }
             }
         }

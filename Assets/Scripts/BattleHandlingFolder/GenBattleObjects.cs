@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class GenBattleObjects : MonoBehaviour
+public abstract class GenBattleObjects //: MonoBehaviour
 {
     public abstract float unitSpeed{ get;}
     public abstract string unitName{ get;}
@@ -9,5 +9,7 @@ public abstract class GenBattleObjects : MonoBehaviour
     public abstract void TakeAction();
     public abstract void addToList();
     public abstract void Die();
+
+    public abstract void basicAttack();
 }
 
