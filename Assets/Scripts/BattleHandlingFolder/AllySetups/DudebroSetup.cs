@@ -16,6 +16,7 @@ public class DudebroSetup : BaseAllySetup
         this.chargeTimeLeft = -1;
         this.canSpecial = true;
         this.characterPrefab = Resources.Load<GameObject>("Prefabs/DudeBro ManStrong (Battle)");
+        this.attackNames = new string[] { "Cleave", "WIP", "WIP", "WIP" };
     }
 
     public override float attack1()

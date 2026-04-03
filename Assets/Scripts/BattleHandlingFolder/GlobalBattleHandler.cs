@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using TMPro;
 
 public class GlobalBattleHandler : MonoBehaviour
 {
@@ -37,6 +38,7 @@ public class GlobalBattleHandler : MonoBehaviour
     public GameObject startMenu;
     public GameObject attackMenu;
     public GameObject itemMenuPanel;
+    public TextMeshProUGUI[] attackButtonTexts;
 
     [SerializeField] private OverworldBattleHandler overworldBattleHandler;
     private Transform[] enemyMarkers;
@@ -542,6 +544,20 @@ public class GlobalBattleHandler : MonoBehaviour
 
         // Start menu only active if both others are turned off
         startMenu.SetActive(!showAttackMenu && !showItemMenu);
+    }
+
+    // updates attack menu text based on character
+    public void updateAttackMenuText(BaseAllySetup activeAllyData)
+    {
+        if (activeAllyData == null || attackButtonTexts == null) return;
+
+        for (int i = 0; i < attackButtonTexts.Length; i++)
+        {
+            if (i < activeAllyData.attackNames.Length)
+            {
+                attackButtonTexts[i].text = activeAllyData.attackNames[i];
+            }
+        }
     }
 
     // Method that requeues and sorts allies and enemies in the queue dynamically based on speed order.

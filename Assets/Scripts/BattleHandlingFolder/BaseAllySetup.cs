@@ -8,6 +8,7 @@ public abstract class BaseAllySetup : BaseUnitSetup
 {
     // Add any additional fields here!
     public string allyName;
+    public string[] attackNames = new string[4];
     // For charge attacks
     protected int chargeTimeLeft;
 
