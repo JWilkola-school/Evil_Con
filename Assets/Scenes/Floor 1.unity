@@ -7764,6 +7764,103 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4193753292779006632, guid: 7f2ee5c79e5eefc41a9f9cb9441d7a90, type: 3}
   m_PrefabInstance: {fileID: 452882945}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &454516535
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2072427760182613257, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2260909435601596309, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: spawnPointID
+      value: Scene a
+      objectReference: {fileID: 0}
+    - target: {fileID: 2282213627411733884, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 68.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.5586758
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 35.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868704223452212001, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_Name
+      value: Door (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6769473222105917464, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_text
+      value: 'Under Construction:
+
+        Edgelord Corridors
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6769473222105917464, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278247417
+      objectReference: {fileID: 0}
+    - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: sceneName
+      value: EdgeLord Domain
+      objectReference: {fileID: 0}
+    - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1418997733978594214}
+    - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: spawnPointID
+      value: Scene b
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
 --- !u!1 &454594262
 GameObject:
   m_ObjectHideFlags: 0
@@ -40630,6 +40727,7 @@ SceneRoots:
   - {fileID: 1135821805}
   - {fileID: 1043084765}
   - {fileID: 900224732}
+  - {fileID: 454516535}
   - {fileID: 1374961321}
   - {fileID: 2709305354643767403}
   - {fileID: 1335867906}
