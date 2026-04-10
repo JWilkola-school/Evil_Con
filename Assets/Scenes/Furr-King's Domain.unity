@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e880506fa8794154c9a7c1cb4ca8c7cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
-  sceneName: Scene 1
+  sceneName: Floor 1
   deemphasizedMat: {fileID: 0}
   emphasizedMat: {fileID: 0}
 --- !u!1001 &304131752
@@ -207,7 +207,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
       propertyPath: sceneName
-      value: Scene 1
+      value: Floor 1
       objectReference: {fileID: 0}
     - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
       propertyPath: playerCamera
