@@ -5851,6 +5851,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9054525880899313051, guid: fbbe2470a5c5d214faaed163130c83a2, type: 3}
   m_PrefabInstance: {fileID: 326744311}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &330319731 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4868704223452212001, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+  m_PrefabInstance: {fileID: 454516535}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &330319737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330319731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e880506fa8794154c9a7c1cb4ca8c7cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Door
+  sceneName: EdgeLord Domain
+  deemphasizedMat: {fileID: 0}
+  emphasizedMat: {fileID: 0}
 --- !u!1001 &330960865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7859,7 +7879,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4868704223452212001, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 330319737}
   m_SourcePrefab: {fileID: 100100000, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
 --- !u!1 &454594262
 GameObject:
@@ -28135,6 +28158,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9054525880899313051, guid: fbbe2470a5c5d214faaed163130c83a2, type: 3}
   m_PrefabInstance: {fileID: 1406515203}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1409885302 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3351144664044471541, guid: 57ce7708356b29b4eaeadf5e2b3047ef, type: 3}
+  m_PrefabInstance: {fileID: 2709305354643767403}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1411523504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30325,12 +30353,26 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4263146121309974479, guid: 57ce7708356b29b4eaeadf5e2b3047ef, type: 3}
   m_PrefabInstance: {fileID: 2709305354643767403}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1409885302}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 683c0bc1b3c6ba74d8fa5918abbf347c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BasicPlayerController
+--- !u!114 &1581972168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409885302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 938dafbbb9cd3094492bfb7ecdc3208c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DoorOpener
+  distanceToOpen: 2
+  cam: {fileID: 0}
 --- !u!114 &1585544506 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5953510769129504911, guid: a41c1503728d65043b7733592c771419, type: 3}
@@ -40428,7 +40470,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3351144664044471541, guid: 57ce7708356b29b4eaeadf5e2b3047ef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1581972168}
   m_SourcePrefab: {fileID: 100100000, guid: 57ce7708356b29b4eaeadf5e2b3047ef, type: 3}
 --- !u!1001 &3416182608588519150
 PrefabInstance:

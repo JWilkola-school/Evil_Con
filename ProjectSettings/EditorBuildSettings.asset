@@ -32,6 +32,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/FurKing_BossRoom.unity
     guid: bd193a51e5ec83d4f9784070ed2021ab
+  - enabled: 1
+    path: Assets/Scenes/EdgeLord Domain.unity
+    guid: fa9d622a551c82d4ba246010ad61ee32
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
