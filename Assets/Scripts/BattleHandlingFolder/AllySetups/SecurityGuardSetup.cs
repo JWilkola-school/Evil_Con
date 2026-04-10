@@ -21,7 +21,10 @@ public class SecurityGuardSetup : BaseAllySetup
 
     public void doubleSpeed()
     {
-        this.currSpeed = this.currSpeed * 2;
+        this.currSpeed = this.baseSpeed * 2;
+        ActiveBuff newBuff = new ActiveBuff(StatType.Speed, 3);
+        this.activeBuffs.Add(newBuff);
+        Debug.Log($"{allyName} doubled their speed for 3 turns!");
     }
 
     public override float attack1() {

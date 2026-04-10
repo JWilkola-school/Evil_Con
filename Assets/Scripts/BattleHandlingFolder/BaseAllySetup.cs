@@ -1,5 +1,6 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
+using NUnit.Framework;
 
 [System.Serializable]
 
@@ -9,6 +10,9 @@ public abstract class BaseAllySetup : BaseUnitSetup
     // Add any additional fields here!
     public string allyName;
     public string[] attackNames = new string[4];
+    // Dynamic list to hold active buffs
+    public List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
+
     // For charge attacks
     protected int chargeTimeLeft;
 
@@ -26,4 +30,42 @@ public abstract class BaseAllySetup : BaseUnitSetup
     public abstract float attack2();
     public abstract float attack3();
     public abstract float attack4();
+
+    // Counts buffs and handles the turn count of the buff until expiry
+    public void TickBuffs()
+    {
+        // loop backwards in the list
+        for (int i = activeBuffs.Count - 1; i >= 0; i--)
+        {
+            activeBuffs[i].turnsLeft--; // tick down the turn
+
+            if (activeBuffs[i].turnsLeft <= 0)
+            {
+                // Buff expired. Find what stat to reset.
+                RemoveBuffAndResetStat(activeBuffs[i].targetStat);
+                
+                // Remove from list
+                activeBuffs.RemoveAt(i);
+            }
+        }
+    }
+
+    private void RemoveBuffAndResetStat(StatType stat)
+    {
+        switch (stat)
+        {
+            case StatType.Speed:
+                this.currSpeed = this.baseSpeed;
+                Debug.Log($"{allyName}'s Speed returned to normal!");
+                break;
+            case StatType.Damage:
+                this.currDamage = this.baseDamage;
+                Debug.Log($"{allyName}'s Damage returned to normal!");
+                break;
+            case StatType.Defense:
+                this.currDefense = this.baseDefense;
+                Debug.Log($"{allyName}'s Defense returned to normal!");
+                break;
+        }
+    }
 }

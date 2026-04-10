@@ -64,6 +64,12 @@ public class AllyStateMachine : GenBattleObjects
                 if (printOnce)
                 {
                     Debug.Log(unitName + ": Your turn! Choose an action!");
+                    // Tick all active buffs at the exact start of new turn
+                    if (ally != null)
+                    {
+                        ally.TickBuffs();
+                    }
+
                     printOnce = false;
                 }
 
