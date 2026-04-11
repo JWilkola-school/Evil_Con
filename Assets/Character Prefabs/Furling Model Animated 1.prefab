@@ -112,6 +112,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Furling Model Animated 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2d41cfad76e9253459b8e16a4606cdd0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1083269663751432542, guid: 2d41cfad76e9253459b8e16a4606cdd0, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -222,7 +226,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4747525612856838363}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56d1466019c582f40b828177b8a87c9d, type: 3}
   m_Name: 

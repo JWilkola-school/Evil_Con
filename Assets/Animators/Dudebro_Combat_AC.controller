@@ -106,7 +106,7 @@ BlendTree:
     m_Motion: {fileID: -3291206362154003629, guid: 98c8868e58c06c04593e33f89cdbd726, type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
+    m_TimeScale: 0.01
     m_CycleOffset: 0
     m_DirectBlendParameter: Speed
     m_Mirror: 0
@@ -275,7 +275,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dudebro_AC
+  m_Name: Dudebro_Combat_AC
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: AttackTrigger
@@ -328,20 +328,20 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
-    m_Name: Base Layer
-    m_StateMachine: {fileID: 8046399724394512517}
+    m_Name: Combat
+    m_StateMachine: {fileID: 2021936770694667905}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0
     m_SyncedLayerIndex: -1
-    m_DefaultWeight: 1
+    m_DefaultWeight: 0
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: Combat
-    m_StateMachine: {fileID: 2021936770694667905}
+    m_Name: Base Layer
+    m_StateMachine: {fileID: 8046399724394512517}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
