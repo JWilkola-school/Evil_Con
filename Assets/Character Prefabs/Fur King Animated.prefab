@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fur King Animated
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b377b90b3d868ec428718351ee1b5595, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

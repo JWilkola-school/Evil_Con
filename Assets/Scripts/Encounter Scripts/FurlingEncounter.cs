@@ -2,133 +2,120 @@ using UnityEngine;
 
 public class FurlingEncounter : MonoBehaviour
 {
-    // --- Configurable Settings ---
-    [Header("Behavior Settings")]
+    [Header("Settings")]
     public float chaseRange = 8f;
     public float battleRange = 1.5f;
     public float moveSpeed = 5f;
+    public float patrolSpeed = 2f;
     public float rotationSpeed = 5f;
 
-    // NEW: Offset to correct the model's 90-degree sideways alignment
     private const float Y_ROTATION_OFFSET = -90f;
 
-    [Header("Component References")]
+    [Header("Patrol Points")]
+    public Transform pointA;
+    public Transform pointB;
+    private Transform currentTarget;
+
+    [Header("Components")]
     public Transform player;
     public Animator childAnimator;
     private BasicPlayerController playerController;
-    [SerializeField] private static OverworldBattleHandler overworldBattleHandler;
+    private OverworldBattleHandler overworldBattleHandler;
 
-    // --- Animator Hash ---
     private readonly int isChasingHash = Animator.StringToHash("IsChasing");
-
     private bool isChasing = false;
     private bool hasTriggeredBattle = false;
 
     void Start()
     {
-        if (childAnimator == null)
-        {
-            childAnimator = GetComponentInChildren<Animator>();
-        }
+        if (childAnimator == null) childAnimator = GetComponentInChildren<Animator>();
+        currentTarget = pointA;
 
-        if (player == null)
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
         {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
-            {
-                player = playerObj.transform;
-                playerController = playerObj.GetComponent<BasicPlayerController>();
-            }
-            else
-            {
-                Debug.LogError("Player GameObject not found! Tag the player as 'Player'.");
-            }
+            player = playerObj.transform;
+            playerController = playerObj.GetComponent<BasicPlayerController>();
         }
-        if (overworldBattleHandler == null)
-        {
-            Debug.Log("Finding Battle Handler...");
-            overworldBattleHandler = FindFirstObjectByType<OverworldBattleHandler>();
-        }
-
+        overworldBattleHandler = FindFirstObjectByType<OverworldBattleHandler>();
     }
 
     void Update()
     {
-        if (player == null || hasTriggeredBattle) return;
+        if (hasTriggeredBattle) return;
 
-        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        // Ensure animation is ON while active
+        SetAnimationState(true);
 
-        if (distanceToPlayer <= chaseRange && distanceToPlayer > battleRange)
+        float distanceToPlayer = (player != null) ? Vector3.Distance(transform.position, player.position) : float.MaxValue;
+
+        if (distanceToPlayer <= chaseRange)
         {
-            StartChase();
-
-            // --- ROTATION LOGIC WITH OFFSET ---
-            Vector3 direction = (player.position - transform.position).normalized;
-
-            // 1. Calculate the rotation to face the target.
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-
-            // 2. Apply the compensation offset (90 degrees around Y)
-            Quaternion compensatedRotation = lookRotation * Quaternion.Euler(0, Y_ROTATION_OFFSET, 0);
-
-            // 3. Smoothly apply the final rotation to the Furling's root
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                compensatedRotation,
-                Time.deltaTime * rotationSpeed
-            );
-
-            // --- MOVEMENT LOGIC ---
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                player.position,
-                moveSpeed * Time.deltaTime
-            );
+            HandleChase(distanceToPlayer);
         }
-        else if (distanceToPlayer <= battleRange && isChasing)
+        else
+        {
+            PerformPatrol();
+        }
+    }
+
+    private void SetAnimationState(bool state)
+    {
+        // Only trigger the Animator if the state is actually changing
+        if (isChasing != state)
+        {
+            isChasing = state;
+            if (childAnimator != null) childAnimator.SetBool(isChasingHash, state);
+        }
+    }
+
+    private void HandleChase(float distanceToPlayer)
+    {
+        if (distanceToPlayer <= battleRange)
         {
             LaunchBattleScene();
+            return;
         }
-        else if (distanceToPlayer > chaseRange && isChasing)
+
+        RotateTowards(player.position);
+        transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
+    }
+
+    private void PerformPatrol()
+    {
+        if (pointA == null || pointB == null) return;
+
+        transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, patrolSpeed * Time.deltaTime);
+        RotateTowards(currentTarget.position);
+
+        if (Vector3.Distance(transform.position, currentTarget.position) < 0.1f)
         {
-            StopChase();
+            currentTarget = (currentTarget == pointA) ? pointB : pointA;
         }
     }
 
-    private void StartChase()
+    private void RotateTowards(Vector3 targetPosition)
     {
-        if (isChasing) return;
-        isChasing = true;
-
-        if (childAnimator != null)
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        if (direction.sqrMagnitude > 0.001f)
         {
-            childAnimator.SetBool(isChasingHash, true);
-        }
-    }
-
-    private void StopChase()
-    {
-        isChasing = false;
-
-        if (childAnimator != null)
-        {
-            childAnimator.SetBool(isChasingHash, false);
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            Quaternion compensatedRotation = lookRotation * Quaternion.Euler(0, Y_ROTATION_OFFSET, 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, compensatedRotation, rotationSpeed * Time.deltaTime);
         }
     }
 
     private void LaunchBattleScene()
     {
         hasTriggeredBattle = true;
-        StopChase();
+        SetAnimationState(false);
 
-        Debug.Log("Furling Encounter! Launching Battle.");
-
-        if (playerController != null)
+        if (playerController != null) playerController.enabled = false;
+        if (overworldBattleHandler != null)
         {
-            playerController.enabled = false;
+            overworldBattleHandler.addEnemy(new FurlingSetup());
+            overworldBattleHandler.addEnemy(new FurlingSetup());
         }
-        overworldBattleHandler.addEnemy(new FurlingSetup());
-        overworldBattleHandler.addEnemy(new FurlingSetup());
         BattleTransitioner.InitiateForcedCombat(this.gameObject);
     }
 }
