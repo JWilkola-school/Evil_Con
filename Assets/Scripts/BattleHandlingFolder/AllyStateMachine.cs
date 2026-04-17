@@ -174,6 +174,11 @@ public class AllyStateMachine : GenBattleObjects
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            string attackName = ally.attackNames[0];
+            if (globalBattleHandler != null)
+            {
+                globalBattleHandler.ShowBattleLog($"{unitName} used {attackName}!");
+            }
             Debug.Log("Ally chose to ATTACK 1!");
             float attackVal = ally.attack1();
             if (attackVal > 0)
@@ -189,6 +194,11 @@ public class AllyStateMachine : GenBattleObjects
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
+            string attackName = ally.attackNames[1];
+            if (globalBattleHandler != null)
+            {
+                globalBattleHandler.ShowBattleLog($"{unitName} used {attackName}!");
+            }
             Debug.Log("Ally chose to ATTACK 2!");
             float attackVal = ally.attack2();
             if (attackVal > 0)
@@ -204,6 +214,11 @@ public class AllyStateMachine : GenBattleObjects
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            string attackName = ally.attackNames[2];
+            if (globalBattleHandler != null)
+            {
+                globalBattleHandler.ShowBattleLog($"{unitName} used {attackName}!");
+            }
             Debug.Log("Ally chose to ATTACK 3!");
             float attackVal = ally.attack3();
             if (attackVal > 0)
@@ -219,6 +234,11 @@ public class AllyStateMachine : GenBattleObjects
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
+            string attackName = ally.attackNames[3];
+            if (globalBattleHandler != null)
+            {
+                globalBattleHandler.ShowBattleLog($"{unitName} used {attackName}!");
+            }
             Debug.Log("Ally chose to ATTACK 4!");
             float attackVal = ally.attack4();
             if (attackVal > 0)

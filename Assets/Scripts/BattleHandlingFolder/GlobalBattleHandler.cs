@@ -40,6 +40,15 @@ public class GlobalBattleHandler : MonoBehaviour
     public GameObject itemMenuPanel;
     public TextMeshProUGUI[] attackButtonTexts;
 
+    // Battle Log UI
+    public TextMeshProUGUI battleLogText;
+    public CanvasGroup battleLogCanvasGroup;
+    public float textFadeDuration = 1.5f;
+    public float textFloatDistance = 30f; // How high it floats up
+
+    private Vector3 originalLogPosition;
+    private Coroutine activeTextCoroutine;
+
     [SerializeField] private OverworldBattleHandler overworldBattleHandler;
     private Transform[] enemyMarkers;
     private Transform[] allyMarkers;
@@ -67,6 +76,13 @@ public class GlobalBattleHandler : MonoBehaviour
         //Debug.Log($"Enemy Name: {enemyHandler?.enemy?.enemyName}");
         overworldBattleHandler = FindFirstObjectByType<OverworldBattleHandler>();
         InitializeBattle();
+        if (battleLogText != null)
+        {
+            // Remember exactly where we placed it in the Editor
+            originalLogPosition = battleLogText.rectTransform.anchoredPosition;
+            // Hide it immediately
+            battleLogCanvasGroup.alpha = 0f;
+        }
     }
 
     void InitializeBattle()
@@ -597,50 +613,52 @@ public class GlobalBattleHandler : MonoBehaviour
         Debug.Log($"Queue Sorted! Next up: {battleQueue.Peek().unitName}");
     }
 
-    // DEBUG: Add GUI buttons for testing
-    // These don't work? Remove them!
-    /*
-    void OnGUI()
+    public void ShowBattleLog(string message)
     {
-        GUILayout.BeginArea(new Rect(10, 10, 300, 250));
+        if (battleLogText == null || battleLogCanvasGroup == null) return;
 
-        if (GUILayout.Button("TEST: Deal 999 Damage to Enemy", GUILayout.Height(30)))
+        // If a message is already playing, stop it so they don't overlap and glitch
+        if (activeTextCoroutine != null)
         {
-            if (currEnemy != null && currEnemy.enemy != null)
-            {
-                Debug.Log("TEST: Forcing enemy death (VICTORY)");
-                currEnemy.enemy.currHP = 0;
-                currEnemy.currentState = State.DEAD;
-                currEnemy.Die();
-                CheckBattleEndImmediate();
-            }
+            StopCoroutine(activeTextCoroutine);
         }
 
-        if (GUILayout.Button("TEST: Deal 999 Damage to Ally", GUILayout.Height(30)))
+        // Start the new fade animation
+        activeTextCoroutine = StartCoroutine(AnimateBattleLog(message));
+    }
+
+    private IEnumerator AnimateBattleLog(string message)
+    {
+        // 1. Set the text and instantly make it fully visible at the starting position
+        battleLogText.text = message;
+        battleLogCanvasGroup.alpha = 1f;
+        battleLogText.rectTransform.anchoredPosition = originalLogPosition;
+
+        // 2. Wait for 0.5 seconds so the player has time to read it before it starts fading
+        yield return new WaitForSeconds(0.5f);
+
+        float elapsedTime = 0f;
+        Vector3 startPos = originalLogPosition;
+        Vector3 endPos = originalLogPosition + new Vector3(0, textFloatDistance, 0);
+
+        // 3. Gradually move it up and fade it out over 'textFadeDuration' seconds
+        while (elapsedTime < textFadeDuration)
         {
-            if (currAlly != null && currAlly.ally != null)
-            {
-                Debug.Log("TEST: Forcing ally death (DEFEAT -> Death Scene)");
-                currAlly.ally.currHP = 0;
-                currAlly.currentState = State.DEAD;
-                currAlly.Die();
-                CheckBattleEndImmediate();
-            }
+            elapsedTime += Time.deltaTime;
+            float completionPercentage = elapsedTime / textFadeDuration;
+
+            // Smoothly move from startPos to endPos
+            battleLogText.rectTransform.anchoredPosition = Vector3.Lerp(startPos, endPos, completionPercentage);
+
+            // Smoothly fade from 1 (solid) to 0 (invisible)
+            battleLogCanvasGroup.alpha = Mathf.Lerp(1f, 0f, completionPercentage);
+
+            // Wait until the next frame before looping again
+            yield return null;
         }
 
-        if (GUILayout.Button("Debug Battle Status", GUILayout.Height(30)))
-        {
-            Debug.Log("=== DEBUG BATTLE STATUS ===");
-            Debug.Log($"Battle Active: {isBattleActive}");
-            Debug.Log($"Current Unit: {(currentUnit != null ? currentUnit.unitName : "None")}");
-            Debug.Log($"Queue Count: {battleQueue.Count}");
-            Debug.Log($"Active Units: {activeUnits.Count}");
-            Debug.Log($"Ally HP: {currAlly?.ally?.currHP}");
-            Debug.Log($"Enemy HP: {currEnemy?.enemy?.currHP}");
-            Debug.Log($"Death Scene: {deathSceneName}");
-            Debug.Log($"Victory Scene: {victorySceneName}");
-        }
+        // 4. Make sure it is completely invisible at the end
+        battleLogCanvasGroup.alpha = 0f;
+    }
 
-        GUILayout.EndArea();
-    }*/
 }
