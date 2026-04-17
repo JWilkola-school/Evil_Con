@@ -16,11 +16,15 @@ public class SecurityGuardSetup : BaseAllySetup
         this.chargeTimeLeft = -1;
         this.canSpecial = false;
         this.characterPrefab = Resources.Load<GameObject>("Prefabs/Security Guard (Battle)");
+        this.attackNames = new string[] { "Beat", "Leg Workout", "WIP", "WIP" };
     }
 
     public void doubleSpeed()
     {
-        this.currSpeed = this.currSpeed * 2;
+        this.currSpeed = this.baseSpeed * 2;
+        ActiveBuff newBuff = new ActiveBuff(StatType.Speed, 3);
+        this.activeBuffs.Add(newBuff);
+        Debug.Log($"{allyName} doubled their speed for 3 turns!");
     }
 
     public override float attack1() {

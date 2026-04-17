@@ -64,6 +64,12 @@ public class AllyStateMachine : GenBattleObjects
                 if (printOnce)
                 {
                     Debug.Log(unitName + ": Your turn! Choose an action!");
+                    // Tick all active buffs at the exact start of new turn
+                    if (ally != null)
+                    {
+                        ally.TickBuffs();
+                    }
+
                     printOnce = false;
                 }
 
@@ -134,6 +140,8 @@ public class AllyStateMachine : GenBattleObjects
             attackMenu = true;
             if (globalBattleHandler != null)
             {
+                // Attack Menu text updates based on character.
+                globalBattleHandler.updateAttackMenuText(ally);
                 globalBattleHandler.toggleMenus(true, false);
             }
         }
@@ -187,15 +195,6 @@ public class AllyStateMachine : GenBattleObjects
             {
                 globalBattleHandler.damageEnemy(0, attackVal);
             }
-            /*if (ally is SecurityGuardSetup securityGuard)
-            {
-                Debug.Log($"{unitName} used Double Speed!");
-                securityGuard.doubleSpeed();
-            }
-            else 
-            {
-                basicAttack();
-            }*/
             currentState = State.ADDTOLIST;
             attackMenu = false;
             if (globalBattleHandler != null)
