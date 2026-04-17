@@ -43,8 +43,11 @@ public class GlobalBattleHandler : MonoBehaviour
     // Battle Log UI
     public TextMeshProUGUI battleLogText;
     public CanvasGroup battleLogCanvasGroup;
-    public float textFadeDuration = 1.5f;
-    public float textFloatDistance = 30f; // How high it floats up
+    public RectTransform battleLogPanelTransform;
+    public float fadeInDuration = 0.2f;
+    public float displayDuration = 1.0f;
+    public float fadeOutDuration = 0.5f;
+    public float floatDistance = 30f; 
 
     private Vector3 originalLogPosition;
     private Coroutine activeTextCoroutine;
@@ -79,7 +82,7 @@ public class GlobalBattleHandler : MonoBehaviour
         if (battleLogText != null)
         {
             // Remember exactly where we placed it in the Editor
-            originalLogPosition = battleLogText.rectTransform.anchoredPosition;
+            originalLogPosition = battleLogPanelTransform.anchoredPosition;
             // Hide it immediately
             battleLogCanvasGroup.alpha = 0f;
         }
@@ -629,35 +632,51 @@ public class GlobalBattleHandler : MonoBehaviour
 
     private IEnumerator AnimateBattleLog(string message)
     {
-        // 1. Set the text and instantly make it fully visible at the starting position
+        // Setup: Apply the text, but keep it invisible
         battleLogText.text = message;
-        battleLogCanvasGroup.alpha = 1f;
-        battleLogText.rectTransform.anchoredPosition = originalLogPosition;
+        battleLogCanvasGroup.alpha = 0f;
 
-        // 2. Wait for 0.5 seconds so the player has time to read it before it starts fading
-        yield return new WaitForSeconds(0.5f);
+        // Calculate our start (above) and end (above) positions
+        Vector3 highPosition = originalLogPosition + new Vector3(0, floatDistance, 0);
 
-        float elapsedTime = 0f;
-        Vector3 startPos = originalLogPosition;
-        Vector3 endPos = originalLogPosition + new Vector3(0, textFloatDistance, 0);
-
-        // 3. Gradually move it up and fade it out over 'textFadeDuration' seconds
-        while (elapsedTime < textFadeDuration)
+        // --- PHASE 1: FADE IN & MOVE DOWN ---
+        float elapsed = 0f;
+        while (elapsed < fadeInDuration)
         {
-            elapsedTime += Time.deltaTime;
-            float completionPercentage = elapsedTime / textFadeDuration;
+            elapsed += Time.deltaTime;
+            float percent = elapsed / fadeInDuration;
 
-            // Smoothly move from startPos to endPos
-            battleLogText.rectTransform.anchoredPosition = Vector3.Lerp(startPos, endPos, completionPercentage);
+            // Move from highPosition down to originalLogPosition
+            battleLogPanelTransform.anchoredPosition = Vector3.Lerp(highPosition, originalLogPosition, percent);
+            // Fade from 0 to 1
+            battleLogCanvasGroup.alpha = Mathf.Lerp(0f, 1f, percent);
 
-            // Smoothly fade from 1 (solid) to 0 (invisible)
-            battleLogCanvasGroup.alpha = Mathf.Lerp(1f, 0f, completionPercentage);
-
-            // Wait until the next frame before looping again
             yield return null;
         }
 
-        // 4. Make sure it is completely invisible at the end
+        // Lock it perfectly in place just in case
+        battleLogPanelTransform.anchoredPosition = originalLogPosition;
+        battleLogCanvasGroup.alpha = 1f;
+
+        // --- PHASE 2: HANG TIME ---
+        yield return new WaitForSeconds(displayDuration);
+
+        // --- PHASE 3: FADE OUT & MOVE UP ---
+        elapsed = 0f;
+        while (elapsed < fadeOutDuration)
+        {
+            elapsed += Time.deltaTime;
+            float percent = elapsed / fadeOutDuration;
+
+            // Move from originalLogPosition back up to highPosition
+            battleLogPanelTransform.anchoredPosition = Vector3.Lerp(originalLogPosition, highPosition, percent);
+            // Fade from 1 down to 0
+            battleLogCanvasGroup.alpha = Mathf.Lerp(1f, 0f, percent);
+
+            yield return null;
+        }
+
+        // Make sure it is completely invisible at the end
         battleLogCanvasGroup.alpha = 0f;
     }
 

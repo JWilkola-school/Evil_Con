@@ -789,6 +789,7 @@ GameObject:
   - component: {fileID: 843602324}
   - component: {fileID: 843602326}
   - component: {fileID: 843602325}
+  - component: {fileID: 843602327}
   m_Layer: 5
   m_Name: BattleLogPanel
   m_TagString: Untagged
@@ -854,6 +855,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843602323}
   m_CullTransparentMesh: 1
+--- !u!225 &843602327
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843602323}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1148312672
 GameObject:
   m_ObjectHideFlags: 0
@@ -1738,7 +1751,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2463,10 +2476,13 @@ MonoBehaviour:
   - {fileID: 2050225566}
   - {fileID: 2050225565}
   - {fileID: 2050225564}
-  battleLogText: {fileID: 0}
-  battleLogCanvasGroup: {fileID: 0}
-  textFadeDuration: 1.5
-  textFloatDistance: 30
+  battleLogText: {fileID: 1353954146}
+  battleLogCanvasGroup: {fileID: 843602327}
+  battleLogPanelTransform: {fileID: 843602324}
+  fadeInDuration: 0.2
+  displayDuration: 1
+  fadeOutDuration: 0.5
+  floatDistance: 30
   overworldBattleHandler: {fileID: 0}
 --- !u!4 &1989930907
 Transform:
