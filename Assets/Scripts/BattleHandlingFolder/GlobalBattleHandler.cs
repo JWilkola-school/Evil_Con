@@ -40,6 +40,18 @@ public class GlobalBattleHandler : MonoBehaviour
     public GameObject itemMenuPanel;
     public TextMeshProUGUI[] attackButtonTexts;
 
+    // Battle Log UI
+    public TextMeshProUGUI battleLogText;
+    public CanvasGroup battleLogCanvasGroup;
+    public RectTransform battleLogPanelTransform;
+    public float fadeInDuration = 0.2f;
+    public float displayDuration = 1.0f;
+    public float fadeOutDuration = 0.5f;
+    public float floatDistance = 30f; 
+
+    private Vector3 originalLogPosition;
+    private Coroutine activeTextCoroutine;
+
     [SerializeField] private OverworldBattleHandler overworldBattleHandler;
     private Transform[] enemyMarkers;
     private Transform[] allyMarkers;
@@ -67,6 +79,13 @@ public class GlobalBattleHandler : MonoBehaviour
         //Debug.Log($"Enemy Name: {enemyHandler?.enemy?.enemyName}");
         overworldBattleHandler = FindFirstObjectByType<OverworldBattleHandler>();
         InitializeBattle();
+        if (battleLogText != null)
+        {
+            // Remember exactly where we placed it in the Editor
+            originalLogPosition = battleLogPanelTransform.anchoredPosition;
+            // Hide it immediately
+            battleLogCanvasGroup.alpha = 0f;
+        }
     }
 
     void InitializeBattle()
@@ -597,50 +616,68 @@ public class GlobalBattleHandler : MonoBehaviour
         Debug.Log($"Queue Sorted! Next up: {battleQueue.Peek().unitName}");
     }
 
-    // DEBUG: Add GUI buttons for testing
-    // These don't work? Remove them!
-    /*
-    void OnGUI()
+    public void ShowBattleLog(string message)
     {
-        GUILayout.BeginArea(new Rect(10, 10, 300, 250));
+        if (battleLogText == null || battleLogCanvasGroup == null) return;
 
-        if (GUILayout.Button("TEST: Deal 999 Damage to Enemy", GUILayout.Height(30)))
+        // If a message is already playing, stop it so they don't overlap and glitch
+        if (activeTextCoroutine != null)
         {
-            if (currEnemy != null && currEnemy.enemy != null)
-            {
-                Debug.Log("TEST: Forcing enemy death (VICTORY)");
-                currEnemy.enemy.currHP = 0;
-                currEnemy.currentState = State.DEAD;
-                currEnemy.Die();
-                CheckBattleEndImmediate();
-            }
+            StopCoroutine(activeTextCoroutine);
         }
 
-        if (GUILayout.Button("TEST: Deal 999 Damage to Ally", GUILayout.Height(30)))
+        // Start the new fade animation
+        activeTextCoroutine = StartCoroutine(AnimateBattleLog(message));
+    }
+
+    private IEnumerator AnimateBattleLog(string message)
+    {
+        // Setup: Apply the text, but keep it invisible
+        battleLogText.text = message;
+        battleLogCanvasGroup.alpha = 0f;
+
+        // Calculate our start (above) and end (above) positions
+        Vector3 highPosition = originalLogPosition + new Vector3(0, floatDistance, 0);
+
+        // --- PHASE 1: FADE IN & MOVE DOWN ---
+        float elapsed = 0f;
+        while (elapsed < fadeInDuration)
         {
-            if (currAlly != null && currAlly.ally != null)
-            {
-                Debug.Log("TEST: Forcing ally death (DEFEAT -> Death Scene)");
-                currAlly.ally.currHP = 0;
-                currAlly.currentState = State.DEAD;
-                currAlly.Die();
-                CheckBattleEndImmediate();
-            }
+            elapsed += Time.deltaTime;
+            float percent = elapsed / fadeInDuration;
+
+            // Move from highPosition down to originalLogPosition
+            battleLogPanelTransform.anchoredPosition = Vector3.Lerp(highPosition, originalLogPosition, percent);
+            // Fade from 0 to 1
+            battleLogCanvasGroup.alpha = Mathf.Lerp(0f, 1f, percent);
+
+            yield return null;
         }
 
-        if (GUILayout.Button("Debug Battle Status", GUILayout.Height(30)))
+        // Lock it perfectly in place just in case
+        battleLogPanelTransform.anchoredPosition = originalLogPosition;
+        battleLogCanvasGroup.alpha = 1f;
+
+        // --- PHASE 2: HANG TIME ---
+        yield return new WaitForSeconds(displayDuration);
+
+        // --- PHASE 3: FADE OUT & MOVE UP ---
+        elapsed = 0f;
+        while (elapsed < fadeOutDuration)
         {
-            Debug.Log("=== DEBUG BATTLE STATUS ===");
-            Debug.Log($"Battle Active: {isBattleActive}");
-            Debug.Log($"Current Unit: {(currentUnit != null ? currentUnit.unitName : "None")}");
-            Debug.Log($"Queue Count: {battleQueue.Count}");
-            Debug.Log($"Active Units: {activeUnits.Count}");
-            Debug.Log($"Ally HP: {currAlly?.ally?.currHP}");
-            Debug.Log($"Enemy HP: {currEnemy?.enemy?.currHP}");
-            Debug.Log($"Death Scene: {deathSceneName}");
-            Debug.Log($"Victory Scene: {victorySceneName}");
+            elapsed += Time.deltaTime;
+            float percent = elapsed / fadeOutDuration;
+
+            // Move from originalLogPosition back up to highPosition
+            battleLogPanelTransform.anchoredPosition = Vector3.Lerp(originalLogPosition, highPosition, percent);
+            // Fade from 1 down to 0
+            battleLogCanvasGroup.alpha = Mathf.Lerp(1f, 0f, percent);
+
+            yield return null;
         }
 
-        GUILayout.EndArea();
-    }*/
+        // Make sure it is completely invisible at the end
+        battleLogCanvasGroup.alpha = 0f;
+    }
+
 }
