@@ -491,7 +491,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
       propertyPath: sceneName
-      value: Scene 1
+      value: Floor 1
       objectReference: {fileID: 0}
     - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
       propertyPath: playerCamera
