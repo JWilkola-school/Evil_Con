@@ -30337,7 +30337,7 @@ PrefabInstance:
     - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
       propertyPath: playerCamera
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1376312567}
     - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
       propertyPath: spawnPointID
       value: Scene a
@@ -30368,8 +30368,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
   sceneName: Floor 1
-  deemphasizedMat: {fileID: 0}
-  emphasizedMat: {fileID: 0}
+  deemphasizedMat: {fileID: 2100000, guid: 541913492fde21246944a26fb7bed1d9, type: 2}
+  emphasizedMat: {fileID: 2100000, guid: c60094247c2a760439c196f62f4d5ce4, type: 2}
 --- !u!1 &1786233528
 GameObject:
   m_ObjectHideFlags: 0
