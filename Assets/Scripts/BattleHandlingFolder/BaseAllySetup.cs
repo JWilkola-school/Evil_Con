@@ -52,6 +52,18 @@ public abstract class BaseAllySetup : BaseUnitSetup
 
     private void RemoveBuffAndResetStat(StatType stat)
     {
+        // checks to see if there is another of the same buff active
+        foreach (ActiveBuff buff in activeBuffs)
+        {
+            if (buff.targetStat == stat && buff.turnsLeft > 0)
+            {
+                Debug.Log($"{allyName} still has another {stat} buff active! Skipping reset.");
+                return;
+            }
+        }
+        
+        
+        
         switch (stat)
         {
             case StatType.Speed:
