@@ -16,7 +16,7 @@ public class SecurityGuardSetup : BaseAllySetup
         this.chargeTimeLeft = -1;
         this.canSpecial = false;
         this.characterPrefab = Resources.Load<GameObject>("Prefabs/Security Guard (Battle)");
-        this.attackNames = new string[] { "Beat", "Leg Workout", "WIP", "WIP" };
+        this.attackNames = new string[] { "Beat", "Leg Workout", "Tase (WIP)", "Pummel (WIP)" };
     }
 
     public void doubleSpeed()

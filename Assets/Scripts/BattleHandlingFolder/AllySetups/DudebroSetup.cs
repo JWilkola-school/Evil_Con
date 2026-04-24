@@ -16,7 +16,15 @@ public class DudebroSetup : BaseAllySetup
         this.chargeTimeLeft = -1;
         this.canSpecial = true;
         this.characterPrefab = Resources.Load<GameObject>("Prefabs/DudeBro ManStrong (Battle)");
-        this.attackNames = new string[] { "Cleave", "WIP", "WIP", "WIP" };
+        this.attackNames = new string[] { "Cleave", "Battle Cry", "Overhead Swing (WIP)", "SMASH!!! (WIP)" };
+    }
+
+    public void doubleDamage()
+    {
+        this.currDamage = this.baseDamage * 2;
+        ActiveBuff newBuff = new ActiveBuff(StatType.Damage, 3);
+        this.activeBuffs.Add(newBuff);
+        Debug.Log($"{allyName} doubled their damage for 3 turns!");
     }
 
     public override float attack1()
@@ -25,7 +33,9 @@ public class DudebroSetup : BaseAllySetup
     }
     public override float attack2()
     {
-        return basicAttack();
+        doubleDamage();
+        return -1.5f;
+
     }
     public override float attack3()
     {
