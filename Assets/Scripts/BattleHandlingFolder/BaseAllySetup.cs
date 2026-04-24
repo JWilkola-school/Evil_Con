@@ -14,7 +14,9 @@ public abstract class BaseAllySetup : BaseUnitSetup
     public List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
 
     // For charge attacks
-    protected int chargeTimeLeft;
+    public int chargeTimeLeft = 0;
+    public float pendingChargeDamage = 0; // holds damage for a turn
+    public string pendingChargeName = ""; // holds name of attack for a turn
 
     // For attacks, return a float of the amount of damage an attack does.
     // What about status moves? Healing moves? Charging Moves?
