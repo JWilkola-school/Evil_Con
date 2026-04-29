@@ -1,9 +1,16 @@
+using NUnit.Framework.Internal.Commands;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class AllyStateMachine : GenBattleObjects
 {
     public BaseAllySetup ally;
+
+    // Targeting System (Select which enemy to attack) Variables to hold attacks in place, when selecting target to attack. 
+    public bool targetMenu = false;
+    private float pendingAttackValue = 0f;
+    private string pendingAttackName = "";
 
     public override float unitSpeed { get { return ally != null ? ally.currSpeed : 0; } }
     public override string unitName { get { return ally != null ? ally.allyName : "Unknown"; } }
@@ -61,6 +68,39 @@ public class AllyStateMachine : GenBattleObjects
                 break;
 
             case State.ACTION:
+                // charge turn = skip turn
+                if (ally != null && ally.chargeTimeLeft > 0)
+                {
+                    if (printOnce)
+                    {
+                        ally.TickBuffs();
+                        ally.chargeTimeLeft--;
+                        if (ally.chargeTimeLeft <= 0) // unleash charge attack
+                        {
+                            if (globalBattleHandler != null)
+                            {
+                                globalBattleHandler.ShowBattleLog($"{unitName} unleashed {ally.pendingChargeName}!");
+                                int savedTargetIndex = ally.pendingChargeTarget;
+                                if (savedTargetIndex < globalBattleHandler.livingEnemies.Count)
+                                {
+                                    EnemyStateMachine targetEnemy = globalBattleHandler.livingEnemies[savedTargetIndex];
+                                    globalBattleHandler.damageEnemy(targetEnemy, ally.pendingChargeDamage, savedTargetIndex);
+                                }
+                                else
+                                {
+                                    Debug.Log("Charge target enemy is dead! Attack is wasted.");
+                                    globalBattleHandler.ShowBattleLog("But the target was already gone...");
+                                }
+                                
+                            }
+                        }
+                        currentState = State.ADDTOLIST;
+                        printOnce = false;
+                    }
+                    break;
+                }
+
+                // Regular turn
                 if (printOnce)
                 {
                     Debug.Log(unitName + ": Your turn! Choose an action!");
@@ -83,13 +123,17 @@ public class AllyStateMachine : GenBattleObjects
                 }
                 else
                 {
-                    if (!attackMenu)
+                    if (!attackMenu && !targetMenu)
                     {
                         TakeAction();
                     }
-                    else
+                    else if (attackMenu && !targetMenu)
                     {
                         TakeAction2();
+                    }
+                    else if (targetMenu)
+                    {
+                        TakeActionTarget();
                     }
                 }
                 break;
@@ -174,13 +218,21 @@ public class AllyStateMachine : GenBattleObjects
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            string attackName = ally.attackNames[0];
+            /*string attackName = ally.attackNames[0];
             if (globalBattleHandler != null)
             {
                 globalBattleHandler.ShowBattleLog($"{unitName} used {attackName}!");
-            }
+            }*/
             Debug.Log("Ally chose to ATTACK 1!");
-            float attackVal = ally.attack1();
+
+            pendingAttackValue = ally.attack1();
+            pendingAttackName = ally.attackNames[0];
+
+            attackMenu = false;
+            targetMenu = true;
+
+            Debug.Log("Select a target! (Press 1 or 2)");
+            /*float attackVal = ally.attack1();
             if (attackVal > 0)
             {
                 globalBattleHandler.damageEnemy(0, attackVal);
@@ -190,11 +242,20 @@ public class AllyStateMachine : GenBattleObjects
             if (globalBattleHandler != null)
             {
                 globalBattleHandler.toggleMenus(false, false);
-            }
+            }*/
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            string attackName = ally.attackNames[1];
+            Debug.Log("Ally chose to ATTACK 2!");
+
+            pendingAttackValue = ally.attack2();
+            pendingAttackName = ally.attackNames[1];
+
+            attackMenu = false;
+            targetMenu = true;
+
+            Debug.Log("Select a target! (Press 1 or 2)");
+            /*string attackName = ally.attackNames[1];
             if (globalBattleHandler != null)
             {
                 globalBattleHandler.ShowBattleLog($"{unitName} used {attackName}!");
@@ -210,11 +271,20 @@ public class AllyStateMachine : GenBattleObjects
             if (globalBattleHandler != null)
             {
                 globalBattleHandler.toggleMenus(false, false);
-            }
+            }*/
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            string attackName = ally.attackNames[2];
+            Debug.Log("Ally chose to ATTACK 3!");
+
+            pendingAttackValue = ally.attack3();
+            pendingAttackName = ally.attackNames[2];
+
+            attackMenu = false;
+            targetMenu = true;
+
+            Debug.Log("Select a target! (Press 1 or 2)");
+            /*string attackName = ally.attackNames[2];
             if (globalBattleHandler != null)
             {
                 globalBattleHandler.ShowBattleLog($"{unitName} used {attackName}!");
@@ -225,16 +295,30 @@ public class AllyStateMachine : GenBattleObjects
             {
                 globalBattleHandler.damageEnemy(0, attackVal);
             }
+            else if (attackVal == -3f) // charge attack from Dudebro
+            {
+                globalBattleHandler.ShowBattleLog($"{unitName} began charging {attackName}!");
+                ally.chargeTimeLeft = 1;
+            }
             currentState = State.ADDTOLIST;
             attackMenu = false;
             if (globalBattleHandler != null)
             {
                 globalBattleHandler.toggleMenus(false, false);
-            }
+            }*/
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            string attackName = ally.attackNames[3];
+            Debug.Log("Ally chose to ATTACK 4!");
+
+            pendingAttackValue = ally.attack4();
+            pendingAttackName = ally.attackNames[3];
+
+            attackMenu = false;
+            targetMenu = true;
+
+            Debug.Log("Select a target! (Press 1 or 2)");
+            /*string attackName = ally.attackNames[3];
             if (globalBattleHandler != null)
             {
                 globalBattleHandler.ShowBattleLog($"{unitName} used {attackName}!");
@@ -250,7 +334,7 @@ public class AllyStateMachine : GenBattleObjects
             if (globalBattleHandler != null)
             {
                 globalBattleHandler.toggleMenus(false, false);
-            }
+            }*/
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
@@ -263,13 +347,69 @@ public class AllyStateMachine : GenBattleObjects
         }
     }
 
+    // Method to execute attack on targeted enemy
+    public void TakeActionTarget()
+    {
+        int targetIndex = -1;
+
+        // Map keyboard input to enemy list index
+        if (Input.GetKeyDown(KeyCode.Alpha1)) targetIndex = 0;
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) targetIndex = 1;
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) targetIndex = 2;
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) targetIndex = 3;
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            targetMenu = false;
+            attackMenu = true;
+            Debug.Log("Cancelled targeting. Choose an attack!");
+            return;
+        }
+
+        // Valid target selected, execute attack
+        if (targetIndex != -1)
+        {
+            // Check to make sure enemy exists in living enemies list
+            if (targetIndex < globalBattleHandler.livingEnemies.Count)
+            {
+                EnemyStateMachine selectedEnemy = globalBattleHandler.livingEnemies[targetIndex];
+
+                // Normal damaging attack
+                if (pendingAttackValue > 0)
+                {
+                    globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAttackName}!");
+                    globalBattleHandler.damageEnemy(selectedEnemy, pendingAttackValue, targetIndex);
+                }
+
+                // Charge Attack
+                else if (pendingAttackValue == -3f)
+                {
+                    globalBattleHandler.ShowBattleLog($"{unitName} began charging {pendingAttackName}!");
+                    ally.chargeTimeLeft = 1;
+                    ally.pendingChargeTarget = targetIndex;
+                }
+
+                currentState = State.ADDTOLIST;
+                targetMenu = false;
+                globalBattleHandler.toggleMenus(false, false);
+            }
+            else
+            {
+                Debug.Log("No enemy in that slot! Pick a different target.");
+            }
+        }
+    }
+
     public override void basicAttack()
     {
         Debug.Log("Ally attacking enemy!");
 
-        if (globalBattleHandler != null)
+        if (globalBattleHandler != null && globalBattleHandler.livingEnemies.Count > 0)
         {
-            globalBattleHandler.damageEnemy(0, ally.currDamage);
+            EnemyStateMachine targetEnemy = globalBattleHandler.livingEnemies[0];
+            int targetIndex = 0;
+
+            // Pass the new required parameters: Who to hit, the damage, and the UI index
+            globalBattleHandler.damageEnemy(targetEnemy, ally.currDamage, targetIndex);
         }
     }
 

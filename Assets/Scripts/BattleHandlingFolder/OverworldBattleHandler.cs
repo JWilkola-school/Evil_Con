@@ -12,15 +12,15 @@ public class OverworldBattleHandler : MonoBehaviour
 
     void Awake()
     {
-        // 2. The Singleton Pattern: Make sure only ONE of these exists, and make it indestructible
+        // Make sure only 1 of these exists, and make it indestructible
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // THIS IS THE MAGIC LINE!
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            // If we walk back into the Overworld later, destroy the duplicate
+            // If overworld later, destroy the duplicate
             Destroy(gameObject);
             return;
         }
@@ -28,8 +28,6 @@ public class OverworldBattleHandler : MonoBehaviour
 
     void Start()
     {
-        // 3. Fix the wipeout bug: ONLY create new lists if they are completely null.
-        // This preserves the "Furling" you set up in the Unity Inspector!
         if (allies == null) allies = new List<BaseAllySetup>();
         if (enemies == null) enemies = new List<BaseEnemySetup>();
 

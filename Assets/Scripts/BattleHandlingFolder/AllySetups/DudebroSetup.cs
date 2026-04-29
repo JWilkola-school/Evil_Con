@@ -16,7 +16,7 @@ public class DudebroSetup : BaseAllySetup
         this.chargeTimeLeft = -1;
         this.canSpecial = true;
         this.characterPrefab = Resources.Load<GameObject>("Prefabs/DudeBro ManStrong (Battle)");
-        this.attackNames = new string[] { "Cleave", "Battle Cry", "SMASH!!! (WIP)", "Overhead Swing" };
+        this.attackNames = new string[] { "Cleave", "Battle Cry", "Overhead Swing", "SMASH!!! (WIP)" };
     }
 
     public void doubleDamage()
@@ -42,7 +42,6 @@ public class DudebroSetup : BaseAllySetup
     {
         doubleDamage();
         return -1.5f;
-
     }
     public override float attack3()
     {

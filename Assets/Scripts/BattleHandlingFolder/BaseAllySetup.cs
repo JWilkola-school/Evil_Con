@@ -17,6 +17,7 @@ public abstract class BaseAllySetup : BaseUnitSetup
     public int chargeTimeLeft = 0;
     public float pendingChargeDamage = 0; // holds damage for a turn
     public string pendingChargeName = ""; // holds name of attack for a turn
+    public int pendingChargeTarget = 0; // Holds index position of enemy in the list that is targeted.
 
     // For attacks, return a float of the amount of damage an attack does.
     // What about status moves? Healing moves? Charging Moves?
