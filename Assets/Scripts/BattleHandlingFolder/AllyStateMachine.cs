@@ -194,6 +194,7 @@ public class AllyStateMachine : GenBattleObjects
             if (!ally.isBlocking)
             {
                 Debug.Log("Ally chose to BLOCK!");
+                globalBattleHandler.ShowBattleLog($"{unitName} is blocking!");
                 allyBlock();
                 currentState = State.ADDTOLIST;
             }
