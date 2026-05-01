@@ -1,81 +1,44 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager Instance { get; private set; }
 
-    // Dictionary to track enemies by their unique ID
-    private Dictionary<string, GameObject> enemyRegistry = new Dictionary<string, GameObject>();
+    // THE GRAVEYARD: We only store Strings now! Strings survive scene changes perfectly.
+    public List<string> defeatedEnemies = new List<string>();
 
     void Awake()
     {
-        // Singleton pattern
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Persist across scenes
+        DontDestroyOnLoad(gameObject);
     }
 
-    void Start()
-    {
-        Debug.Log("EnemyManager initialized");
-    }
-
-    // Register an enemy when Scene 1 loads
-    public void RegisterEnemy(GameObject enemy)
-    {
-        string enemyID = GenerateEnemyID(enemy);
-
-        if (!enemyRegistry.ContainsKey(enemyID))
-        {
-            enemyRegistry[enemyID] = enemy;
-            Debug.Log($"Registered enemy: {enemy.name} with ID: {enemyID}");
-        }
-    }
-
-    // Remove an enemy when defeated in battle
+    // Called when an enemy dies in Battle!
     public void RemoveDefeatedEnemy(string enemySceneID)
     {
-        if (enemyRegistry.ContainsKey(enemySceneID))
+        if (!defeatedEnemies.Contains(enemySceneID))
         {
-            GameObject enemy = enemyRegistry[enemySceneID];
-            if (enemy != null)
-            {
-                Destroy(enemy); // Permanently remove the enemy
-                Debug.Log($"Permanently removed enemy: {enemy.name}");
-            }
-            enemyRegistry.Remove(enemySceneID);
-        }
-        else
-        {
-            Debug.LogWarning($"Enemy with ID {enemySceneID} not found in registry");
+            defeatedEnemies.Add(enemySceneID);
+            Debug.Log($"Enemy {enemySceneID} added to the Graveyard!");
         }
     }
 
-    // Generate a unique ID for an enemy
-    private string GenerateEnemyID(GameObject enemy)
+    // Your brilliant auto-generator!
+    public string GenerateEnemyID(GameObject enemy)
     {
-        // Use scene name + enemy name + position for uniqueness
-        return $"{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}_{enemy.name}_{enemy.transform.position.x:F2}_{enemy.transform.position.z:F2}";
+        return $"{SceneManager.GetActiveScene().name}_{enemy.name}_{enemy.transform.position.x:F2}_{enemy.transform.position.z:F2}";
     }
 
-    // Clean up on scene change
-    public void ClearRegistry()
+    // Quick check for the Overworld enemies to use
+    public bool IsEnemyDefeated(string enemyID)
     {
-        enemyRegistry.Clear();
-    }
-
-    // Debug: List all registered enemies
-    public void ListAllEnemies()
-    {
-        Debug.Log("=== Registered Enemies ===");
-        foreach (var entry in enemyRegistry)
-        {
-            Debug.Log($"ID: {entry.Key}, Object: {entry.Value?.name ?? "NULL"}");
-        }
+        return defeatedEnemies.Contains(enemyID);
     }
 }

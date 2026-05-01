@@ -26,6 +26,6 @@ public class DummyEncounter : MonoBehaviour
 
         // Call the static transition method, passing the Dummy's own GameObject.
         // The BattleStateController will use the Dummy's name to set up the fight.
-        BattleTransitioner.InitiateForcedCombat(this.gameObject);
+        //BattleTransitioner.InitiateForcedCombat(this.gameObject);
     }
 }

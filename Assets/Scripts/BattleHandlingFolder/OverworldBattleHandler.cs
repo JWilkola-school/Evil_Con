@@ -4,13 +4,38 @@ using System.Collections.Generic;
 
 public class OverworldBattleHandler : MonoBehaviour
 {
+    // 1. Creates a universal "Instance" so the Battle Scene can find it instantly
+    public static OverworldBattleHandler instance;
+
     public List<BaseAllySetup> allies;
     public List<BaseEnemySetup> enemies;
+
+    void Awake()
+    {
+        // Make sure only 1 of these exists, and make it indestructible
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            // If overworld later, destroy the duplicate
+            Destroy(gameObject);
+            return;
+        }
+    }
+
     void Start()
     {
-        allies = new List<BaseAllySetup>();
-        enemies = new List<BaseEnemySetup>();
-        loadDudebro();
+        if (allies == null) allies = new List<BaseAllySetup>();
+        if (enemies == null) enemies = new List<BaseEnemySetup>();
+
+        // Only load Dudebro if the list is empty (prevents duplicates)
+        if (allies.Count == 0)
+        {
+            loadDudebro();
+        }
     }
 
     public void loadDudebro()
@@ -38,10 +63,8 @@ public class OverworldBattleHandler : MonoBehaviour
         return enemies.ToArray();
     }
 
-    public void clear()
+    public void clearEnemies()
     {
-        allies.Clear();
         enemies.Clear();
-        loadDudebro();
     }
 }
