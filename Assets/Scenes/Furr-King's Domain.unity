@@ -15222,6 +15222,112 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1258047503
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2260909435601596309, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: spawnPointID
+      value: Scene b
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056818762457612630, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.48333335
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 84.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 236.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868704223452212001, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_Name
+      value: Door (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6769473222105917464, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_text
+      value: 'Press E To Enter:
+
+        Bazaar'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: sceneName
+      value: Floor 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 238287089}
+    - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: spawnPointID
+      value: Scene a
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4868704223452212001, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1258047505}
+  m_SourcePrefab: {fileID: 100100000, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+--- !u!1 &1258047504 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4868704223452212001, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+  m_PrefabInstance: {fileID: 1258047503}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1258047505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258047504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e880506fa8794154c9a7c1cb4ca8c7cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Door
+  sceneName: Scene 1
+  deemphasizedMat: {fileID: 0}
+  emphasizedMat: {fileID: 0}
 --- !u!1001 &1259056851
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25407,6 +25513,7 @@ SceneRoots:
   - {fileID: 964222983}
   - {fileID: 1542841641}
   - {fileID: 304131752}
+  - {fileID: 1258047503}
   - {fileID: 1356032562}
   - {fileID: 1028202603}
   - {fileID: 664621299}

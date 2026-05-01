@@ -19377,6 +19377,112 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1168836986}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1170545480
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2260909435601596309, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: spawnPointID
+      value: Scene b
+      objectReference: {fileID: 0}
+    - target: {fileID: 3056818762457612630, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.48333335
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -250.2032
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -384.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4241661056201357023, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868704223452212001, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_Name
+      value: Door (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6769473222105917464, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: m_text
+      value: 'Press E To Enter:
+
+        Bazaar'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: sceneName
+      value: Floor 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: playerCamera
+      value: 
+      objectReference: {fileID: 1376312567}
+    - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      propertyPath: spawnPointID
+      value: Scene a
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4868704223452212001, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1170545482}
+  m_SourcePrefab: {fileID: 100100000, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+--- !u!1 &1170545481 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4868704223452212001, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
+  m_PrefabInstance: {fileID: 1170545480}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1170545482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170545481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e880506fa8794154c9a7c1cb4ca8c7cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Door
+  sceneName: Floor 1
+  deemphasizedMat: {fileID: 2100000, guid: 541913492fde21246944a26fb7bed1d9, type: 2}
+  emphasizedMat: {fileID: 2100000, guid: c60094247c2a760439c196f62f4d5ce4, type: 2}
 --- !u!1 &1178995010
 GameObject:
   m_ObjectHideFlags: 0
@@ -37290,6 +37396,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 1382623870}
   - {fileID: 1785089559}
+  - {fileID: 1170545480}
   - {fileID: 268545608}
   - {fileID: 655952551}
   - {fileID: 713269954}
