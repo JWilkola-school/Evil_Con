@@ -30698,7 +30698,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
       propertyPath: m_Name
-      value: Furling
+      value: Furling (Old)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
       propertyPath: m_TagString
@@ -30744,7 +30748,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -35829,6 +35834,76 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 125ec2c911b19754fb74c28f68fa1ca6, type: 3}
   m_PrefabInstance: {fileID: 1799681449}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1808431523
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2765425972937418555, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: enemiesInThisBattle.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4064793081312507136, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: m_Height
+      value: 4.601948
+      objectReference: {fileID: 0}
+    - target: {fileID: 4064793081312507136, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: m_Center.y
+      value: 1.8009739
+      objectReference: {fileID: 0}
+    - target: {fileID: 6973805836609817147, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: m_Name
+      value: Furling (new Test)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749639261063532673, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -46.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749639261063532673, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749639261063532673, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 30.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749639261063532673, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70900196
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749639261063532673, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749639261063532673, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.70520663
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749639261063532673, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749639261063532673, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749639261063532673, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 89.692
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749639261063532673, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4225523903442225911, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
 --- !u!1001 &1821110078
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42771,3 +42846,4 @@ SceneRoots:
   - {fileID: 2283832081757237076}
   - {fileID: 1512736949}
   - {fileID: 1317440696}
+  - {fileID: 1808431523}

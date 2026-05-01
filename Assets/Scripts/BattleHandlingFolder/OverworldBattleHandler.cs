@@ -63,10 +63,8 @@ public class OverworldBattleHandler : MonoBehaviour
         return enemies.ToArray();
     }
 
-    public void clear()
+    public void clearEnemies()
     {
-        allies.Clear();
         enemies.Clear();
-        loadDudebro();
     }
 }

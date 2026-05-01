@@ -539,7 +539,7 @@ public class GlobalBattleHandler : MonoBehaviour
 
         Debug.Log("Starting EndBattleCoroutine...");
         isBattleActive = false;
-        overworldBattleHandler.clear();
+        overworldBattleHandler.clearEnemies();
 
         string result = playerLost ? "DEFEAT" : "VICTORY";
         Debug.Log("Battle Over: " + result);

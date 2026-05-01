@@ -1,7 +1,20 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class FurlingEncounter : MonoBehaviour
+public enum EnemyType
 {
+    Furling,
+    Gothekins,
+    FurKing,
+    Edgelord
+}
+
+public class OverworldEnemyAI : MonoBehaviour
+{
+    [Header("Encounter Setup")]
+    [Tooltip("Add enemies here to build the encounter!")]
+    public EnemyType[] enemiesInThisBattle;
+
     [Header("Settings")]
     public float chaseRange = 8f;
     public float battleRange = 1.5f;
@@ -28,6 +41,12 @@ public class FurlingEncounter : MonoBehaviour
 
     void Start()
     {
+        if (SceneManager.GetActiveScene().name == "BattleScene")
+        {
+            this.enabled = false;
+            return;
+        }
+        
         if (childAnimator == null) childAnimator = GetComponentInChildren<Animator>();
         currentTarget = pointA;
 
@@ -44,7 +63,6 @@ public class FurlingEncounter : MonoBehaviour
     {
         if (hasTriggeredBattle) return;
 
-        // Ensure animation is ON while active
         SetAnimationState(true);
 
         float distanceToPlayer = (player != null) ? Vector3.Distance(transform.position, player.position) : float.MaxValue;
@@ -61,7 +79,6 @@ public class FurlingEncounter : MonoBehaviour
 
     private void SetAnimationState(bool state)
     {
-        // Only trigger the Animator if the state is actually changing
         if (isChasing != state)
         {
             isChasing = state;
@@ -111,11 +128,32 @@ public class FurlingEncounter : MonoBehaviour
         SetAnimationState(false);
 
         if (playerController != null) playerController.enabled = false;
+
         if (overworldBattleHandler != null)
         {
-            overworldBattleHandler.addEnemy(new FurlingSetup());
-            overworldBattleHandler.addEnemy(new FurlingSetup());
+            overworldBattleHandler.clearEnemies(); // Clear any old data
+
+            // --- THE UPGRADE: Dynamically load the enemies! ---
+            foreach (EnemyType type in enemiesInThisBattle)
+            {
+                overworldBattleHandler.addEnemy(CreateEnemySetup(type));
+            }
         }
+
+        // Pass both the enemy and the player!
         BattleTransitioner.InitiateForcedCombat(this.gameObject, playerController.gameObject);
+    }
+
+    // The Factory: Converts your dropdown choices into actual classes
+    private BaseEnemySetup CreateEnemySetup(EnemyType type)
+    {
+        switch (type)
+        {
+            case EnemyType.Furling: return new FurlingSetup();
+            case EnemyType.Gothekins: return new GothekinsSetup();
+            case EnemyType.FurKing: return new FurKingSetup();
+            case EnemyType.Edgelord: return new EdgelordSetup();
+            default: return new FurlingSetup();
+        }
     }
 }

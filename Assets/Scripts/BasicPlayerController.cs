@@ -64,14 +64,4 @@ public class BasicPlayerController : MonoBehaviour
             anim.SetFloat(speedHash, animValue);
         }
     }
-
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        // Make sure your enemy prefab has the tag "Enemy" assigned to it in the Inspector!
-        if (hit.gameObject.CompareTag("Enemy"))
-        {
-            // Pass the enemy we hit, and "this.gameObject" (the player)
-            BattleTransitioner.InitiateForcedCombat(hit.gameObject, this.gameObject);
-        }
-    }
 }

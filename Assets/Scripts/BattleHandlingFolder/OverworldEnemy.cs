@@ -19,15 +19,4 @@ public class OverworldEnemy : MonoBehaviour
             }
         }
     }
-
-    // When the player touches me to start a battle:
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            // We just hand the enemy (gameObject) and the player (other.gameObject) 
-            // directly to the Stage Director and let it handle everything!
-            BattleTransitioner.InitiateForcedCombat(gameObject, other.gameObject);
-        }
-    }
 }
