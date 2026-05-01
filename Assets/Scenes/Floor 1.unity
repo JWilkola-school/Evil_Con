@@ -30688,72 +30688,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4827017814364354012, guid: 876dbd72b647933409ff93c236919798, type: 3}
   m_PrefabInstance: {fileID: 1512298248}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1512736949
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-      propertyPath: m_Name
-      value: Furling (Old)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 7749639261063532673, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -46.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 7749639261063532673, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7749639261063532673, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 30.99
-      objectReference: {fileID: 0}
-    - target: {fileID: 7749639261063532673, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.71263427
-      objectReference: {fileID: 0}
-    - target: {fileID: 7749639261063532673, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7749639261063532673, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.70153576
-      objectReference: {fileID: 0}
-    - target: {fileID: 7749639261063532673, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7749639261063532673, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7749639261063532673, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 89.101
-      objectReference: {fileID: 0}
-    - target: {fileID: 7749639261063532673, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
 --- !u!1001 &1513134185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35856,7 +35790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6973805836609817147, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
       propertyPath: m_Name
-      value: Furling (new Test)
+      value: Furling
       objectReference: {fileID: 0}
     - target: {fileID: 7749639261063532673, guid: 52d08c7303c5c814c8fcc43e90dc3504, type: 3}
       propertyPath: m_LocalPosition.x
@@ -42844,6 +42778,5 @@ SceneRoots:
   - {fileID: 8759101080276323526}
   - {fileID: 5429699129343707731}
   - {fileID: 2283832081757237076}
-  - {fileID: 1512736949}
   - {fileID: 1317440696}
   - {fileID: 1808431523}

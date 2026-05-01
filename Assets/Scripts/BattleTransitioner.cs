@@ -31,8 +31,14 @@ public static class BattleTransitioner
         // 2. Store enemy info
         EncounteredEnemyName = enemyGameObject.name;
 
+        OverworldEnemy enemyMemory = enemyGameObject.GetComponent<OverworldEnemy>();
+
+        if (enemyMemory != null)
+        {
+            EnemySceneID = enemyMemory.myUniqueID; // Use the memorized ID!
+        }
         // 3. Sync with EnemyManager to ensure the ID is exactly the same!
-        if (EnemyManager.Instance != null)
+        else if (EnemyManager.Instance != null)
         {
             EnemySceneID = EnemyManager.Instance.GenerateEnemyID(enemyGameObject);
         }
@@ -62,8 +68,5 @@ public static class BattleTransitioner
         EncounteredEnemyName = null;
         EnemySceneID = null;
         EnemyPosition = Vector3.zero;
-
-        // NEW: Reset the return flag so we don't accidentally teleport later!
-        returningFromBattle = false;
     }
 }

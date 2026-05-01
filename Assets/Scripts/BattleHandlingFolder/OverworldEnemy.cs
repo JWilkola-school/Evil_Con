@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class OverworldEnemy : MonoBehaviour
 {
-    private string myUniqueID;
+    public string myUniqueID { get; private set; }
 
     void Start()
     {
