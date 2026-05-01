@@ -19,12 +19,10 @@ public class DudebroSetup : BaseAllySetup
         this.attackNames = new string[] { "Cleave", "Battle Cry", "Overhead Swing", "SMASH!!! (WIP)" };
     }
 
-    public void doubleDamage()
+    public void doubleDamage() // aka battle cry
     {
-        this.currDamage = this.baseDamage * 2;
-        ActiveBuff newBuff = new ActiveBuff(StatType.Damage, 3);
-        this.activeBuffs.Add(newBuff);
-        Debug.Log($"{allyName} doubled their damage for 3 turns!");
+        this.ApplyEffect(EffectType.DamageUp, 3);
+        Debug.Log($"{allyName} let out a battle cry!");
     }
 
     public void chargeAttack()
@@ -34,24 +32,29 @@ public class DudebroSetup : BaseAllySetup
         Debug.Log($"{allyName} is raising his axe in the air!");
     }
 
+    // Cleave: basic attack
     public override float attack1()
     {
         return basicAttack();
     }
+
+    // Battle Cry: buffs damage
     public override float attack2()
     {
         doubleDamage();
         return -1.5f;
     }
+
+    // Overhead Swing: high single target. Inflicts Crush
     public override float attack3()
     {
         chargeAttack();
         return -3f;
     }
 
+    // SMASH!!!: AoE attack. Inflicts Crush
     public override float attack4()
     {
-        
         return basicAttack();
     }
 }

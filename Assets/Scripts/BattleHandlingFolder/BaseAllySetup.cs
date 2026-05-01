@@ -9,7 +9,7 @@ public abstract class BaseAllySetup : BaseUnitSetup
 {
     // Add any additional fields here!
     public string allyName;
-    public string[] attackNames = new string[4];
+    /*public string[] attackNames = new string[4];
     // Dynamic list to hold active buffs
     public List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
 
@@ -26,7 +26,7 @@ public abstract class BaseAllySetup : BaseUnitSetup
     // Charging -3 to -4
     // Healing: -5 and below
     // Why are ranges being used? Equality can be unpredictable for floating point values.
-    // Mitigate this by using ranges instead.
+    // Mitigate this by using ranges instead.*/
 
     // These of course can be moved to BaseUnitSetup so that the enemy setup can inherit it if needbe
     public abstract float attack1();
@@ -35,7 +35,7 @@ public abstract class BaseAllySetup : BaseUnitSetup
     public abstract float attack4();
 
     // Counts buffs and handles the turn count of the buff until expiry
-    public void TickBuffs()
+    /*public void TickBuffs()
     {
         // loop backwards in the list
         for (int i = activeBuffs.Count - 1; i >= 0; i--)
@@ -82,5 +82,5 @@ public abstract class BaseAllySetup : BaseUnitSetup
                 Debug.Log($"{allyName}'s Defense returned to normal!");
                 break;
         }
-    }
+    }*/
 }

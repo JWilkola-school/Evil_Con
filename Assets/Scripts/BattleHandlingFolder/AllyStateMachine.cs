@@ -73,7 +73,7 @@ public class AllyStateMachine : GenBattleObjects
                 {
                     if (printOnce)
                     {
-                        ally.TickBuffs();
+                        //ally.TickBuffs();
                         ally.chargeTimeLeft--;
                         if (ally.chargeTimeLeft <= 0) // unleash charge attack
                         {
@@ -107,7 +107,7 @@ public class AllyStateMachine : GenBattleObjects
                     // Tick all active buffs at the exact start of new turn
                     if (ally != null)
                     {
-                        ally.TickBuffs();
+                        //ally.TickBuffs();
                     }
 
                     printOnce = false;
@@ -311,6 +311,26 @@ public class AllyStateMachine : GenBattleObjects
                 {
                     globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAttackName}!");
                     globalBattleHandler.damageEnemy(selectedEnemy, pendingAttackValue, targetIndex);
+                }
+
+                // Buff Attack
+                if (pendingAttackValue == -1.5f)
+                {
+                    string buffMessage = "";
+                    switch (pendingAttackName)
+                    {
+                        case "Leg Workout":
+                            buffMessage = "Speed doubled for 3 turns!";
+                            break;
+                        case "Battle Cry":
+                            buffMessage = "Damage doubled for 3 turns!";
+                            break;
+                        default:
+                            buffMessage = "Stats increased!";
+                            break;
+                    }
+
+                    globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAttackName}! {buffMessage}");
                 }
 
                 // Charge Attack

@@ -16,31 +16,35 @@ public class SecurityGuardSetup : BaseAllySetup
         this.chargeTimeLeft = -1;
         this.canSpecial = false;
         this.characterPrefab = Resources.Load<GameObject>("Prefabs/Security Guard");
-        this.attackNames = new string[] { "Beat", "Leg Workout", "Tase (WIP)", "Pummel (WIP)" };
+        this.attackNames = new string[] { "Beat", "Leg Workout", "FREEZE!!!", "WHERE'S YOUR BADGE?!?!?!?" };
     }
 
     public void doubleSpeed()
     {
-        this.currSpeed = this.baseSpeed * 2;
-        ActiveBuff newBuff = new ActiveBuff(StatType.Speed, 3);
-        this.activeBuffs.Add(newBuff);
+        this.ApplyEffect(EffectType.SpeedUp, 3);
         Debug.Log($"{allyName} doubled their speed for 3 turns!");
     }
 
-    public override float attack1() {
+    // Beat: basic attack
+    public override float attack1() 
+    {
         return basicAttack();
     }
+
+    // Leg Workout: Doubles Speed of Security Guard
     public override float attack2()
     {
         doubleSpeed();
         return -1.5f;
     }
 
+    // FREEZE!!!: Single target, Inflicts Stun
     public override float attack3()
     {
         return basicAttack();
     }
 
+    // WHERE'S YOUR BADGE?!?!?!?: Single target, buffs Security Guard with Adrenaline
     public override float attack4()
     {
         return basicAttack();
