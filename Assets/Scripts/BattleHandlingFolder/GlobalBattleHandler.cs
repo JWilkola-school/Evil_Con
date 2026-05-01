@@ -34,7 +34,6 @@ public class GlobalBattleHandler : MonoBehaviour
 
     // NEW: Death scene name
     public string deathSceneName = "DeathScene";
-    public string victorySceneName = "Floor 1"; // Return to overworld on victory
 
     // NEW: Menu References
     public GameObject startMenu;
@@ -597,11 +596,10 @@ public class GlobalBattleHandler : MonoBehaviour
             playerDefeated = false;
 
             // Load Victory Scene (Scene 1)
-            Debug.Log($"Loading Victory Scene: {victorySceneName}");
-            // Old code to return to overworld
-            //SceneManager.LoadScene(victorySceneName);
+            Debug.Log($"Loading Victory Scene: {BattleTransitioner.overworldSceneName}");
+  
             // New code to return to overworld
-            SceneTransitioner.Instance.StartTransition(victorySceneName);
+            SceneTransitioner.Instance.StartTransition(BattleTransitioner.overworldSceneName);
         }
     }
 

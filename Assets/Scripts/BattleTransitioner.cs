@@ -13,6 +13,7 @@ public static class BattleTransitioner
     // NEW: Coordinate tracking for the player!
     public static Vector3 playerReturnPosition;
     public static bool returningFromBattle = false;
+    public static string overworldSceneName;
 
     /// <summary>
     /// Initiates the combat sequence by pausing the overworld and loading the battle scene.
@@ -56,6 +57,8 @@ public static class BattleTransitioner
             playerReturnPosition = playerGameObject.transform.position;
             returningFromBattle = true;
         }
+
+        overworldSceneName = SceneManager.GetActiveScene().name;
 
         Debug.Log($"Combat initiated by {EncounteredEnemyName} at position {EnemyPosition}. ID: {EnemySceneID}");
 
