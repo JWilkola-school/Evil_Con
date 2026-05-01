@@ -16,10 +16,10 @@ public class DudebroSetup : BaseAllySetup
         this.chargeTimeLeft = -1;
         this.canSpecial = true;
         this.characterPrefab = Resources.Load<GameObject>("Prefabs/DudeBro ManStrong");
-        this.attackNames = new string[] { "Cleave", "Battle Cry", "Overhead Swing", "SMASH!!! (WIP)" };
+        this.attackNames = new string[] { "Cleave", "Battle Cry", "Overhead Swing", "SMASH!!!" };
     }
 
-    public void doubleDamage() // aka battle cry
+    /*public void doubleDamage() // aka battle cry
     {
         this.ApplyEffect(EffectType.DamageUp, 3);
         Debug.Log($"{allyName} let out a battle cry!");
@@ -30,31 +30,65 @@ public class DudebroSetup : BaseAllySetup
         this.pendingChargeDamage = this.currDamage * 3f;
         this.pendingChargeName = "Overhead Swing";
         Debug.Log($"{allyName} is raising his axe in the air!");
-    }
+    }*/
 
     // Cleave: basic attack
-    public override float attack1()
+    public override ActionPayload attack1()
     {
-        return basicAttack();
+        return new ActionPayload 
+        { 
+            type = ActionType.Attack, 
+            actionName = attackNames[0], 
+            value = basicAttack(), 
+            isAOE = false,
+            effect = EffectType.None
+        };
+        //basicAttack();
     }
 
     // Battle Cry: buffs damage
-    public override float attack2()
+    public override ActionPayload attack2()
     {
-        doubleDamage();
-        return -1.5f;
+        this.ApplyEffect(EffectType.DamageUp, 3);
+        return new ActionPayload
+        {
+            type = ActionType.Buff,
+            actionName = attackNames[1],
+            isAOE = false,
+            effect = EffectType.None
+        };
+        //doubleDamage();
+        //return -1.5f;
     }
 
     // Overhead Swing: high single target. Inflicts Crush
-    public override float attack3()
+    public override ActionPayload attack3()
     {
-        chargeAttack();
-        return -3f;
+        return new ActionPayload
+        {
+            type = ActionType.Charge,
+            actionName = attackNames[2],
+            value = basicAttack() * 3f,
+            isAOE = false,
+            effect = EffectType.Crush,
+            effectDuration = 3
+        };
+        //chargeAttack();
+        //return -3f;
     }
 
     // SMASH!!!: AoE attack. Inflicts Crush
-    public override float attack4()
+    public override ActionPayload attack4()
     {
-        return basicAttack();
+        return new ActionPayload
+        {
+            type = ActionType.Attack,
+            actionName = attackNames[3],
+            value = basicAttack() * 0.8f,
+            isAOE = true,
+            effect = EffectType.Crush,
+            effectDuration = 3
+        };
+        //return basicAttack() * 0.8f;
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class SecurityGuardSetup : BaseAllySetup
 {
@@ -19,35 +20,71 @@ public class SecurityGuardSetup : BaseAllySetup
         this.attackNames = new string[] { "Beat", "Leg Workout", "FREEZE!!!", "WHERE'S YOUR BADGE?!?!?!?" };
     }
 
-    public void doubleSpeed()
+    /*public void doubleSpeed()
     {
         this.ApplyEffect(EffectType.SpeedUp, 3);
         Debug.Log($"{allyName} doubled their speed for 3 turns!");
-    }
+    }*/
 
     // Beat: basic attack
-    public override float attack1() 
+    public override ActionPayload attack1() 
     {
-        return basicAttack();
+        return new ActionPayload
+        {
+            type = ActionType.Attack,
+            actionName = attackNames[0],
+            value = basicAttack(),
+            isAOE = false,
+            effect = EffectType.None
+        };
+        //basicAttack();
     }
 
     // Leg Workout: Doubles Speed of Security Guard
-    public override float attack2()
+    public override ActionPayload attack2()
     {
-        doubleSpeed();
-        return -1.5f;
+        this.ApplyEffect(EffectType.SpeedUp, 3);
+        return new ActionPayload
+        {
+            type = ActionType.Buff,
+            actionName = attackNames[1],
+            isAOE = false,
+            effect = EffectType.None
+        };
+        //doubleSpeed();
+        //return -1.5f;
     }
 
     // FREEZE!!!: Single target, Inflicts Stun
-    public override float attack3()
+    public override ActionPayload attack3()
     {
-        return basicAttack();
+        return new ActionPayload
+        {
+            type = ActionType.Attack,
+            actionName = attackNames[2],
+            value = basicAttack(),
+            isAOE = false,
+            effect = EffectType.Tased,
+            effectDuration = 3,
+            effectValue = 3f
+        };
+        //return basicAttack();
     }
 
     // WHERE'S YOUR BADGE?!?!?!?: Single target, buffs Security Guard with Adrenaline
-    public override float attack4()
+    public override ActionPayload attack4()
     {
-        return basicAttack();
+        this.ApplyEffect(EffectType.Adrenaline, 3);
+        return new ActionPayload
+        {
+            type = ActionType.Attack,
+            actionName = attackNames[3],
+            value = basicAttack() * 1.2f,
+            isAOE = false,
+            effect = EffectType.None
+        };
+        //this.ApplyEffect(EffectType.Adrenaline, 3);
+        //return basicAttack() * 1.2f;
     }
 }
 

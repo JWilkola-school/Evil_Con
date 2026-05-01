@@ -320,6 +320,25 @@ public class GlobalBattleHandler : MonoBehaviour
         float damage = Mathf.Max(0, ((1.5f * attackVal)) * 5f);
         damage -= Mathf.Max(0, (1.5f * targetEnemy.enemy.currDefense) * 0.3f);
 
+        // Crush Status effect
+        if (targetEnemy.enemy.HasEffect(EffectType.Crush))
+        {
+            float healAmount = Mathf.Round(damage * 0.3f);
+
+            for (int i = 0; i < livingAllies.Count; i++)
+            {
+                if (livingAllies[i] != null && livingAllies[i].unitName == "DudeBro ManStrong")
+                {
+                    livingAllies[i].ally.currHP += healAmount;
+                    livingAllies[i].ally.currHP = Mathf.Min(livingAllies[i].ally.baseHP, livingAllies[i].ally.currHP);
+
+                    UI_Handler.updateHealthAlly(i, livingAllies[i].ally.currHP);
+                    ShowBattleLog($"DudeBro absorbed {healAmount} HP!");
+                    break;
+                }
+            }
+        }
+
         if (targetEnemy.enemy.isBlocking)
         {
             damage *= 0.5f;
@@ -723,4 +742,36 @@ public class GlobalBattleHandler : MonoBehaviour
         battleLogCanvasGroup.alpha = 0f;
     }
 
+    public void ExecuteTargetedAction(ActionPayload payload, EnemyStateMachine targetEnemy, int targetIndex)
+    {
+        // 1. Deal Damage (If it's an Attack or a Charge)
+        if (payload.type == ActionType.Attack || payload.type == ActionType.Charge)
+        {
+            damageEnemy(targetEnemy, payload.value, targetIndex);
+        }
+
+        // 2. Apply Debuffs (If the payload contains one)
+        if (payload.effect != EffectType.None)
+        {
+            targetEnemy.enemy.ApplyEffect(payload.effect, payload.effectDuration, payload.effectValue);
+            ShowBattleLog($"Target was inflicted with {payload.effect}!");
+        }
+    }
+
+    public void ExecuteAOEAction(ActionPayload payload)
+    {
+        for (int i = 0; i < livingEnemies.Count; i++)
+        {
+            EnemyStateMachine e = livingEnemies[i];
+            if (e != null)
+            {
+                damageEnemy(e, payload.value, i);
+                if (payload.effect != EffectType.None)
+                {
+                    e.enemy.ApplyEffect(payload.effect, payload.effectDuration, payload.effectValue);
+                }
+            }
+        }
+        ShowBattleLog("The attack hit everyone!");
+    }
 }

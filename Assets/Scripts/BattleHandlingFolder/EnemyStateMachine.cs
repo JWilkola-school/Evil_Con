@@ -54,6 +54,10 @@ public class EnemyStateMachine : GenBattleObjects
                 if (printOnce)
                 {
                     Debug.Log(unitName + ": Taking action!");
+                    if (enemy != null)
+                    {
+                        enemy.TickEffects();
+                    }
                     printOnce = false;
                 }
                 TakeAction();

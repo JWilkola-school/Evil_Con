@@ -29,10 +29,10 @@ public abstract class BaseAllySetup : BaseUnitSetup
     // Mitigate this by using ranges instead.*/
 
     // These of course can be moved to BaseUnitSetup so that the enemy setup can inherit it if needbe
-    public abstract float attack1();
-    public abstract float attack2();
-    public abstract float attack3();
-    public abstract float attack4();
+    public abstract ActionPayload attack1();
+    public abstract ActionPayload attack2();
+    public abstract ActionPayload attack3();
+    public abstract ActionPayload attack4();
 
     // Counts buffs and handles the turn count of the buff until expiry
     /*public void TickBuffs()

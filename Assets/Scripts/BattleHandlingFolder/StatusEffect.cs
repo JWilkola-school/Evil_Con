@@ -2,9 +2,9 @@ using UnityEngine;
 
 public enum EffectType
 {
+    None,
     SpeedUp, DamageUp, DefenseUp,
-    Charmed, // attack down
-    Tased, // speed down
+    Charmed, Tased, // attack down and speed down
     Adrenaline, // Extra action per turn
     Crush, // Lifesteal mark
     Cripple, // take bonus damage

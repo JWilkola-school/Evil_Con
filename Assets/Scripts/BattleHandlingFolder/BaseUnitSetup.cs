@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BaseUnitSetup
 {
@@ -24,10 +25,7 @@ public class BaseUnitSetup
     public List<StatusEffect> activeEffects = new List<StatusEffect>();
     
     public int chargeTimeLeft = 0;
-    public float pendingChargeDamage = 0; // holds damage for a turn
-    public string pendingChargeName = ""; // holds name of attack for a turn
     public int pendingChargeTarget = 0; // Holds index position of enemy in the list that is targeted.
-
 
     public float basicAttack()
     {
@@ -35,7 +33,19 @@ public class BaseUnitSetup
     }
     public void ApplyEffect(EffectType type, int duration, float value = 0)
     {
-        // 1. If it's a direct stat change, apply the math immediately!
+        // Check if the already have this effect
+        foreach (StatusEffect effect in activeEffects)
+        {
+            if (effect.type == type)
+            {
+                // Just refresh the timer to the maximum duration and stop!
+                effect.turnsLeft = Mathf.Max(effect.turnsLeft, duration);
+                Debug.Log($"{this.GetType().Name}'s {type} was refreshed to {effect.turnsLeft} turns!");
+                return;
+            }
+        }
+
+        // Brand new effect =  normal math
         if (type == EffectType.Charmed)
         {
             this.currDamage = Mathf.Max(1f, this.currDamage - value);
@@ -48,7 +58,7 @@ public class BaseUnitSetup
         }
         else if (type == EffectType.DamageUp)
         {
-            this.currDamage = this.baseDamage * 2f; // Assuming double damage for Battle Cry
+            this.currDamage = this.baseDamage * 2f;
         }
         else if (type == EffectType.SpeedUp)
         {
@@ -112,51 +122,18 @@ public class BaseUnitSetup
         }
         return false;
     }
+}
 
-    /*public void TickBuffs()
-    {
-        // loop backwards in the list
-        for (int i = activeBuffs.Count - 1; i >= 0; i--)
-        {
-            activeBuffs[i].turnsLeft--; // tick down the turn
+public enum ActionType { Attack, Buff, Debuff, Charge }
 
-            if (activeBuffs[i].turnsLeft <= 0)
-            {
-                // Buff expired. Find what stat to reset.
-                RemoveBuffAndResetStat(activeBuffs[i].targetStat);
-
-                // Remove from list
-                activeBuffs.RemoveAt(i);
-            }
-        }
-    }*/
-
-    /*private void RemoveBuffAndResetStat(StatType stat)
-    {
-        // checks to see if there is another of the same buff active
-        foreach (ActiveBuff buff in activeBuffs)
-        {
-            if (buff.targetStat == stat && buff.turnsLeft > 0)
-            {
-                Debug.Log($"{this.GetType().Name} still has another {stat} buff active! Skipping reset.");
-                return;
-            }
-        }
-
-
-
-        switch (stat)
-        {
-            case StatType.Speed:
-                this.currSpeed = this.baseSpeed;
-                break;
-            case StatType.Damage:
-                this.currDamage = this.baseDamage;
-                break;
-            case StatType.Defense:
-                this.currDefense = this.baseDefense;
-                break;
-        }
-        Debug.Log($"{this.GetType().Name}'s {stat} returned to normal!");
-    }*/
+[System.Serializable]
+public class ActionPayload
+{
+    public ActionType type;
+    public string actionName;
+    public float value;           // Replaces the old float return damage
+    public float effectValue;     // Use for heal, bleed, or stat drops
+    public bool isAOE;            // Automatically bypasses targeting if true!
+    public EffectType effect;     // What debuff does it apply? (Use EffectType.None if it doesn't)
+    public int effectDuration;
 }
