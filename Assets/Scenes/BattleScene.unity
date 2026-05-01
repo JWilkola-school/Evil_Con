@@ -2908,7 +2908,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GlobalBattleHandler
   UI_Handler: {fileID: 1559665049}
   deathSceneName: DeathScene
-  victorySceneName: Scene 1
+  victorySceneName: Floor 1
   startMenu: {fileID: 247023633}
   attackMenu: {fileID: 580745257}
   itemMenuPanel: {fileID: 1911808449}

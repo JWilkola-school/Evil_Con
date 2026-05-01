@@ -30700,6 +30700,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Furling
       objectReference: {fileID: 0}
+    - target: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 7749639261063532673, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -46.68

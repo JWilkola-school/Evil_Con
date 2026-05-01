@@ -6,7 +6,7 @@ public class BattleTransitionTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            BattleTransitioner.InitiateForcedCombat(this.gameObject);
+            BattleTransitioner.InitiateForcedCombat(this.gameObject, );
         }
     }
 }

@@ -20,12 +20,6 @@ public class SecurityGuardSetup : BaseAllySetup
         this.attackNames = new string[] { "Beat", "Leg Workout", "FREEZE!!!", "WHERE'S YOUR BADGE?!?!?!?" };
     }
 
-    /*public void doubleSpeed()
-    {
-        this.ApplyEffect(EffectType.SpeedUp, 3);
-        Debug.Log($"{allyName} doubled their speed for 3 turns!");
-    }*/
-
     // Beat: basic attack
     public override ActionPayload attack1() 
     {
@@ -37,7 +31,6 @@ public class SecurityGuardSetup : BaseAllySetup
             isAOE = false,
             effect = EffectType.None
         };
-        //basicAttack();
     }
 
     // Leg Workout: Doubles Speed of Security Guard
@@ -49,13 +42,14 @@ public class SecurityGuardSetup : BaseAllySetup
             type = ActionType.Buff,
             actionName = attackNames[1],
             isAOE = false,
-            effect = EffectType.None
+            effect = EffectType.None,
+            selfEffect = EffectType.SpeedUp,
+            selfEffectDuration = 3,
+            baseCooldown = 2
         };
-        //doubleSpeed();
-        //return -1.5f;
     }
 
-    // FREEZE!!!: Single target, Inflicts Stun
+    // FREEZE!!!: Single target, Inflicts Tased
     public override ActionPayload attack3()
     {
         return new ActionPayload
@@ -66,9 +60,9 @@ public class SecurityGuardSetup : BaseAllySetup
             isAOE = false,
             effect = EffectType.Tased,
             effectDuration = 3,
-            effectValue = 3f
+            effectValue = 3f,
+            baseCooldown = 2
         };
-        //return basicAttack();
     }
 
     // WHERE'S YOUR BADGE?!?!?!?: Single target, buffs Security Guard with Adrenaline
@@ -81,10 +75,11 @@ public class SecurityGuardSetup : BaseAllySetup
             actionName = attackNames[3],
             value = basicAttack() * 1.2f,
             isAOE = false,
-            effect = EffectType.None
+            effect = EffectType.None,
+            selfEffect = EffectType.Adrenaline,
+            selfEffectDuration = 1,
+            baseCooldown = 5
         };
-        //this.ApplyEffect(EffectType.Adrenaline, 3);
-        //return basicAttack() * 1.2f;
     }
 }
 

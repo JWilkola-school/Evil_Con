@@ -34,7 +34,7 @@ public class GlobalBattleHandler : MonoBehaviour
 
     // NEW: Death scene name
     public string deathSceneName = "DeathScene";
-    public string victorySceneName = "Scene 1"; // Return to overworld on victory
+    public string victorySceneName = "Floor 1"; // Return to overworld on victory
 
     // NEW: Menu References
     public GameObject startMenu;
@@ -310,7 +310,7 @@ public class GlobalBattleHandler : MonoBehaviour
         }*/
     }
 
-    public void damageEnemy(EnemyStateMachine targetEnemy, float attackVal, int targetIndex) // Weapon damage removed. Target enemy and attack value are the new parameters.
+    public void damageEnemy(EnemyStateMachine targetEnemy, float attackVal, int targetIndex, AllyStateMachine attacker = null) // Weapon damage removed. Target enemy and attack value are the new parameters.
     {
         if (!isBattleActive || targetEnemy == null || targetEnemy.enemy == null)
             return;
@@ -321,7 +321,7 @@ public class GlobalBattleHandler : MonoBehaviour
         damage -= Mathf.Max(0, (1.5f * targetEnemy.enemy.currDefense) * 0.3f);
 
         // Crush Status effect
-        if (targetEnemy.enemy.HasEffect(EffectType.Crush))
+        if (targetEnemy.enemy.HasEffect(EffectType.Crush) && attacker.unitName == "DudeBro ManStrong" && attacker != null)
         {
             float healAmount = Mathf.Round(damage * 0.3f);
 
@@ -432,7 +432,7 @@ public class GlobalBattleHandler : MonoBehaviour
             //    currAlly.Die();
             //}
 
-            //RemoveDeadUnit(targetAlly); may just straightup delete ally off the field. May not want that.
+            RemoveDeadUnit(targetAlly);
 
             // Check if battle should end NOW
             CheckBattleEndImmediate();
@@ -573,7 +573,7 @@ public class GlobalBattleHandler : MonoBehaviour
             enemyDefeated = false;
             playerDefeated = false;
 
-            SceneManager.LoadScene(deathSceneName);
+            SceneTransitioner.Instance.StartTransition(deathSceneName);
         }
         else
         {
@@ -742,12 +742,13 @@ public class GlobalBattleHandler : MonoBehaviour
         battleLogCanvasGroup.alpha = 0f;
     }
 
-    public void ExecuteTargetedAction(ActionPayload payload, EnemyStateMachine targetEnemy, int targetIndex)
+    // Activates Ally attack payload on enemies
+    public void ExecuteTargetedAction(ActionPayload payload, EnemyStateMachine targetEnemy, int targetIndex, AllyStateMachine attacker)
     {
         // 1. Deal Damage (If it's an Attack or a Charge)
         if (payload.type == ActionType.Attack || payload.type == ActionType.Charge)
         {
-            damageEnemy(targetEnemy, payload.value, targetIndex);
+            damageEnemy(targetEnemy, payload.value, targetIndex, attacker);
         }
 
         // 2. Apply Debuffs (If the payload contains one)
@@ -756,16 +757,24 @@ public class GlobalBattleHandler : MonoBehaviour
             targetEnemy.enemy.ApplyEffect(payload.effect, payload.effectDuration, payload.effectValue);
             ShowBattleLog($"Target was inflicted with {payload.effect}!");
         }
+
+        // NEW: Apply self-buffs to the attacker!
+        if (payload.selfEffect != EffectType.None && attacker != null)
+        {
+            attacker.ally.ApplyEffect(payload.selfEffect, payload.selfEffectDuration);
+            ShowBattleLog($"{attacker.unitName} gained {payload.selfEffect}!");
+        }
     }
 
-    public void ExecuteAOEAction(ActionPayload payload)
+    // Activates Ally AOE attack on enemies
+    public void ExecuteAOEAction(ActionPayload payload, AllyStateMachine attacker)
     {
         for (int i = 0; i < livingEnemies.Count; i++)
         {
             EnemyStateMachine e = livingEnemies[i];
             if (e != null)
             {
-                damageEnemy(e, payload.value, i);
+                damageEnemy(e, payload.value, i, attacker);
                 if (payload.effect != EffectType.None)
                 {
                     e.enemy.ApplyEffect(payload.effect, payload.effectDuration, payload.effectValue);
@@ -773,5 +782,26 @@ public class GlobalBattleHandler : MonoBehaviour
             }
         }
         ShowBattleLog("The attack hit everyone!");
+        // NEW: Apply self-buffs to the attacker!
+        if (payload.selfEffect != EffectType.None && attacker != null)
+        {
+            attacker.ally.ApplyEffect(payload.selfEffect, payload.selfEffectDuration);
+            ShowBattleLog($"{attacker.unitName} gained {payload.selfEffect}!");
+        }
+    }
+
+    // Activates enemy attacks on allies
+    public void ExecuteEnemyAction(ActionPayload payload, AllyStateMachine targetAlly, int targetIndex, EnemyStateMachine attacker)
+    {
+        if (payload.type == ActionType.Attack || payload.type == ActionType.Charge) // deal damage
+        {
+            damageAlly(targetAlly, payload.value, targetIndex);
+        }
+
+        if (payload.effect != EffectType.None)
+        {
+            targetAlly.ally.ApplyEffect(payload.effect, payload.effectDuration, payload.effectValue);
+            ShowBattleLog($"{targetAlly.unitName} was {payload.effect}!");
+        }
     }
 }

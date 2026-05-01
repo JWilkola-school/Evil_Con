@@ -9,8 +9,8 @@ public class AllyStateMachine : GenBattleObjects
 
     // Targeting System (Select which enemy to attack) Variables to hold attacks in place, when selecting target to attack. 
     public bool targetMenu = false;
-    private float pendingAttackValue = 0f;
-    private string pendingAttackName = "";
+    //private float pendingAttackValue = 0f;
+    //private string pendingAttackName = "";
 
     public override float unitSpeed { get { return ally != null ? ally.currSpeed : 0; } }
     public override string unitName { get { return ally != null ? ally.allyName : "Unknown"; } }
@@ -19,6 +19,7 @@ public class AllyStateMachine : GenBattleObjects
     public GlobalBattleHandler globalBattleHandler;
     public ActionPayload pendingAction;
     private ActionPayload storedChargePayload;
+    private int selectedAttackIndex = -1;
 
     private bool printOnce = true;
     private float actionTimeout = 10f; // Time to wait for player input
@@ -85,7 +86,7 @@ public class AllyStateMachine : GenBattleObjects
                                 if (savedTargetIndex < globalBattleHandler.livingEnemies.Count && globalBattleHandler.livingEnemies[savedTargetIndex] != null)
                                 {
                                     EnemyStateMachine targetEnemy = globalBattleHandler.livingEnemies[savedTargetIndex];
-                                    globalBattleHandler.ExecuteTargetedAction(storedChargePayload, targetEnemy, savedTargetIndex);
+                                    globalBattleHandler.ExecuteTargetedAction(storedChargePayload, targetEnemy, savedTargetIndex, this);
                                 }
                                 else
                                 {
@@ -102,13 +103,14 @@ public class AllyStateMachine : GenBattleObjects
                 }
 
                 // Regular turn
-                if (printOnce)
+                if (printOnce && currentState != State.ACTION)
                 {
                     Debug.Log(unitName + ": Your turn! Choose an action!");
                     // Tick all active buffs at the exact start of new turn
                     if (ally != null)
                     {
                         ally.TickEffects();
+                        ally.TickCooldowns();
                     }
 
                     printOnce = false;
@@ -197,7 +199,8 @@ public class AllyStateMachine : GenBattleObjects
                 Debug.Log("Ally chose to BLOCK!");
                 globalBattleHandler.ShowBattleLog($"{unitName} is blocking!");
                 allyBlock();
-                currentState = State.ADDTOLIST;
+                //currentState = State.ADDTOLIST;
+                FinishAction();
             }
             else
             {
@@ -220,14 +223,22 @@ public class AllyStateMachine : GenBattleObjects
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
+            if (ally.currentCooldowns[0] > 0)
+            {
+                if (globalBattleHandler != null)
+                    globalBattleHandler.ShowBattleLog($"{ally.attackNames[0]} is on cooldown for {ally.currentCooldowns[0]} turns!");
+                return;
+            }
+
+            selectedAttackIndex = 0;
             pendingAction = ally.attack1();
 
             if (pendingAction.isAOE)
             {
                 attackMenu = false;
                 globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAction.actionName}");
-
-                globalBattleHandler.ExecuteAOEAction(pendingAction);
+                ally.currentCooldowns[selectedAttackIndex] = pendingAction.baseCooldown;
+                globalBattleHandler.ExecuteAOEAction(pendingAction, this);
                 FinishAction();
             }
             else
@@ -249,14 +260,22 @@ public class AllyStateMachine : GenBattleObjects
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
+            if (ally.currentCooldowns[1] > 0)
+            {
+                if (globalBattleHandler != null)
+                    globalBattleHandler.ShowBattleLog($"{ally.attackNames[1]} is on cooldown for {ally.currentCooldowns[1]} turns!");
+                return;
+            }
+
+            selectedAttackIndex = 1;
             pendingAction = ally.attack2();
 
             if (pendingAction.isAOE)
             {
                 attackMenu = false;
                 globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAction.actionName}");
-
-                globalBattleHandler.ExecuteAOEAction(pendingAction);
+                ally.currentCooldowns[selectedAttackIndex] = pendingAction.baseCooldown;
+                globalBattleHandler.ExecuteAOEAction(pendingAction, this);
                 FinishAction();
             }
             else
@@ -278,14 +297,22 @@ public class AllyStateMachine : GenBattleObjects
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            if (ally.currentCooldowns[2] > 0)
+            {
+                if (globalBattleHandler != null)
+                    globalBattleHandler.ShowBattleLog($"{ally.attackNames[2]} is on cooldown for {ally.currentCooldowns[2]} turns!");
+                return;
+            }
+
+            selectedAttackIndex = 2;
             pendingAction = ally.attack3();
 
             if (pendingAction.isAOE)
             {
                 attackMenu = false;
                 globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAction.actionName}");
-
-                globalBattleHandler.ExecuteAOEAction(pendingAction);
+                ally.currentCooldowns[selectedAttackIndex] = pendingAction.baseCooldown;
+                globalBattleHandler.ExecuteAOEAction(pendingAction, this);
                 FinishAction();
             }
             else
@@ -307,6 +334,14 @@ public class AllyStateMachine : GenBattleObjects
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
+            if (ally.currentCooldowns[3] > 0)
+            {
+                if (globalBattleHandler != null)
+                    globalBattleHandler.ShowBattleLog($"{ally.attackNames[3]} is on cooldown for {ally.currentCooldowns[3]} turns!");
+                return;
+            }
+
+            selectedAttackIndex = 3;
             pendingAction = ally.attack4();
 
             if (pendingAction.isAOE)
@@ -314,7 +349,8 @@ public class AllyStateMachine : GenBattleObjects
                 attackMenu = false;
                 globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAction.actionName}");
 
-                globalBattleHandler.ExecuteAOEAction(pendingAction);
+                ally.currentCooldowns[selectedAttackIndex] = pendingAction.baseCooldown;
+                globalBattleHandler.ExecuteAOEAction(pendingAction, this);
                 FinishAction();
             }
             else
@@ -396,6 +432,7 @@ public class AllyStateMachine : GenBattleObjects
                 EnemyStateMachine selectedEnemy = globalBattleHandler.livingEnemies[targetIndex];
                 if (globalBattleHandler != null)
                 {
+                    ally.currentCooldowns[selectedAttackIndex] = pendingAction.baseCooldown;
                     if (pendingAction.type == ActionType.Charge)
                     {
                         globalBattleHandler.ShowBattleLog($"{unitName} began charging {pendingAction.actionName}!");
@@ -406,7 +443,7 @@ public class AllyStateMachine : GenBattleObjects
                     else
                     {
                         globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAction.actionName}!");
-                        globalBattleHandler.ExecuteTargetedAction(pendingAction, selectedEnemy, targetIndex);
+                        globalBattleHandler.ExecuteTargetedAction(pendingAction, selectedEnemy, targetIndex, this);
                     }
                 }
                 targetMenu = false;

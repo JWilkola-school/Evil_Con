@@ -23,6 +23,7 @@ public class BaseUnitSetup
 
     public string[] attackNames = new string[4];
     public List<StatusEffect> activeEffects = new List<StatusEffect>();
+    public int[] currentCooldowns = new int[4];
     
     public int chargeTimeLeft = 0;
     public int pendingChargeTarget = 0; // Holds index position of enemy in the list that is targeted.
@@ -93,6 +94,15 @@ public class BaseUnitSetup
             }
         }
     }
+    public void TickCooldowns()
+    {
+        for (int i = 0; i < currentCooldowns.Length; i++)
+        {
+            if (currentCooldowns[i] > 0)
+                currentCooldowns[i]--;
+        }
+    }
+
     private void RemoveEffectAndReset(StatusEffect effect)
     {
         // Revert flat stat changes when they expire
@@ -131,9 +141,12 @@ public class ActionPayload
 {
     public ActionType type;
     public string actionName;
-    public float value;           // Replaces the old float return damage
-    public float effectValue;     // Use for heal, bleed, or stat drops
-    public bool isAOE;            // Automatically bypasses targeting if true!
-    public EffectType effect;     // What debuff does it apply? (Use EffectType.None if it doesn't)
-    public int effectDuration;
+    public float value;             // Replaces the old float return damage
+    public float effectValue;       // Use for heal, bleed, or stat drops
+    public bool isAOE;              // Automatically bypasses targeting if true!
+    public EffectType effect;       // What debuff does it apply? (Use EffectType.None if it doesn't)
+    public int effectDuration;      // How many turns does it last?
+    public int baseCooldown;        // Cooldown.
+    public EffectType selfEffect;   // buffs applied to self
+    public int selfEffectDuration;  // duration of self buff
 }
