@@ -111,12 +111,33 @@ public class EnemyStateMachine : GenBattleObjects
     {
         Debug.Log(unitName + ": Attacking ally!");
 
-        if (globalBattleHandler != null && globalBattleHandler.livingAllies.Count > 0)
+        if (globalBattleHandler != null)
+        {
+            AllyStateMachine targetAlly = null;
+            int targetIndex = 0;
+
+            for (int i = 0; i < globalBattleHandler.livingAllies.Count; i++)
+            {
+                if (globalBattleHandler.livingAllies[i] != null)
+                {
+                    targetAlly = globalBattleHandler.livingAllies[i];
+                    targetIndex = i;
+                    break;
+                }
+            }
+
+            if (targetAlly != null)
+            {
+                globalBattleHandler.damageAlly(targetAlly, enemy.currDamage, targetIndex);
+            }
+        }
+
+        /*if (globalBattleHandler != null && globalBattleHandler.livingAllies.Count > 0)
         {
             AllyStateMachine targetAlly = globalBattleHandler.livingAllies[0];
             int targetIndex = 0;
             globalBattleHandler.damageAlly(targetAlly, enemy.currDamage, targetIndex);
-        }
+        }*/
 
         currentState = State.ADDTOLIST; // Return to queue after action
     }

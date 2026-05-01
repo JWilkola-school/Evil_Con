@@ -117,13 +117,6 @@ public class GlobalBattleHandler : MonoBehaviour
             return;
         }
 
-        // New: Poor programming practice to assume these have been initialized.
-        // Initialize handlers
-        //allyHandler.localInit(this);
-        //enemyHandler.localInit(this);
-
-
-
         // Clear lists before populating
         battleList.Clear();
         battleQueue.Clear();
@@ -151,6 +144,11 @@ public class GlobalBattleHandler : MonoBehaviour
                 // Instantiate the object in the battle scene and add it to a dictionary
                 // Why? So we can disable the object later when it dies!
                 GameObject currCharacterInstance = Instantiate(ally.characterPrefab, allyMarkers[markerIndex], false);
+
+                currCharacterInstance.transform.localPosition = Vector3.zero;
+                currCharacterInstance.transform.localRotation = Quaternion.identity;
+                currCharacterInstance.transform.localScale = Vector3.one;
+
                 gameObjectRefs.Add(ally, currCharacterInstance);
                 markerIndex++;
 
@@ -171,8 +169,32 @@ public class GlobalBattleHandler : MonoBehaviour
         {
             int markerIndex = 0;
             BaseEnemySetup[] enemiesArray = overworldBattleHandler.getEnemies();
-            foreach(BaseEnemySetup enemy in  enemiesArray)
+
+            // A-B-C lettering to differentiate duplicate enemies for visual indication
+            Dictionary<string, int> nameCounts = new Dictionary<string, int>(); // Count how many enemies exist
+            foreach (BaseEnemySetup e in enemiesArray)
             {
+                if (nameCounts.ContainsKey(e.enemyName)) nameCounts[e.enemyName]++;
+                else nameCounts[e.enemyName] = 1;
+            }
+            // Letters available
+            Dictionary<string, int> currentLetterIndexes = new Dictionary<string, int>();
+            char[] letters = { 'A', 'B', 'C', 'D', 'E' };
+
+            foreach(BaseEnemySetup enemy in enemiesArray)
+            {
+                // This part of the code adds a letter for a duplicate enemies
+                string originalName = enemy.enemyName;
+                if (nameCounts[originalName] > 1)
+                {
+                    if (!currentLetterIndexes.ContainsKey(originalName))
+                        currentLetterIndexes[originalName] = 0;
+                    int letterIndex = currentLetterIndexes[originalName];
+                    if (letterIndex < letters.Length)
+                        enemy.enemyName = originalName + " " + letters[letterIndex];
+                    currentLetterIndexes[originalName]++;
+                }
+                
                 EnemyStateMachine curr = new EnemyStateMachine(this, enemy);
                 battleList.Add(curr);
                 activeUnits.Add(curr);
@@ -180,6 +202,11 @@ public class GlobalBattleHandler : MonoBehaviour
                 // Instantiate the object in the battle scene and add it to a dictionary
                 // Why? So we can disable the object later when it dies!
                 GameObject currCharacterInstance = Instantiate(enemy.characterPrefab, enemyMarkers[markerIndex], false);
+
+                currCharacterInstance.transform.localPosition = Vector3.zero;
+                currCharacterInstance.transform.localRotation = Quaternion.identity;
+                currCharacterInstance.transform.localScale = Vector3.one;
+
                 gameObjectRefs.Add(enemy, currCharacterInstance);
                 markerIndex++;
                 if (currEnemy == null)
@@ -403,12 +430,14 @@ public class GlobalBattleHandler : MonoBehaviour
         // Remove from living enemies list
         if (deadUnit is EnemyStateMachine deadEnemy)
         {
-            livingEnemies.Remove(deadEnemy);
+            int index = livingEnemies.IndexOf(deadEnemy);
+            if (index != -1) livingEnemies[index] = null;
         }
 
         if (deadUnit is AllyStateMachine deadAlly)
         {
-            livingAllies.Remove(deadAlly);
+            int index = livingAllies.IndexOf(deadAlly);
+            if (index != -1) livingAllies[index] = null;
         }
 
         // Remove from active units

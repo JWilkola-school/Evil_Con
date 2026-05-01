@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DudeBro ManStrong (Battle)
       objectReference: {fileID: 0}
+    - target: {fileID: 566141576880516249, guid: 5947cbb4df38701449bb2329d3c57b3b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 905371337008789027, guid: 5947cbb4df38701449bb2329d3c57b3b, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
