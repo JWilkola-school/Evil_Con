@@ -9,12 +9,15 @@ public abstract class BaseAllySetup : BaseUnitSetup
 {
     // Add any additional fields here!
     public string allyName;
-    public string[] attackNames = new string[4];
+    /*public string[] attackNames = new string[4];
     // Dynamic list to hold active buffs
     public List<ActiveBuff> activeBuffs = new List<ActiveBuff>();
 
     // For charge attacks
-    protected int chargeTimeLeft;
+    public int chargeTimeLeft = 0;
+    public float pendingChargeDamage = 0; // holds damage for a turn
+    public string pendingChargeName = ""; // holds name of attack for a turn
+    public int pendingChargeTarget = 0; // Holds index position of enemy in the list that is targeted.
 
     // For attacks, return a float of the amount of damage an attack does.
     // What about status moves? Healing moves? Charging Moves?
@@ -23,16 +26,16 @@ public abstract class BaseAllySetup : BaseUnitSetup
     // Charging -3 to -4
     // Healing: -5 and below
     // Why are ranges being used? Equality can be unpredictable for floating point values.
-    // Mitigate this by using ranges instead.
+    // Mitigate this by using ranges instead.*/
 
     // These of course can be moved to BaseUnitSetup so that the enemy setup can inherit it if needbe
-    public abstract float attack1();
-    public abstract float attack2();
-    public abstract float attack3();
-    public abstract float attack4();
+    public abstract ActionPayload attack1();
+    public abstract ActionPayload attack2();
+    public abstract ActionPayload attack3();
+    public abstract ActionPayload attack4();
 
     // Counts buffs and handles the turn count of the buff until expiry
-    public void TickBuffs()
+    /*public void TickBuffs()
     {
         // loop backwards in the list
         for (int i = activeBuffs.Count - 1; i >= 0; i--)
@@ -52,6 +55,18 @@ public abstract class BaseAllySetup : BaseUnitSetup
 
     private void RemoveBuffAndResetStat(StatType stat)
     {
+        // checks to see if there is another of the same buff active
+        foreach (ActiveBuff buff in activeBuffs)
+        {
+            if (buff.targetStat == stat && buff.turnsLeft > 0)
+            {
+                Debug.Log($"{allyName} still has another {stat} buff active! Skipping reset.");
+                return;
+            }
+        }
+        
+        
+        
         switch (stat)
         {
             case StatType.Speed:
@@ -67,5 +82,5 @@ public abstract class BaseAllySetup : BaseUnitSetup
                 Debug.Log($"{allyName}'s Defense returned to normal!");
                 break;
         }
-    }
+    }*/
 }

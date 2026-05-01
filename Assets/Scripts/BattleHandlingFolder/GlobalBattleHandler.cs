@@ -13,6 +13,8 @@ public class GlobalBattleHandler : MonoBehaviour
     public UIHandler UI_Handler;
 
     public List<GenBattleObjects> battleList = new List<GenBattleObjects>();
+    public List<EnemyStateMachine> livingEnemies = new List<EnemyStateMachine>(); // New list for targeting enemies for ally statemachine
+    public List<AllyStateMachine> livingAllies = new List<AllyStateMachine>(); // list for targeting allies for enemy statemachine
     public Queue<GenBattleObjects> battleQueue = new Queue<GenBattleObjects>();
     public Dictionary<GenBattleObjects, int> turnCounts = new Dictionary<GenBattleObjects, int>();
 
@@ -32,7 +34,7 @@ public class GlobalBattleHandler : MonoBehaviour
 
     // NEW: Death scene name
     public string deathSceneName = "DeathScene";
-    public string victorySceneName = "Scene 1"; // Return to overworld on victory
+    public string victorySceneName = "Floor 1"; // Return to overworld on victory
 
     // NEW: Menu References
     public GameObject startMenu;
@@ -115,13 +117,6 @@ public class GlobalBattleHandler : MonoBehaviour
             return;
         }
 
-        // New: Poor programming practice to assume these have been initialized.
-        // Initialize handlers
-        //allyHandler.localInit(this);
-        //enemyHandler.localInit(this);
-
-
-
         // Clear lists before populating
         battleList.Clear();
         battleQueue.Clear();
@@ -149,6 +144,11 @@ public class GlobalBattleHandler : MonoBehaviour
                 // Instantiate the object in the battle scene and add it to a dictionary
                 // Why? So we can disable the object later when it dies!
                 GameObject currCharacterInstance = Instantiate(ally.characterPrefab, allyMarkers[markerIndex], false);
+
+                currCharacterInstance.transform.localPosition = Vector3.zero;
+                currCharacterInstance.transform.localRotation = Quaternion.identity;
+                currCharacterInstance.transform.localScale = Vector3.one;
+
                 gameObjectRefs.Add(ally, currCharacterInstance);
                 markerIndex++;
 
@@ -157,6 +157,7 @@ public class GlobalBattleHandler : MonoBehaviour
                     currAlly = curr;
                 }
 
+                livingAllies.Add(curr);
             }
 
 
@@ -168,8 +169,32 @@ public class GlobalBattleHandler : MonoBehaviour
         {
             int markerIndex = 0;
             BaseEnemySetup[] enemiesArray = overworldBattleHandler.getEnemies();
-            foreach(BaseEnemySetup enemy in  enemiesArray)
+
+            // A-B-C lettering to differentiate duplicate enemies for visual indication
+            Dictionary<string, int> nameCounts = new Dictionary<string, int>(); // Count how many enemies exist
+            foreach (BaseEnemySetup e in enemiesArray)
             {
+                if (nameCounts.ContainsKey(e.enemyName)) nameCounts[e.enemyName]++;
+                else nameCounts[e.enemyName] = 1;
+            }
+            // Letters available
+            Dictionary<string, int> currentLetterIndexes = new Dictionary<string, int>();
+            char[] letters = { 'A', 'B', 'C', 'D', 'E' };
+
+            foreach(BaseEnemySetup enemy in enemiesArray)
+            {
+                // This part of the code adds a letter for a duplicate enemies
+                string originalName = enemy.enemyName;
+                if (nameCounts[originalName] > 1)
+                {
+                    if (!currentLetterIndexes.ContainsKey(originalName))
+                        currentLetterIndexes[originalName] = 0;
+                    int letterIndex = currentLetterIndexes[originalName];
+                    if (letterIndex < letters.Length)
+                        enemy.enemyName = originalName + " " + letters[letterIndex];
+                    currentLetterIndexes[originalName]++;
+                }
+                
                 EnemyStateMachine curr = new EnemyStateMachine(this, enemy);
                 battleList.Add(curr);
                 activeUnits.Add(curr);
@@ -177,12 +202,18 @@ public class GlobalBattleHandler : MonoBehaviour
                 // Instantiate the object in the battle scene and add it to a dictionary
                 // Why? So we can disable the object later when it dies!
                 GameObject currCharacterInstance = Instantiate(enemy.characterPrefab, enemyMarkers[markerIndex], false);
+
+                currCharacterInstance.transform.localPosition = Vector3.zero;
+                currCharacterInstance.transform.localRotation = Quaternion.identity;
+                currCharacterInstance.transform.localScale = Vector3.one;
+
                 gameObjectRefs.Add(enemy, currCharacterInstance);
                 markerIndex++;
                 if (currEnemy == null)
                 {
                     currEnemy = curr;
                 }
+                livingEnemies.Add(curr); // adds current enemies to targeting list.
 
             }
             //battleList.Add(enemyHandler);
@@ -207,7 +238,7 @@ public class GlobalBattleHandler : MonoBehaviour
         }
 
         // Initialize UI with current HP values (just the sum of all)
-        UI_Handler.uiInit(alliesHP, enemiesHP);
+        UI_Handler.uiInit(overworldBattleHandler.getAllies(), overworldBattleHandler.getEnemies());
 
         Debug.Log("Battle initialized with " + battleQueue.Count + " units");
     }
@@ -279,42 +310,61 @@ public class GlobalBattleHandler : MonoBehaviour
         }*/
     }
 
-    public void damageEnemy(float weaponDamage, float allyDamage)
+    public void damageEnemy(EnemyStateMachine targetEnemy, float attackVal, int targetIndex, AllyStateMachine attacker = null) // Weapon damage removed. Target enemy and attack value are the new parameters.
     {
-        if (!isBattleActive || currEnemy == null || currEnemy.enemy == null)
+        if (!isBattleActive || targetEnemy == null || targetEnemy.enemy == null)
             return;
 
-        Debug.Log($"damageEnemy called with weaponDamage: {weaponDamage}, allyDamage: {allyDamage}");
+        Debug.Log($"damageEnemy called with allyDamage: {attackVal}");
 
-        float damage = Mathf.Max(0, ((1.2f * weaponDamage) + (1.5f * allyDamage)) * 5f);
-        damage -= Mathf.Max(0, (1.5f * currEnemy.enemy.currDefense) * 0.3f);
+        float damage = Mathf.Max(0, ((1.5f * attackVal)) * 5f);
+        damage -= Mathf.Max(0, (1.5f * targetEnemy.enemy.currDefense) * 0.3f);
 
-        if (currEnemy.enemy.isBlocking)
+        // Crush Status effect
+        if (targetEnemy.enemy.HasEffect(EffectType.Crush) && attacker.unitName == "DudeBro ManStrong" && attacker != null)
+        {
+            float healAmount = Mathf.Round(damage * 0.3f);
+
+            for (int i = 0; i < livingAllies.Count; i++)
+            {
+                if (livingAllies[i] != null && livingAllies[i].unitName == "DudeBro ManStrong")
+                {
+                    livingAllies[i].ally.currHP += healAmount;
+                    livingAllies[i].ally.currHP = Mathf.Min(livingAllies[i].ally.baseHP, livingAllies[i].ally.currHP);
+
+                    UI_Handler.updateHealthAlly(i, livingAllies[i].ally.currHP);
+                    ShowBattleLog($"DudeBro absorbed {healAmount} HP!");
+                    break;
+                }
+            }
+        }
+
+        if (targetEnemy.enemy.isBlocking)
         {
             damage *= 0.5f;
-            currEnemy.enemy.isBlocking = false; // Block consumed
+            targetEnemy.enemy.isBlocking = false; // Block consumed
         }
 
         /* Math handling*/
-        currEnemy.enemy.currHP -= damage;
-        currEnemy.enemy.currHP = Mathf.Max(0, currEnemy.enemy.currHP);
+        targetEnemy.enemy.currHP -= damage;
+        targetEnemy.enemy.currHP = Mathf.Max(0, targetEnemy.enemy.currHP);
 
-        Debug.Log($"Damage calculation: Base={(1.2f * weaponDamage + 1.5f * allyDamage) * 5f}, " +
-                  $"Defense={(1.5f * currEnemy.enemy.currDefense) * 0.3f}, " +
-                  $"Final={damage}, Enemy HP now={currEnemy.enemy.currHP}");
+        Debug.Log($"Damage calculation: Base={(1.5f * attackVal) * 5f}, " +
+                  $"Defense={(1.5f * targetEnemy.enemy.currDefense) * 0.3f}, " +
+                  $"Final={damage}, Enemy HP now={targetEnemy.enemy.currHP}");
 
         // Update UI immediately
-        UI_Handler.updateHealthEnemy(currEnemy.enemy.currHP);
+        UI_Handler.updateHealthEnemy(targetIndex, targetEnemy.enemy.currHP);
 
-        Debug.Log("Enemy took " + damage + " damage. HP: " + currEnemy.enemy.currHP);
+        Debug.Log("Enemy took " + damage + " damage. HP: " + targetEnemy.enemy.currHP);
 
         /* Death Checking*/
 
         // Check for death IMMEDIATELY after damage
-        if (currEnemy.enemy.currHP <= 0)
+        if (targetEnemy.enemy.currHP <= 0)
         {
             Debug.Log("ENEMY HEALTH REACHED 0! Triggering death...");
-            currEnemy.currentState = State.DEAD;
+            targetEnemy.currentState = State.DEAD;
             enemyDefeated = true; // Track enemy defeat
 
             // Immediately trigger Die() method
@@ -322,59 +372,58 @@ public class GlobalBattleHandler : MonoBehaviour
             //{
             //    currEnemy.Die();
             //}
-            GameObject dyingObject = gameObjectRefs[currEnemy.enemy];
-            gameObjectRefs.Remove(currEnemy.enemy);
+            GameObject dyingObject = gameObjectRefs[targetEnemy.enemy];
+            gameObjectRefs.Remove(targetEnemy.enemy);
             Destroy(dyingObject);
 
             // Also remove from system
-            RemoveDeadUnit(currEnemy);
+            RemoveDeadUnit(targetEnemy);
 
             // Check if battle should end NOW
             CheckBattleEndImmediate();
         }
     }
 
-    public void damageAlly(float enemyDamage)
+    public void damageAlly(AllyStateMachine targetAlly, float enemyDamage, int targetIndex)
     {
-        if (!isBattleActive || currAlly == null || currAlly.ally == null)
-        if (!isBattleActive)
+        if (!isBattleActive || targetAlly == null || targetAlly.ally == null)
             return;
 
         Debug.Log($"damageAlly called with enemyDamage: {enemyDamage}");
 
         float damage = Mathf.Max(0, (1.5f * enemyDamage) * 5f);
-        damage -= Mathf.Max(0, (1.5f * currAlly.ally.currDefense) * 0.3f);
+        damage -= Mathf.Max(0, (1.5f * targetAlly.ally.currDefense) * 0.3f);
 
-        if (currAlly.ally.isBlocking)
+        if (targetAlly.ally.isBlocking)
         {
             damage *= 0.5f;
-            currAlly.ally.isBlocking = false; // Block consumed
+            targetAlly.ally.isBlocking = false; // Block consumed
         }
 
-        currAlly.ally.currHP -= damage;
-        currAlly.ally.currHP = Mathf.Max(0, currAlly.ally.currHP);
+        targetAlly.ally.currHP -= damage;
+        targetAlly.ally.currHP = Mathf.Max(0, targetAlly.ally.currHP);
 
         Debug.Log($"Ally damage: Base={(1.5f * enemyDamage) * 5f}, " +
-                  $"Defense={(1.5f * currAlly.ally.currDefense) * 0.3f}, " +
-                  $"Final={damage}, Ally HP now={currAlly.ally.currHP}");
+                  $"Defense={(1.5f * targetAlly.ally.currDefense) * 0.3f}, " +
+                  $"Final={damage}, Ally HP now={targetAlly.ally.currHP}");
 
         // Update UI immediately
-        UI_Handler.updateHealthAlly(currAlly.ally.currHP);
+        UI_Handler.updateHealthAlly(targetIndex, targetAlly.ally.currHP);
 
-        Debug.Log("Ally took " + damage + " damage. HP: " + currAlly.ally.currHP);
+        Debug.Log("Ally took " + damage + " damage. HP: " + targetAlly.ally.currHP);
 
-        if (currAlly.ally.currHP <= 0)
+        if (targetAlly.ally.currHP <= 0)
         {
             Debug.Log("ALLY HEALTH REACHED 0! Triggering death...");
-            currAlly.currentState = State.DEAD;
+            targetAlly.currentState = State.DEAD;
             playerDefeated = true; // Track player defeat
 
             // Immediately trigger Die() method
 
             // Thought: we wouldn't even be able to reach the conditional
             // if currAlly was null since it would cause currAlly.ally.currHP to fail!
-            GameObject dyingObject = gameObjectRefs[currAlly.ally];
-            gameObjectRefs.Remove(currAlly.ally);
+            GameObject dyingObject = gameObjectRefs[targetAlly.ally];
+            gameObjectRefs.Remove(targetAlly.ally);
             Destroy(dyingObject);
 
 
@@ -383,7 +432,7 @@ public class GlobalBattleHandler : MonoBehaviour
             //    currAlly.Die();
             //}
 
-            //RemoveDeadUnit(allyHandler);
+            RemoveDeadUnit(targetAlly);
 
             // Check if battle should end NOW
             CheckBattleEndImmediate();
@@ -396,6 +445,19 @@ public class GlobalBattleHandler : MonoBehaviour
         if (deadUnit == null) return;
 
         Debug.Log($"RemoveDeadUnit called for: {deadUnit.unitName}");
+
+        // Remove from living enemies list
+        if (deadUnit is EnemyStateMachine deadEnemy)
+        {
+            int index = livingEnemies.IndexOf(deadEnemy);
+            if (index != -1) livingEnemies[index] = null;
+        }
+
+        if (deadUnit is AllyStateMachine deadAlly)
+        {
+            int index = livingAllies.IndexOf(deadAlly);
+            if (index != -1) livingAllies[index] = null;
+        }
 
         // Remove from active units
         if (activeUnits.Contains(deadUnit))
@@ -477,7 +539,7 @@ public class GlobalBattleHandler : MonoBehaviour
 
         Debug.Log("Starting EndBattleCoroutine...");
         isBattleActive = false;
-        overworldBattleHandler.clear();
+        overworldBattleHandler.clearEnemies();
 
         string result = playerLost ? "DEFEAT" : "VICTORY";
         Debug.Log("Battle Over: " + result);
@@ -511,7 +573,7 @@ public class GlobalBattleHandler : MonoBehaviour
             enemyDefeated = false;
             playerDefeated = false;
 
-            SceneManager.LoadScene(deathSceneName);
+            SceneTransitioner.Instance.StartTransition(deathSceneName);
         }
         else
         {
@@ -680,4 +742,66 @@ public class GlobalBattleHandler : MonoBehaviour
         battleLogCanvasGroup.alpha = 0f;
     }
 
+    // Activates Ally attack payload on enemies
+    public void ExecuteTargetedAction(ActionPayload payload, EnemyStateMachine targetEnemy, int targetIndex, AllyStateMachine attacker)
+    {
+        // 1. Deal Damage (If it's an Attack or a Charge)
+        if (payload.type == ActionType.Attack || payload.type == ActionType.Charge)
+        {
+            damageEnemy(targetEnemy, payload.value, targetIndex, attacker);
+        }
+
+        // 2. Apply Debuffs (If the payload contains one)
+        if (payload.effect != EffectType.None)
+        {
+            targetEnemy.enemy.ApplyEffect(payload.effect, payload.effectDuration, payload.effectValue);
+            ShowBattleLog($"Target was inflicted with {payload.effect}!");
+        }
+
+        // NEW: Apply self-buffs to the attacker!
+        if (payload.selfEffect != EffectType.None && attacker != null)
+        {
+            attacker.ally.ApplyEffect(payload.selfEffect, payload.selfEffectDuration);
+            ShowBattleLog($"{attacker.unitName} gained {payload.selfEffect}!");
+        }
+    }
+
+    // Activates Ally AOE attack on enemies
+    public void ExecuteAOEAction(ActionPayload payload, AllyStateMachine attacker)
+    {
+        for (int i = 0; i < livingEnemies.Count; i++)
+        {
+            EnemyStateMachine e = livingEnemies[i];
+            if (e != null)
+            {
+                damageEnemy(e, payload.value, i, attacker);
+                if (payload.effect != EffectType.None)
+                {
+                    e.enemy.ApplyEffect(payload.effect, payload.effectDuration, payload.effectValue);
+                }
+            }
+        }
+        ShowBattleLog("The attack hit everyone!");
+        // NEW: Apply self-buffs to the attacker!
+        if (payload.selfEffect != EffectType.None && attacker != null)
+        {
+            attacker.ally.ApplyEffect(payload.selfEffect, payload.selfEffectDuration);
+            ShowBattleLog($"{attacker.unitName} gained {payload.selfEffect}!");
+        }
+    }
+
+    // Activates enemy attacks on allies
+    public void ExecuteEnemyAction(ActionPayload payload, AllyStateMachine targetAlly, int targetIndex, EnemyStateMachine attacker)
+    {
+        if (payload.type == ActionType.Attack || payload.type == ActionType.Charge) // deal damage
+        {
+            damageAlly(targetAlly, payload.value, targetIndex);
+        }
+
+        if (payload.effect != EffectType.None)
+        {
+            targetAlly.ally.ApplyEffect(payload.effect, payload.effectDuration, payload.effectValue);
+            ShowBattleLog($"{targetAlly.unitName} was {payload.effect}!");
+        }
+    }
 }

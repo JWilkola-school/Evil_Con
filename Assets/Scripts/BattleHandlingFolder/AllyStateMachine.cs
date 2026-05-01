@@ -1,15 +1,25 @@
+using NUnit.Framework.Internal.Commands;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class AllyStateMachine : GenBattleObjects
 {
     public BaseAllySetup ally;
 
+    // Targeting System (Select which enemy to attack) Variables to hold attacks in place, when selecting target to attack. 
+    public bool targetMenu = false;
+    //private float pendingAttackValue = 0f;
+    //private string pendingAttackName = "";
+
     public override float unitSpeed { get { return ally != null ? ally.currSpeed : 0; } }
     public override string unitName { get { return ally != null ? ally.allyName : "Unknown"; } }
 
     public State currentState;
     public GlobalBattleHandler globalBattleHandler;
+    public ActionPayload pendingAction;
+    private ActionPayload storedChargePayload;
+    private int selectedAttackIndex = -1;
 
     private bool printOnce = true;
     private float actionTimeout = 10f; // Time to wait for player input
@@ -61,13 +71,46 @@ public class AllyStateMachine : GenBattleObjects
                 break;
 
             case State.ACTION:
-                if (printOnce)
+                // charge turn = skip turn
+                if (ally != null && ally.chargeTimeLeft > 0)
+                {
+                    if (printOnce)
+                    {
+                        ally.chargeTimeLeft--;
+                        if (ally.chargeTimeLeft <= 0) // unleash charge attack
+                        {
+                            if (globalBattleHandler != null)
+                            {
+                                globalBattleHandler.ShowBattleLog($"{unitName} unleashed {storedChargePayload.actionName}!");
+                                int savedTargetIndex = ally.pendingChargeTarget;
+                                if (savedTargetIndex < globalBattleHandler.livingEnemies.Count && globalBattleHandler.livingEnemies[savedTargetIndex] != null)
+                                {
+                                    EnemyStateMachine targetEnemy = globalBattleHandler.livingEnemies[savedTargetIndex];
+                                    globalBattleHandler.ExecuteTargetedAction(storedChargePayload, targetEnemy, savedTargetIndex, this);
+                                }
+                                else
+                                {
+                                    Debug.Log("Charge target enemy is dead! Attack is wasted.");
+                                    globalBattleHandler.ShowBattleLog("But the target was already gone...");
+                                }
+                                
+                            }
+                        }
+                        currentState = State.ADDTOLIST;
+                        printOnce = false;
+                    }
+                    break;
+                }
+
+                // Regular turn
+                if (printOnce && currentState != State.ACTION)
                 {
                     Debug.Log(unitName + ": Your turn! Choose an action!");
                     // Tick all active buffs at the exact start of new turn
                     if (ally != null)
                     {
-                        ally.TickBuffs();
+                        ally.TickEffects();
+                        ally.TickCooldowns();
                     }
 
                     printOnce = false;
@@ -83,13 +126,17 @@ public class AllyStateMachine : GenBattleObjects
                 }
                 else
                 {
-                    if (!attackMenu)
+                    if (!attackMenu && !targetMenu)
                     {
                         TakeAction();
                     }
-                    else
+                    else if (attackMenu && !targetMenu)
                     {
                         TakeAction2();
+                    }
+                    else if (targetMenu)
+                    {
+                        TakeActionTarget();
                     }
                 }
                 break;
@@ -150,8 +197,10 @@ public class AllyStateMachine : GenBattleObjects
             if (!ally.isBlocking)
             {
                 Debug.Log("Ally chose to BLOCK!");
+                globalBattleHandler.ShowBattleLog($"{unitName} is blocking!");
                 allyBlock();
-                currentState = State.ADDTOLIST;
+                //currentState = State.ADDTOLIST;
+                FinishAction();
             }
             else
             {
@@ -174,83 +223,176 @@ public class AllyStateMachine : GenBattleObjects
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            string attackName = ally.attackNames[0];
-            if (globalBattleHandler != null)
+            if (ally.currentCooldowns[0] > 0)
             {
-                globalBattleHandler.ShowBattleLog($"{unitName} used {attackName}!");
+                if (globalBattleHandler != null)
+                    globalBattleHandler.ShowBattleLog($"{ally.attackNames[0]} is on cooldown for {ally.currentCooldowns[0]} turns!");
+                return;
             }
-            Debug.Log("Ally chose to ATTACK 1!");
-            float attackVal = ally.attack1();
-            if (attackVal > 0)
+
+            selectedAttackIndex = 0;
+            pendingAction = ally.attack1();
+
+            if (pendingAction.isAOE)
             {
-                globalBattleHandler.damageEnemy(0, attackVal);
+                attackMenu = false;
+                globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAction.actionName}");
+                ally.currentCooldowns[selectedAttackIndex] = pendingAction.baseCooldown;
+                globalBattleHandler.ExecuteAOEAction(pendingAction, this);
+                FinishAction();
             }
-            currentState = State.ADDTOLIST;
+            else
+            {
+                attackMenu = false;
+                targetMenu = true;
+                PromptTargetSelection();
+            }
+            /*Debug.Log("Ally chose to ATTACK 1!");
+
+            pendingAttackValue = ally.attack1();
+            pendingAttackName = ally.attackNames[0];
+
             attackMenu = false;
-            if (globalBattleHandler != null)
-            {
-                globalBattleHandler.toggleMenus(false, false);
-            }
+            targetMenu = true;
+
+            Debug.Log("Select a target! (Press 1 or 2)");
+            PromptTargetSelection();*/
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            string attackName = ally.attackNames[1];
-            if (globalBattleHandler != null)
+            if (ally.currentCooldowns[1] > 0)
             {
-                globalBattleHandler.ShowBattleLog($"{unitName} used {attackName}!");
+                if (globalBattleHandler != null)
+                    globalBattleHandler.ShowBattleLog($"{ally.attackNames[1]} is on cooldown for {ally.currentCooldowns[1]} turns!");
+                return;
             }
-            Debug.Log("Ally chose to ATTACK 2!");
-            float attackVal = ally.attack2();
-            if (attackVal > 0)
+
+            selectedAttackIndex = 1;
+            pendingAction = ally.attack2();
+
+            if (pendingAction.isAOE)
             {
-                globalBattleHandler.damageEnemy(0, attackVal);
+                attackMenu = false;
+                globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAction.actionName}");
+                ally.currentCooldowns[selectedAttackIndex] = pendingAction.baseCooldown;
+                globalBattleHandler.ExecuteAOEAction(pendingAction, this);
+                FinishAction();
             }
-            currentState = State.ADDTOLIST;
+            else
+            {
+                attackMenu = false;
+                targetMenu = true;
+                PromptTargetSelection();
+            }
+            /*Debug.Log("Ally chose to ATTACK 2!");
+
+            pendingAttackValue = ally.attack2();
+            pendingAttackName = ally.attackNames[1];
+
             attackMenu = false;
-            if (globalBattleHandler != null)
-            {
-                globalBattleHandler.toggleMenus(false, false);
-            }
+            targetMenu = true;
+
+            Debug.Log("Select a target! (Press 1 or 2)");
+            PromptTargetSelection();*/
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            string attackName = ally.attackNames[2];
-            if (globalBattleHandler != null)
+            if (ally.currentCooldowns[2] > 0)
             {
-                globalBattleHandler.ShowBattleLog($"{unitName} used {attackName}!");
+                if (globalBattleHandler != null)
+                    globalBattleHandler.ShowBattleLog($"{ally.attackNames[2]} is on cooldown for {ally.currentCooldowns[2]} turns!");
+                return;
             }
-            Debug.Log("Ally chose to ATTACK 3!");
-            float attackVal = ally.attack3();
-            if (attackVal > 0)
+
+            selectedAttackIndex = 2;
+            pendingAction = ally.attack3();
+
+            if (pendingAction.isAOE)
             {
-                globalBattleHandler.damageEnemy(0, attackVal);
+                attackMenu = false;
+                globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAction.actionName}");
+                ally.currentCooldowns[selectedAttackIndex] = pendingAction.baseCooldown;
+                globalBattleHandler.ExecuteAOEAction(pendingAction, this);
+                FinishAction();
             }
-            currentState = State.ADDTOLIST;
+            else
+            {
+                attackMenu = false;
+                targetMenu = true;
+                PromptTargetSelection();
+            }
+            /*Debug.Log("Ally chose to ATTACK 3!");
+
+            pendingAttackValue = ally.attack3();
+            pendingAttackName = ally.attackNames[2];
+
             attackMenu = false;
-            if (globalBattleHandler != null)
-            {
-                globalBattleHandler.toggleMenus(false, false);
-            }
+            targetMenu = true;
+
+            Debug.Log("Select a target! (Press 1 or 2)");
+            PromptTargetSelection();*/
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            string attackName = ally.attackNames[3];
-            if (globalBattleHandler != null)
+            if (ally.currentCooldowns[3] > 0)
             {
-                globalBattleHandler.ShowBattleLog($"{unitName} used {attackName}!");
+                if (globalBattleHandler != null)
+                    globalBattleHandler.ShowBattleLog($"{ally.attackNames[3]} is on cooldown for {ally.currentCooldowns[3]} turns!");
+                return;
             }
-            Debug.Log("Ally chose to ATTACK 4!");
-            float attackVal = ally.attack4();
-            if (attackVal > 0)
+
+            selectedAttackIndex = 3;
+            pendingAction = ally.attack4();
+
+            if (pendingAction.isAOE)
             {
-                globalBattleHandler.damageEnemy(0, attackVal);
+                attackMenu = false;
+                globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAction.actionName}");
+
+                ally.currentCooldowns[selectedAttackIndex] = pendingAction.baseCooldown;
+                globalBattleHandler.ExecuteAOEAction(pendingAction, this);
+                FinishAction();
             }
-            currentState = State.ADDTOLIST;
+            else
+            {
+                attackMenu = false;
+                targetMenu = true;
+                PromptTargetSelection();
+            }
+
+            /*Debug.Log("Ally chose to ATTACK 4!");
+
+            pendingAttackValue = ally.attack4();
+            pendingAttackName = ally.attackNames[3];
+
+            if (pendingAttackName == "SMASH!!!") // Dudebro's SMASH!!!
+            {
+                attackMenu = false;
+                globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAttackName}!");
+
+                for (int i = 0; i < globalBattleHandler.livingEnemies.Count; i++)
+                {
+                    EnemyStateMachine e = globalBattleHandler.livingEnemies[i];
+                    if (e != null)
+                    {
+                        globalBattleHandler.damageEnemy(e, pendingAttackValue, i);
+                        e.enemy.ApplyEffect(EffectType.Crush, 3); // Apply Crush to everyone
+                    }
+                }
+                FinishAction();
+            }
+            else // Security Guard Badge attack here.
+            {
+                attackMenu = false;
+                targetMenu = true;
+                PromptTargetSelection();
+            }
+
             attackMenu = false;
-            if (globalBattleHandler != null)
-            {
-                globalBattleHandler.toggleMenus(false, false);
-            }
+            targetMenu = true;
+
+            Debug.Log("Select a target! (Press 1 or 2)");
+            PromptTargetSelection();*/
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
@@ -263,13 +405,72 @@ public class AllyStateMachine : GenBattleObjects
         }
     }
 
+    // Method to execute attack on targeted enemy
+    public void TakeActionTarget()
+    {
+        int targetIndex = -1;
+
+        // Map keyboard input to enemy list index
+        if (Input.GetKeyDown(KeyCode.Alpha1)) targetIndex = 0;
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) targetIndex = 1;
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) targetIndex = 2;
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) targetIndex = 3;
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            targetMenu = false;
+            attackMenu = true;
+            Debug.Log("Cancelled targeting. Choose an attack!");
+            return;
+        }
+
+        // Valid target selected, execute attack
+        if (targetIndex != -1)
+        {
+            // Check to make sure enemy exists in living enemies list
+            if (targetIndex < globalBattleHandler.livingEnemies.Count && globalBattleHandler.livingEnemies[targetIndex] != null)
+            {
+                EnemyStateMachine selectedEnemy = globalBattleHandler.livingEnemies[targetIndex];
+                if (globalBattleHandler != null)
+                {
+                    ally.currentCooldowns[selectedAttackIndex] = pendingAction.baseCooldown;
+                    if (pendingAction.type == ActionType.Charge)
+                    {
+                        globalBattleHandler.ShowBattleLog($"{unitName} began charging {pendingAction.actionName}!");
+                        ally.chargeTimeLeft = 1;
+                        ally.pendingChargeTarget = targetIndex;
+                        storedChargePayload = pendingAction; // Save the payload for the unleash turn!
+                    }
+                    else
+                    {
+                        globalBattleHandler.ShowBattleLog($"{unitName} used {pendingAction.actionName}!");
+                        globalBattleHandler.ExecuteTargetedAction(pendingAction, selectedEnemy, targetIndex, this);
+                    }
+                }
+                targetMenu = false;
+                FinishAction();
+            }
+            else
+            {
+                Debug.Log("No enemy in that slot! Pick a different target.");
+                if (globalBattleHandler != null)
+                {
+                    globalBattleHandler.ShowBattleLog("No target here! Select a different target. (Press 1 or 2)");
+                }
+            }
+        }
+    }
+
     public override void basicAttack()
     {
         Debug.Log("Ally attacking enemy!");
 
-        if (globalBattleHandler != null)
+        if (globalBattleHandler != null && globalBattleHandler.livingEnemies.Count > 0)
         {
-            globalBattleHandler.damageEnemy(0, ally.currDamage);
+            EnemyStateMachine targetEnemy = globalBattleHandler.livingEnemies[0];
+            int targetIndex = 0;
+
+            // Pass the new required parameters: Who to hit, the damage, and the UI index
+            globalBattleHandler.damageEnemy(targetEnemy, ally.currDamage, targetIndex);
         }
     }
 
@@ -289,15 +490,63 @@ public class AllyStateMachine : GenBattleObjects
     {
         Debug.Log("Ally has died.");
 
-        // Just remove the ally; no reason to do this anymore...
-        //gameObject.SetActive(false);
-
         // Let GlobalBattleHandler handle scene transition
         if (globalBattleHandler != null)
         {
             globalBattleHandler.RemoveDeadUnit(this);
         }
+    }
 
-        // DO NOT load scene here - GlobalBattleHandler handles it
+    private void PromptTargetSelection()
+    {
+        string targetText = "Targets: ";
+        for (int i = 0; i < globalBattleHandler.livingEnemies.Count; i++)
+        {
+            if (globalBattleHandler.livingEnemies[i] != null)
+            {
+                targetText += $"[{i + 1}] {globalBattleHandler.livingEnemies[i].unitName}   ";
+            }
+        }
+
+        if (globalBattleHandler != null)
+        {
+            globalBattleHandler.ShowBattleLog(targetText);
+        }
+    }
+
+    private bool hasTakenSecondAction = false;
+    private void FinishAction()
+    {
+        // Does the character have Adrenaline, and is this their first action of the turn?
+        if (ally.HasEffect(EffectType.Adrenaline) && !hasTakenSecondAction)
+        {
+            hasTakenSecondAction = true;
+
+            if (globalBattleHandler != null)
+            {
+                globalBattleHandler.ShowBattleLog($"{unitName} is surging with Adrenaline! Extra turn!");
+
+                // Force the main action menu (Attack, Block, Item) back open!
+                globalBattleHandler.toggleMenus(false, false);
+            }
+
+            // Reset the targeting sub-menus just in case
+            targetMenu = false;
+            attackMenu = false;
+
+            // BONUS FIX: Reset their timeout clock! Otherwise, if they took 9 seconds 
+            // to do their first attack, they would instantly timeout on their extra turn!
+            currentTimeout = actionTimeout;
+
+            // THE FIX: Do NOT change the state to WAITING! Keep them in ACTION!
+            currentState = State.ACTION;
+        }
+        else
+        {
+            hasTakenSecondAction = false;
+
+            // THIS is what officially ends the turn and tells the Stage Director to move on!
+            currentState = State.ADDTOLIST;
+        }
     }
 }

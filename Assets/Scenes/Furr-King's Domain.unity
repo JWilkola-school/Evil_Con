@@ -461,6 +461,89 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9140547912708430085, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
   m_PrefabInstance: {fileID: 452106954}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &29992416 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3310978985137327728, guid: 54a682c2c93b99f4c9d9e52766b22d42, type: 3}
+  m_PrefabInstance: {fileID: 790846012}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &29992422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29992416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e86417d1705e040bd7289f6c7946e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
+  enemiesInThisBattle: 0200000000000000
+  chaseRange: 0
+  battleRange: 1.5
+  moveSpeed: 0
+  patrolSpeed: 0
+  rotationSpeed: 5
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  player: {fileID: 0}
+  childAnimator: {fileID: 0}
+--- !u!136 &29992423
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29992416}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.66791147
+  m_Height: 4.2487307
+  m_Direction: 1
+  m_Center: {x: 0.16791184, y: 1.6243653, z: 7.351607e-10}
+--- !u!65 &29992424
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29992416}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.706498, y: 3.9062045, z: 7.87123}
+  m_Center: {x: -0.79582727, y: 1.4531022, z: -0.08504629}
+--- !u!114 &29992425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29992416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716384753fd2eae47826e8bc2b20c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
 --- !u!1 &30157283 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8600156033241176465, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
@@ -1303,10 +1386,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1538526590}
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1538526589}
   m_SourcePrefab: {fileID: 100100000, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
 --- !u!4 &89441422 stripped
 Transform:
@@ -1374,6 +1464,45 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
+--- !u!1 &92444743 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+  m_PrefabInstance: {fileID: 1044504925}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &92444748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92444743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e86417d1705e040bd7289f6c7946e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
+  enemiesInThisBattle: 0000000000000000
+  chaseRange: 8
+  battleRange: 1.5
+  moveSpeed: 5
+  patrolSpeed: 2
+  rotationSpeed: 5
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  player: {fileID: 0}
+  childAnimator: {fileID: 0}
+--- !u!114 &92444749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92444743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716384753fd2eae47826e8bc2b20c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
 --- !u!1 &94200399 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8600156033241176465, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
@@ -1810,6 +1939,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9140547912708430085, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
   m_PrefabInstance: {fileID: 1422069973}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &133032161 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+  m_PrefabInstance: {fileID: 746381942}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &133032166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133032161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e86417d1705e040bd7289f6c7946e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
+  enemiesInThisBattle: 0000000000000000
+  chaseRange: 8
+  battleRange: 1.5
+  moveSpeed: 5
+  patrolSpeed: 2
+  rotationSpeed: 5
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  player: {fileID: 0}
+  childAnimator: {fileID: 0}
+--- !u!114 &133032167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133032161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716384753fd2eae47826e8bc2b20c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
 --- !u!1001 &140661023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2243,6 +2411,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9140547912708430085, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
   m_PrefabInstance: {fileID: 1207079088}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &176905445 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+  m_PrefabInstance: {fileID: 486978989}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &176905450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176905445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e86417d1705e040bd7289f6c7946e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
+  enemiesInThisBattle: 0000000000000000
+  chaseRange: 8
+  battleRange: 1.5
+  moveSpeed: 5
+  patrolSpeed: 2
+  rotationSpeed: 5
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  player: {fileID: 0}
+  childAnimator: {fileID: 0}
+--- !u!114 &176905451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176905445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716384753fd2eae47826e8bc2b20c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
 --- !u!1001 &179096775
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3350,6 +3557,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9140547912708430085, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
   m_PrefabInstance: {fileID: 737816366}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &282696165 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+  m_PrefabInstance: {fileID: 1791905822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &282696170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282696165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e86417d1705e040bd7289f6c7946e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
+  enemiesInThisBattle: 0000000000000000
+  chaseRange: 8
+  battleRange: 1.5
+  moveSpeed: 5
+  patrolSpeed: 2
+  rotationSpeed: 5
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  player: {fileID: 0}
+  childAnimator: {fileID: 0}
+--- !u!114 &282696171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282696165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716384753fd2eae47826e8bc2b20c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
 --- !u!1 &284307441
 GameObject:
   m_ObjectHideFlags: 0
@@ -5386,6 +5632,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9140547912708430085, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
   m_PrefabInstance: {fileID: 1917111102}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &390685685 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+  m_PrefabInstance: {fileID: 1446072536}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &390685690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390685685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e86417d1705e040bd7289f6c7946e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
+  enemiesInThisBattle: 0000000000000000
+  chaseRange: 8
+  battleRange: 1.5
+  moveSpeed: 5
+  patrolSpeed: 2
+  rotationSpeed: 5
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  player: {fileID: 0}
+  childAnimator: {fileID: 0}
+--- !u!114 &390685691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390685685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716384753fd2eae47826e8bc2b20c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
 --- !u!1001 &391477324
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6450,6 +6735,45 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
+--- !u!1 &485676583 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+  m_PrefabInstance: {fileID: 1551171707}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &485676588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485676583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e86417d1705e040bd7289f6c7946e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
+  enemiesInThisBattle: 0000000000000000
+  chaseRange: 8
+  battleRange: 1.5
+  moveSpeed: 5
+  patrolSpeed: 2
+  rotationSpeed: 5
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  player: {fileID: 0}
+  childAnimator: {fileID: 0}
+--- !u!114 &485676589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485676583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716384753fd2eae47826e8bc2b20c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
 --- !u!1001 &486978989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6518,10 +6842,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 176905451}
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 176905450}
   m_SourcePrefab: {fileID: 100100000, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
 --- !u!1001 &489475740
 PrefabInstance:
@@ -7235,6 +7566,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9140547912708430085, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
   m_PrefabInstance: {fileID: 923080644}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &574838108 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+  m_PrefabInstance: {fileID: 1273636142}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &574838113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574838108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e86417d1705e040bd7289f6c7946e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
+  enemiesInThisBattle: 0000000000000000
+  chaseRange: 8
+  battleRange: 1.5
+  moveSpeed: 5
+  patrolSpeed: 2
+  rotationSpeed: 5
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  player: {fileID: 0}
+  childAnimator: {fileID: 0}
+--- !u!114 &574838114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574838108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716384753fd2eae47826e8bc2b20c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
 --- !u!4 &575890277 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9140547912708430085, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
@@ -9245,10 +9615,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 133032167}
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 133032166}
   m_SourcePrefab: {fileID: 100100000, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
 --- !u!1 &756768391 stripped
 GameObject:
@@ -9682,6 +10059,45 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
+--- !u!1 &781743263 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+  m_PrefabInstance: {fileID: 1983143398}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &781743268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781743263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e86417d1705e040bd7289f6c7946e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
+  enemiesInThisBattle: 0000000000000000
+  chaseRange: 8
+  battleRange: 1.5
+  moveSpeed: 5
+  patrolSpeed: 2
+  rotationSpeed: 5
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  player: {fileID: 0}
+  childAnimator: {fileID: 0}
+--- !u!114 &781743269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781743263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716384753fd2eae47826e8bc2b20c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
 --- !u!1 &781898566 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8600156033241176465, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
@@ -9828,10 +10244,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fur King
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2200199958230671140, guid: 54a682c2c93b99f4c9d9e52766b22d42, type: 3}
+    - {fileID: 3036406286218990385, guid: 54a682c2c93b99f4c9d9e52766b22d42, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3310978985137327728, guid: 54a682c2c93b99f4c9d9e52766b22d42, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 29992422}
+    - targetCorrespondingSourceObject: {fileID: 3310978985137327728, guid: 54a682c2c93b99f4c9d9e52766b22d42, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 29992425}
+    - targetCorrespondingSourceObject: {fileID: 3310978985137327728, guid: 54a682c2c93b99f4c9d9e52766b22d42, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 29992424}
+    - targetCorrespondingSourceObject: {fileID: 3310978985137327728, guid: 54a682c2c93b99f4c9d9e52766b22d42, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 29992423}
   m_SourcePrefab: {fileID: 100100000, guid: 54a682c2c93b99f4c9d9e52766b22d42, type: 3}
 --- !u!1001 &791309745
 PrefabInstance:
@@ -13659,10 +14089,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 92444749}
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 92444748}
   m_SourcePrefab: {fileID: 100100000, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
 --- !u!4 &1046357588 stripped
 Transform:
@@ -14076,6 +14513,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9140547912708430085, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
   m_PrefabInstance: {fileID: 1101334629}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1115198904 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+  m_PrefabInstance: {fileID: 1880607548}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1115198909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115198904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e86417d1705e040bd7289f6c7946e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
+  enemiesInThisBattle: 0000000000000000
+  chaseRange: 8
+  battleRange: 1.5
+  moveSpeed: 5
+  patrolSpeed: 2
+  rotationSpeed: 5
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  player: {fileID: 0}
+  childAnimator: {fileID: 0}
+--- !u!114 &1115198910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115198904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716384753fd2eae47826e8bc2b20c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
 --- !u!1 &1116177848 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8600156033241176465, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
@@ -15723,10 +16199,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 574838114}
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 574838113}
   m_SourcePrefab: {fileID: 100100000, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
 --- !u!4 &1274370683 stripped
 Transform:
@@ -17214,10 +17697,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1578929288}
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1578929287}
   m_SourcePrefab: {fileID: 100100000, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
 --- !u!4 &1430621008 stripped
 Transform:
@@ -17421,10 +17911,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 390685691}
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 390685690}
   m_SourcePrefab: {fileID: 100100000, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
 --- !u!4 &1450021787 stripped
 Transform:
@@ -17877,10 +18374,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1911047190}
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1911047189}
   m_SourcePrefab: {fileID: 100100000, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
 --- !u!4 &1511495642 stripped
 Transform:
@@ -18179,6 +18683,45 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 849905195}
   m_SourcePrefab: {fileID: 100100000, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
+--- !u!1 &1538526584 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+  m_PrefabInstance: {fileID: 89147571}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1538526589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538526584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e86417d1705e040bd7289f6c7946e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
+  enemiesInThisBattle: 0000000000000000
+  chaseRange: 8
+  battleRange: 1.5
+  moveSpeed: 5
+  patrolSpeed: 2
+  rotationSpeed: 5
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  player: {fileID: 0}
+  childAnimator: {fileID: 0}
+--- !u!114 &1538526590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538526584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716384753fd2eae47826e8bc2b20c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
 --- !u!1001 &1538874794
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18545,10 +19088,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 485676589}
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 485676588}
   m_SourcePrefab: {fileID: 100100000, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
 --- !u!1001 &1559184187
 PrefabInstance:
@@ -18732,6 +19282,45 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
+--- !u!1 &1578929282 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+  m_PrefabInstance: {fileID: 1426564064}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1578929287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578929282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e86417d1705e040bd7289f6c7946e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
+  enemiesInThisBattle: 0000000000000000
+  chaseRange: 8
+  battleRange: 1.5
+  moveSpeed: 5
+  patrolSpeed: 2
+  rotationSpeed: 5
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  player: {fileID: 0}
+  childAnimator: {fileID: 0}
+--- !u!114 &1578929288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578929282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716384753fd2eae47826e8bc2b20c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
 --- !u!1001 &1579901961
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21279,10 +21868,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 282696171}
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 282696170}
   m_SourcePrefab: {fileID: 100100000, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
 --- !u!1001 &1792172003
 PrefabInstance:
@@ -22605,10 +23201,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1115198910}
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1115198909}
   m_SourcePrefab: {fileID: 100100000, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
 --- !u!1001 &1883793795
 PrefabInstance:
@@ -23014,6 +23617,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9140547912708430085, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
   m_PrefabInstance: {fileID: 797874586}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1911047184 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+  m_PrefabInstance: {fileID: 1508981884}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1911047189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911047184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e86417d1705e040bd7289f6c7946e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
+  enemiesInThisBattle: 0000000000000000
+  chaseRange: 8
+  battleRange: 1.5
+  moveSpeed: 5
+  patrolSpeed: 2
+  rotationSpeed: 5
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  player: {fileID: 0}
+  childAnimator: {fileID: 0}
+--- !u!114 &1911047190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1911047184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 716384753fd2eae47826e8bc2b20c928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemy
 --- !u!4 &1914349830 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9140547912708430085, guid: c5cea408e9c8ac644b2d2c96cd4bfa4e, type: 3}
@@ -23835,10 +24477,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5556489659651372527, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 781743269}
+    - targetCorrespondingSourceObject: {fileID: 6973805836609817147, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 781743268}
   m_SourcePrefab: {fileID: 100100000, guid: ff0f312d3fdddf04eb7ce826f3f06dd2, type: 3}
 --- !u!1 &1983733756 stripped
 GameObject:

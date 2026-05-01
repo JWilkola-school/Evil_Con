@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class SecurityGuardSetup : BaseAllySetup
 {
@@ -15,35 +16,70 @@ public class SecurityGuardSetup : BaseAllySetup
         this.currDamage = 3f;
         this.chargeTimeLeft = -1;
         this.canSpecial = false;
-        this.characterPrefab = Resources.Load<GameObject>("Prefabs/Security Guard (Battle)");
-        this.attackNames = new string[] { "Beat", "Leg Workout", "WIP", "WIP" };
+        this.characterPrefab = Resources.Load<GameObject>("Prefabs/Security Guard");
+        this.attackNames = new string[] { "Beat", "Leg Workout", "FREEZE!!!", "WHERE'S YOUR BADGE?!?!?!?" };
     }
 
-    public void doubleSpeed()
+    // Beat: basic attack
+    public override ActionPayload attack1() 
     {
-        this.currSpeed = this.baseSpeed * 2;
-        ActiveBuff newBuff = new ActiveBuff(StatType.Speed, 3);
-        this.activeBuffs.Add(newBuff);
-        Debug.Log($"{allyName} doubled their speed for 3 turns!");
+        return new ActionPayload
+        {
+            type = ActionType.Attack,
+            actionName = attackNames[0],
+            value = basicAttack(),
+            isAOE = false,
+            effect = EffectType.None
+        };
     }
 
-    public override float attack1() {
-        return basicAttack();
-    }
-    public override float attack2()
+    // Leg Workout: Doubles Speed of Security Guard
+    public override ActionPayload attack2()
     {
-        doubleSpeed();
-        return -1.5f;
+        this.ApplyEffect(EffectType.SpeedUp, 3);
+        return new ActionPayload
+        {
+            type = ActionType.Buff,
+            actionName = attackNames[1],
+            isAOE = false,
+            effect = EffectType.None,
+            selfEffect = EffectType.SpeedUp,
+            selfEffectDuration = 3,
+            baseCooldown = 2
+        };
     }
 
-    public override float attack3()
+    // FREEZE!!!: Single target, Inflicts Tased
+    public override ActionPayload attack3()
     {
-        return basicAttack();
+        return new ActionPayload
+        {
+            type = ActionType.Attack,
+            actionName = attackNames[2],
+            value = basicAttack(),
+            isAOE = false,
+            effect = EffectType.Tased,
+            effectDuration = 3,
+            effectValue = 3f,
+            baseCooldown = 2
+        };
     }
 
-    public override float attack4()
+    // WHERE'S YOUR BADGE?!?!?!?: Single target, buffs Security Guard with Adrenaline
+    public override ActionPayload attack4()
     {
-        return basicAttack();
+        this.ApplyEffect(EffectType.Adrenaline, 3);
+        return new ActionPayload
+        {
+            type = ActionType.Attack,
+            actionName = attackNames[3],
+            value = basicAttack() * 1.2f,
+            isAOE = false,
+            effect = EffectType.None,
+            selfEffect = EffectType.Adrenaline,
+            selfEffectDuration = 1,
+            baseCooldown = 5
+        };
     }
 }
 

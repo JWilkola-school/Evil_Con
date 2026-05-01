@@ -52,6 +52,6 @@ public class BossEncounter : MonoBehaviour
         Debug.Log("Fur King Intro Complete. Launching Battle.");
         // Call the static transition method, passing the Fur King's own GameObject.
         // This is where the scene change happens.
-        BattleTransitioner.InitiateForcedCombat(this.gameObject);
+        //BattleTransitioner.InitiateForcedCombat(this.gameObject);
     }
 }

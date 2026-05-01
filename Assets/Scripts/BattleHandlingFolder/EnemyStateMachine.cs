@@ -54,6 +54,10 @@ public class EnemyStateMachine : GenBattleObjects
                 if (printOnce)
                 {
                     Debug.Log(unitName + ": Taking action!");
+                    if (enemy != null)
+                    {
+                        enemy.TickEffects();
+                    }
                     printOnce = false;
                 }
                 TakeAction();
@@ -87,24 +91,48 @@ public class EnemyStateMachine : GenBattleObjects
     {
         if (globalBattleHandler == null || enemy == null) return;
 
-        int choice = Random.Range(1, 11);
+        int actionRoll = Random.Range(1, 101);
 
-        if (choice <= 6) // 60% chance to attack
-        {
-            basicAttack();
-        }
-        else // 40% chance to block
+        if (actionRoll <= 20) // 20% chance to block
         {
             if (!enemy.isBlocking)
             {
                 enemyBlock();
-            }
-            else
-            {
-                // If already blocking, attack instead
-                basicAttack();
+                return;
             }
         }
+
+        ActionPayload chosenAction = enemy.ChooseAIAction();
+
+        // Pick random living ally to attack
+        if (globalBattleHandler.livingAllies.Count > 0)
+        {
+            // Collect all allies that aren't dead
+            System.Collections.Generic.List<AllyStateMachine> validTargets = new System.Collections.Generic.List<AllyStateMachine>();
+            for (int i = 0; i < globalBattleHandler.livingAllies.Count; i++)
+            {
+                if (globalBattleHandler.livingAllies[i] != null && globalBattleHandler.livingAllies[i].ally.currHP > 0)
+                {
+                    validTargets.Add(globalBattleHandler.livingAllies[i]);
+                }
+            }
+
+            if (validTargets.Count > 0)
+            {
+                // Pick a random ally from the valid targets
+                int randIndex = Random.Range(0, validTargets.Count);
+                AllyStateMachine targetAlly = validTargets[randIndex];
+
+                // Get their real position in the UI list so health bars update correctly
+                int realTargetIndex = globalBattleHandler.livingAllies.IndexOf(targetAlly);
+
+                // Execute the Payload!
+                globalBattleHandler.ShowBattleLog($"{unitName} used {chosenAction.actionName}!");
+                globalBattleHandler.ExecuteEnemyAction(chosenAction, targetAlly, realTargetIndex, this);
+            }
+        }
+
+        currentState = State.ADDTOLIST;
     }
 
     public override void basicAttack()
@@ -113,8 +141,31 @@ public class EnemyStateMachine : GenBattleObjects
 
         if (globalBattleHandler != null)
         {
-            globalBattleHandler.damageAlly(enemy.currDamage);
+            AllyStateMachine targetAlly = null;
+            int targetIndex = 0;
+
+            for (int i = 0; i < globalBattleHandler.livingAllies.Count; i++)
+            {
+                if (globalBattleHandler.livingAllies[i] != null)
+                {
+                    targetAlly = globalBattleHandler.livingAllies[i];
+                    targetIndex = i;
+                    break;
+                }
+            }
+
+            if (targetAlly != null)
+            {
+                globalBattleHandler.damageAlly(targetAlly, enemy.currDamage, targetIndex);
+            }
         }
+
+        /*if (globalBattleHandler != null && globalBattleHandler.livingAllies.Count > 0)
+        {
+            AllyStateMachine targetAlly = globalBattleHandler.livingAllies[0];
+            int targetIndex = 0;
+            globalBattleHandler.damageAlly(targetAlly, enemy.currDamage, targetIndex);
+        }*/
 
         currentState = State.ADDTOLIST; // Return to queue after action
     }
