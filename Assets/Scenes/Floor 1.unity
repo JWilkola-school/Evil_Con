@@ -6572,26 +6572,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9054525880899313051, guid: fbbe2470a5c5d214faaed163130c83a2, type: 3}
   m_PrefabInstance: {fileID: 326744311}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &330319731 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4868704223452212001, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
-  m_PrefabInstance: {fileID: 454516535}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &330319737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 330319731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e880506fa8794154c9a7c1cb4ca8c7cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Door
-  sceneName: EdgeLord Domain
-  deemphasizedMat: {fileID: 0}
-  emphasizedMat: {fileID: 0}
 --- !u!1001 &330960865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8793,7 +8773,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6769473222105917464, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
       propertyPath: m_text
-      value: 'Under Construction:
+      value: 'Press E to Enter:
 
         Edgelord Corridors
 
@@ -8817,15 +8797,12 @@ PrefabInstance:
       objectReference: {fileID: 1683720597}
     - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
       propertyPath: spawnPointID
-      value: Scene b
+      value: Scene a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4868704223452212001, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 330319737}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
 --- !u!1 &454594262
 GameObject:
@@ -18965,7 +18942,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6769473222105917464, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
       propertyPath: m_text
-      value: 'Under Construction:
+      value: 'Press E to Enter:
 
         Furr-King''s Domain'
       objectReference: {fileID: 0}
@@ -18987,7 +18964,7 @@ PrefabInstance:
       objectReference: {fileID: 1683720597}
     - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
       propertyPath: spawnPointID
-      value: Scene b
+      value: Scene a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
