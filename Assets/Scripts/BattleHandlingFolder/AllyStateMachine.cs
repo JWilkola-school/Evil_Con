@@ -215,7 +215,7 @@ public class AllyStateMachine : GenBattleObjects
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             Debug.Log("Ally chose to RUN!");
-            SceneManager.LoadScene("Scene 1");
+            SceneTransitioner.Instance.StartTransition("Floor 1");
         }
     }
 

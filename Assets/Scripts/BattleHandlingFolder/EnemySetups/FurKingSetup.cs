@@ -43,7 +43,7 @@ public class FurKingSetup : BaseEnemySetup
                 actionName = attackNames[1], 
                 value = basicAttack() * 0.7f, 
                 isAOE = true, 
-                effect = EffectType.None 
+                effect = EffectType.None
             };
 
         if (actionIndex == 2) // Blood Hunt (Cripple)

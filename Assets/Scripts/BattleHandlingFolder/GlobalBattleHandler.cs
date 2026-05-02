@@ -48,7 +48,11 @@ public class GlobalBattleHandler : MonoBehaviour
     public float fadeInDuration = 0.2f;
     public float displayDuration = 1.0f;
     public float fadeOutDuration = 0.5f;
-    public float floatDistance = 30f; 
+    public float floatDistance = 30f;
+    
+    // Item system
+    public List<ConsumableItem> partyInventory = new List<ConsumableItem>();
+    public TextMeshProUGUI[] itemButtonTexts;
 
     private Vector3 originalLogPosition;
     private Coroutine activeTextCoroutine;
@@ -392,6 +396,12 @@ public class GlobalBattleHandler : MonoBehaviour
 
         float damage = Mathf.Max(0, (1.5f * enemyDamage) * 5f);
         damage -= Mathf.Max(0, (1.5f * targetAlly.ally.currDefense) * 0.3f);
+
+        if (targetAlly.ally.HasEffect(EffectType.Cripple))
+        {
+            damage *= 1.5f;
+            ShowBattleLog($"{targetAlly} is Crippled and took more damage!");
+        }
 
         if (targetAlly.ally.isBlocking)
         {
@@ -800,6 +810,24 @@ public class GlobalBattleHandler : MonoBehaviour
         {
             targetAlly.ally.ApplyEffect(payload.effect, payload.effectDuration, payload.effectValue);
             ShowBattleLog($"{targetAlly.unitName} was {payload.effect}!");
+        }
+    }
+
+    // Updates Item menu
+    public void UpdateItemMenuText()
+    {
+        if (itemButtonTexts == null || partyInventory == null) return;
+
+        for (int i = 0; i < itemButtonTexts.Length; i++)
+        {
+            if (i < partyInventory.Count && partyInventory[i].quantity > 0)
+            {
+                itemButtonTexts[i].text = $"{partyInventory[i].itemName} (x{partyInventory[i].quantity})";
+            }
+            else
+            {
+                itemButtonTexts[i].text = "---"; // Empty slot or out of stock
+            }
         }
     }
 }

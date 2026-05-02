@@ -45,7 +45,8 @@ public class GothekinsSetup : BaseEnemySetup
                 value = basicAttack() * 0.8f, // Maybe does slightly less upfront damage, but causes bleeding!
                 isAOE = false,
                 effect = EffectType.Hemorrhage,
-                effectDuration = 3
+                effectDuration = 3,
+                effectValue = 5f
             };
         }
 

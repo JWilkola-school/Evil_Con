@@ -50,7 +50,8 @@ public class EdgelordSetup : BaseEnemySetup
                 actionName = attackNames[2],
                 value = basicAttack() * 1.5f, // Hits everyone extremely hard!
                 isAOE = true,
-                effect = EffectType.None
+                effect = EffectType.None,
+                baseCooldown = 10
             };
         }
 
@@ -63,7 +64,9 @@ public class EdgelordSetup : BaseEnemySetup
                 value = basicAttack() * 1.2f,
                 isAOE = false,
                 effect = EffectType.Hemorrhage,
-                effectDuration = 3
+                effectDuration = 3,
+                effectValue = 15f,
+                baseCooldown = 5
             };
         }
 

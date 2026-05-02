@@ -150,3 +150,11 @@ public class ActionPayload
     public EffectType selfEffect;   // buffs applied to self
     public int selfEffectDuration;  // duration of self buff
 }
+
+[System.Serializable]
+public class ConsumableItem
+{
+    public string itemName;
+    public int quantity;
+    public ActionPayload itemEffect;
+}
