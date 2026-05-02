@@ -15761,7 +15761,7 @@ PrefabInstance:
       objectReference: {fileID: 238287089}
     - target: {fileID: 8220642724869004666, guid: 981128826dd85344e98ee06c2eb190a6, type: 3}
       propertyPath: spawnPointID
-      value: Scene a
+      value: Floor 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
