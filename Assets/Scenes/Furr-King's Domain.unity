@@ -1483,13 +1483,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
   enemiesInThisBattle: 0000000000000000
-  chaseRange: 8
+  chaseRange: 10
   battleRange: 1.5
   moveSpeed: 5
-  patrolSpeed: 2
+  patrolSpeed: 8
   rotationSpeed: 5
-  pointA: {fileID: 0}
-  pointB: {fileID: 0}
+  pointA: {fileID: 960737809}
+  pointB: {fileID: 1253239221}
   player: {fileID: 0}
   childAnimator: {fileID: 0}
 --- !u!114 &92444749
@@ -1958,13 +1958,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
   enemiesInThisBattle: 0000000000000000
-  chaseRange: 8
+  chaseRange: 10
   battleRange: 1.5
   moveSpeed: 5
-  patrolSpeed: 2
+  patrolSpeed: 8
   rotationSpeed: 5
-  pointA: {fileID: 0}
-  pointB: {fileID: 0}
+  pointA: {fileID: 2068059552}
+  pointB: {fileID: 325104473}
   player: {fileID: 0}
   childAnimator: {fileID: 0}
 --- !u!114 &133032167
@@ -2430,13 +2430,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
   enemiesInThisBattle: 0000000000000000
-  chaseRange: 8
+  chaseRange: 10
   battleRange: 1.5
   moveSpeed: 5
-  patrolSpeed: 2
+  patrolSpeed: 8
   rotationSpeed: 5
-  pointA: {fileID: 0}
-  pointB: {fileID: 0}
+  pointA: {fileID: 2048381526}
+  pointB: {fileID: 1284812508}
   player: {fileID: 0}
   childAnimator: {fileID: 0}
 --- !u!114 &176905451
@@ -3576,13 +3576,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
   enemiesInThisBattle: 0000000000000000
-  chaseRange: 8
+  chaseRange: 10
   battleRange: 1.5
   moveSpeed: 5
-  patrolSpeed: 2
+  patrolSpeed: 8
   rotationSpeed: 5
-  pointA: {fileID: 0}
-  pointB: {fileID: 0}
+  pointA: {fileID: 118511570}
+  pointB: {fileID: 295924710}
   player: {fileID: 0}
   childAnimator: {fileID: 0}
 --- !u!114 &282696171
@@ -5651,13 +5651,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
   enemiesInThisBattle: 0000000000000000
-  chaseRange: 8
+  chaseRange: 10
   battleRange: 1.5
   moveSpeed: 5
-  patrolSpeed: 2
+  patrolSpeed: 8
   rotationSpeed: 5
-  pointA: {fileID: 0}
-  pointB: {fileID: 0}
+  pointA: {fileID: 16988236}
+  pointB: {fileID: 1058344785}
   player: {fileID: 0}
   childAnimator: {fileID: 0}
 --- !u!114 &390685691
@@ -6754,13 +6754,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
   enemiesInThisBattle: 0000000000000000
-  chaseRange: 8
+  chaseRange: 10
   battleRange: 1.5
   moveSpeed: 5
-  patrolSpeed: 2
+  patrolSpeed: 8
   rotationSpeed: 5
-  pointA: {fileID: 0}
-  pointB: {fileID: 0}
+  pointA: {fileID: 2055771808}
+  pointB: {fileID: 356203814}
   player: {fileID: 0}
   childAnimator: {fileID: 0}
 --- !u!114 &485676589
@@ -7586,13 +7586,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
   enemiesInThisBattle: 0000000000000000
-  chaseRange: 8
+  chaseRange: 10
   battleRange: 1.5
   moveSpeed: 5
-  patrolSpeed: 2
+  patrolSpeed: 8
   rotationSpeed: 5
-  pointA: {fileID: 0}
-  pointB: {fileID: 0}
+  pointA: {fileID: 1000648365}
+  pointB: {fileID: 1350737747}
   player: {fileID: 0}
   childAnimator: {fileID: 0}
 --- !u!114 &574838114
@@ -10080,13 +10080,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
   enemiesInThisBattle: 0000000000000000
-  chaseRange: 8
+  chaseRange: 10
   battleRange: 1.5
   moveSpeed: 5
-  patrolSpeed: 2
+  patrolSpeed: 8
   rotationSpeed: 5
-  pointA: {fileID: 0}
-  pointB: {fileID: 0}
+  pointA: {fileID: 503236837}
+  pointB: {fileID: 1434731435}
   player: {fileID: 0}
   childAnimator: {fileID: 0}
 --- !u!114 &781743269
@@ -14535,13 +14535,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
   enemiesInThisBattle: 0000000000000000
-  chaseRange: 8
+  chaseRange: 10
   battleRange: 1.5
   moveSpeed: 5
-  patrolSpeed: 2
+  patrolSpeed: 8
   rotationSpeed: 5
-  pointA: {fileID: 0}
-  pointB: {fileID: 0}
+  pointA: {fileID: 161151237}
+  pointB: {fileID: 804874475}
   player: {fileID: 0}
   childAnimator: {fileID: 0}
 --- !u!114 &1115198910
@@ -18709,13 +18709,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
   enemiesInThisBattle: 0000000000000000
-  chaseRange: 8
+  chaseRange: 10
   battleRange: 1.5
   moveSpeed: 5
-  patrolSpeed: 2
+  patrolSpeed: 8
   rotationSpeed: 5
-  pointA: {fileID: 0}
-  pointB: {fileID: 0}
+  pointA: {fileID: 1815582018}
+  pointB: {fileID: 1420484289}
   player: {fileID: 0}
   childAnimator: {fileID: 0}
 --- !u!114 &1538526590
@@ -19309,13 +19309,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
   enemiesInThisBattle: 0000000000000000
-  chaseRange: 8
+  chaseRange: 10
   battleRange: 1.5
   moveSpeed: 5
-  patrolSpeed: 2
+  patrolSpeed: 8
   rotationSpeed: 5
-  pointA: {fileID: 0}
-  pointB: {fileID: 0}
+  pointA: {fileID: 1105103314}
+  pointB: {fileID: 287203625}
   player: {fileID: 0}
   childAnimator: {fileID: 0}
 --- !u!114 &1578929288
@@ -23646,10 +23646,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OverworldEnemyAI
   enemiesInThisBattle: 0000000000000000
-  chaseRange: 8
+  chaseRange: 10
   battleRange: 1.5
   moveSpeed: 5
-  patrolSpeed: 2
+  patrolSpeed: 8
   rotationSpeed: 5
   pointA: {fileID: 1437887913}
   pointB: {fileID: 770147845}
