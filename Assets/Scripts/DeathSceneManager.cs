@@ -22,7 +22,7 @@ public class DeathSceneManager : MonoBehaviour
     };
 
     [Header("Settings")]
-    public string restartSceneName = "Scene 1"; // Scene to load when restarting
+    public string restartSceneName = "Floor 1"; // Scene to load when restarting
     public float messageDisplayTime = 2f;       // Time before button appears (if delayed)
     public bool showButtonImmediately = true;   // Show restart button right away
 
