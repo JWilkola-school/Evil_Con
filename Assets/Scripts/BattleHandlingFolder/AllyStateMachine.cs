@@ -25,6 +25,7 @@ public class AllyStateMachine : GenBattleObjects
     private float actionTimeout = 10f; // Time to wait for player input
     private float currentTimeout;
     public bool attackMenu = false;
+    public bool itemMenu = false;
 
     // FIXED: Added missing reference check
     /*
@@ -126,17 +127,21 @@ public class AllyStateMachine : GenBattleObjects
                 }
                 else
                 {
-                    if (!attackMenu && !targetMenu)
+                    if (!attackMenu && !targetMenu && !itemMenu)
                     {
                         TakeAction();
                     }
-                    else if (attackMenu && !targetMenu)
+                    else if (attackMenu && !targetMenu && !itemMenu)
                     {
                         TakeAction2();
                     }
-                    else if (targetMenu)
+                    else if (targetMenu && !itemMenu)
                     {
                         TakeActionTarget();
+                    }
+                    else if (itemMenu && !targetMenu)
+                    {
+                        TakeActionItem();
                     }
                 }
                 break;
@@ -483,7 +488,12 @@ public class AllyStateMachine : GenBattleObjects
     public void allyItem()
     {
         Debug.Log(unitName + ": Using item!");
-        globalBattleHandler.toggleMenus(false, true);
+        itemMenu = true;
+        if (globalBattleHandler != null)
+        {
+            globalBattleHandler.UpdateItemMenuText();
+            globalBattleHandler.toggleMenus(false, true);
+        }
     }
 
     public override void Die()
@@ -547,6 +557,68 @@ public class AllyStateMachine : GenBattleObjects
 
             // THIS is what officially ends the turn and tells the Stage Director to move on!
             currentState = State.ADDTOLIST;
+        }
+    }
+
+    public void TakeActionItem()
+    {
+        // Press 5 to cancel and go back
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            itemMenu = false;
+            if (globalBattleHandler != null) globalBattleHandler.toggleMenus(false, false);
+            return;
+        }
+
+        int selectedSlot = -1;
+        if (Input.GetKeyDown(KeyCode.Alpha1)) selectedSlot = 0;
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) selectedSlot = 1;
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) selectedSlot = 2;
+
+        if (selectedSlot != -1)
+        {
+            // Check if the slot exists and we have enough quantity
+            if (selectedSlot < globalBattleHandler.partyInventory.Count && globalBattleHandler.partyInventory[selectedSlot].quantity > 0)
+            {
+                ConsumableItem chosenItem = globalBattleHandler.partyInventory[selectedSlot];
+
+                // 1. Apply Healing (if the item heals)
+                if (chosenItem.itemEffect.effectValue > 0)
+                {
+                    ally.currHP += chosenItem.itemEffect.effectValue;
+                    ally.currHP = Mathf.Min(ally.currHP, ally.baseHP); // Prevent overhealing
+
+                    if (globalBattleHandler != null)
+                    {
+                        globalBattleHandler.ShowBattleLog($"{unitName} used {chosenItem.itemName} and recovered {chosenItem.itemEffect.effectValue} HP!");
+                        int myIndex = globalBattleHandler.livingAllies.IndexOf(this);
+                        globalBattleHandler.UI_Handler.updateHealthAlly(myIndex, ally.currHP);
+                    }
+                }
+
+                // 2. Apply Buffs (if the item has an effect)
+                if (chosenItem.itemEffect.effect != EffectType.None)
+                {
+                    ally.ApplyEffect(chosenItem.itemEffect.effect, chosenItem.itemEffect.effectDuration);
+                    if (globalBattleHandler != null)
+                    {
+                        globalBattleHandler.ShowBattleLog($"{unitName} used {chosenItem.itemName} and gained {chosenItem.itemEffect.effect}!");
+                    }
+                }
+
+                // 3. Consume the item and update the UI panel
+                chosenItem.quantity--;
+                if (globalBattleHandler != null) globalBattleHandler.UpdateItemMenuText();
+
+                // 4. End the turn
+                itemMenu = false;
+                if (globalBattleHandler != null) globalBattleHandler.toggleMenus(false, false);
+                FinishAction();
+            }
+            else
+            {
+                if (globalBattleHandler != null) globalBattleHandler.ShowBattleLog("Out of stock!");
+            }
         }
     }
 }
